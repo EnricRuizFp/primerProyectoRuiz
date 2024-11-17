@@ -80,6 +80,62 @@
 
         }
 
+        public static function getProductosParaMostrar(){
+
+            $con = DataBase::connect();
+
+            if(isset($_SESSION['filtroPre'])){
+                if($_SESSION['filtroPre'] == 'menos'){
+                    $precio = '<=';
+                    
+                }else{
+                    $precio = '>=';
+                }
+            }
+
+            if(isset($_SESSION['filtroCat']) && isset($_SESSION['filtroPre'])){
+
+                if($_SESSION['filtroPre'] == 'menos'){
+                    $stmt = $con->prepare("SELECT * FROM PRODUCTOS WHERE categoria = ? AND precio <= 15;");
+                }else{
+                    $stmt = $con->prepare("SELECT * FROM PRODUCTOS WHERE categoria = ? AND precio >= 15;");
+                }
+                $stmt->bind_param("s",$_SESSION['filtroCat']);
+
+            }elseif(isset($_SESSION['filtroCat'])){
+
+                $stmt = $con->prepare("SELECT * FROM PRODUCTOS WHERE categoria = ?;");
+                $stmt->bind_param("s",$_SESSION['filtroCat']);
+
+            }elseif(isset($_SESSION['filtroPre'])){
+
+                if($_SESSION['filtroPre'] == 'menos'){
+                    $stmt = $con->prepare("SELECT * FROM PRODUCTOS WHERE precio <= 15;");
+                }else{
+                    $stmt = $con->prepare("SELECT * FROM PRODUCTOS WHERE precio >= 15;");
+                }
+
+            }else{
+
+                $stmt = $con->prepare("SELECT * FROM PRODUCTOS;");
+
+            }
+
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            $stmt->close();
+            $con->close();
+
+            $productos_para_mostrar = [];
+            while($producto_para_mostrar = $resultado->fetch_object("Producto")){
+                $productos_para_mostrar[] = $producto_para_mostrar;
+            }
+
+            return $productos_para_mostrar;
+
+        }
+
     }
 
 ?>

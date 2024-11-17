@@ -25,15 +25,45 @@
 
     </div>
 
+    <?php echo "<br><br><br><br><br><br><br><br>FILTRO CAT: ".$_SESSION['filtroCat']."<br>FILTRO PRECIO: ".$_SESSION['filtroPre']; ?>
+
+
     <div id="migasDePan">
         <p class="p4 bold">Inicio > Productos</p>
     </div>
 
     <div id="contenedorPrincipal">
         <div id="contenedorFiltros">
+            
+            <div id="contenedorGategorias">
+                <h7>Categorías</h7>
+                <div id="contenidoCategorias">
+                    <a href="?controller=producto&action=filtroCat&value=especialidades"><p class="p4">Especialidades</p></a>
+                    <a href="?controller=producto&action=filtroCat&value=clasicas"><p class="p4">Clásicas</p></a>
+                    <a href="?controller=producto&action=filtroCat&value=picantes"><p class="p4">Picantes</p></a>
+                    <a href="?controller=producto&action=filtroCat&value=vegetarianas"><p class="p4">Vegetarianas</p></a>
+                </div>
+            </div>
+
+            <div id="contenedorPrecios">
+                <h7>Precio</h7>
+                <div id="contenidoPrecios">
+                    <a href="?controller=producto&action=filtroPre&value=menos"><p class="p4">Hasta 15€</p></a>
+                    <a href="?controller=producto&action=filtroPre&value=mas"><p class="p4">Más de 15€</p></a>
+                </div>
+            </div>
 
         </div>
         <div id="contenedorContenido">
+
+            <!-- DEPENDIENDO DE LOS FILTROS, MUESTRA UNA COSA U OTRA -->
+            <?php
+
+                // Obtiene los datos filtrados
+                $productos_para_mostrar = productoController::getProductosParaMostrar();
+
+                var_dump($productos_para_mostrar);
+            ?>
 
         </div>
         <div id="contenedorOrderBy">

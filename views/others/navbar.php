@@ -23,7 +23,7 @@
                     <a class="nav-text p4" href="#">Menús</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-text p4" href="#">Carta</a>
+                    <a class="nav-text p4" href="?controller=general&action=productos">Carta</a>
                 </li>
             </ul>
         </div>

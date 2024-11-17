@@ -3,11 +3,11 @@
     /* -- Obtener parámetros de configuración -- */
 
     // Obtener los parámetros de configuración de la WEB y el controlador de productos
-    include_once("config/parameters.php");
-
-    include_once("controllers/generalController.php");
-    include_once("controllers/adminController.php");
-    include_once("controllers/ingredienteController.php");
+    include_once "config/parameters.php";
+    include_once "controllers/productoController.php";
+    include_once "controllers/generalController.php";
+    include_once "controllers/adminController.php";
+    include_once "controllers/ingredienteController.php";
 
 
 
@@ -44,8 +44,11 @@
                 $action = default_action;
             }
 
-            // Llama al controlador especificado
-            $controller->$action();
+            // Obtener el tercer parámetro y meter en variable
+            $parametro_adicional = isset($_GET['value']) ? $_GET['value'] : null;
+
+            // Llama al controlador especificado (con el parámetro adicional)
+            $controller->$action($parametro_adicional);
 
         }else{
 
