@@ -3,80 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Navegación</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <title>Divs alineados</title>
     <style>
-        .navbar-brand img {
-            height: 30px; /* Ajusta la altura del logo según sea necesario */
+        .container {
+            display: flex; /* Activa Flexbox */
+            justify-content: space-between; /* Espacio máximo entre los elementos */
+            align-items: center; /* Centra verticalmente los elementos si tienen diferente altura */
+            width: 100%; /* El contenedor ocupa todo el ancho */
+            border: 1px solid black; /* Solo para visualizar los bordes */
+            padding: 10px; /* Espacio interno opcional */
         }
-        .navbar-nav .nav-link {
-            font-size: 1rem; /* Ajusta el tamaño de las opciones */
+
+        .left {
+            background-color: lightblue; /* Fondo para diferenciar */
+            padding: 10px; /* Espacio interno */
         }
-        .navbar-icons .nav-link {
-            font-size: 1.25rem; /* Tamaño de los iconos */
-            color: black; /* Color de los iconos */
-        }
-        /* Centrar el logo en pantallas pequeñas */
-        @media (max-width: 991.98px) {
-            .navbar-brand {
-                position: absolute;
-                left: 50%;
-                transform: translateX(-50%);
-            }
-        }
-        /* Asegura que los iconos estén siempre alineados a la derecha */
-        .navbar .navbar-icons {
-            position: absolute;
-            right: 0;
-            top: 0;
-            height: 100%;
-            display: flex;
-            align-items: center;
+
+        .right {
+            background-color: lightgreen; /* Fondo para diferenciar */
+            padding: 10px; /* Espacio interno */
         }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
-        <div class="container position-relative">
-            <!-- Botón de menú para pantallas pequeñas, alineado a la izquierda -->
-            <button class="navbar-toggler me-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
 
-            <!-- Logo de la marca, centrado en pantallas pequeñas -->
-            <a class="navbar-brand mx-auto" href="#">
-                <img src="logo.png" alt="Logo"> LA BUENIZZIMA
-            </a>
+    <div class="container">
+        <div class="left">Izquierda</div>
+        <div class="right">Derecha</div>
+    </div>
 
-            <!-- Enlaces de navegación principales -->
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav mx-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Ofertas</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Menús</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Carta</a>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Iconos a la derecha, sin colapsar -->
-            <div class="navbar-icons">
-                <a class="nav-link" href="#"><i class="bi bi-search"></i></a>
-                <a class="nav-link" href="#"><i class="bi bi-person"></i></a>
-                <a class="nav-link" href="#"><i class="bi bi-heart"></i></a>
-                <a class="nav-link" href="#"><i class="bi bi-cart"></i></a>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Bootstrap Bundle with Popper (JS) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <!-- Bootstrap Icons (para los íconos de búsqueda, usuario, favoritos, carrito) -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css" rel="stylesheet">
 </body>
 </html>
