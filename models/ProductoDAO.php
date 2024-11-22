@@ -9,7 +9,35 @@
         public static function getAll(){
 
             $con = DataBase::connect();
-            $stmt = $con->prepare("SELECT * FROM PRODUCTOS");
+
+            switch($_SESSION['filtroPre'] ?? null){
+                case "mas":
+                    $filtroPre = ">=";
+                    break;
+                case "menos":
+                    $filtroPre = "<=";
+                    break;
+            }
+
+            $sentencia = "SELECT * FROM PRODUCTOS";
+
+            if(isset($_SESSION['filtroSec']) && isset($_SESSION['filtroPre'])){
+
+                $sentencia .= " WHERE seccion = '".$_SESSION['filtroSec']."' and precio ".$filtroPre." 15;";
+
+            }elseif(isset($_SESSION['filtroSec'])){
+
+                $sentencia .= " WHERE seccion = '".$_SESSION['filtroSec']."';";
+
+            }elseif(isset($_SESSION['filtroPre'])){
+
+                $sentencia .= " WHERE precio ".$filtroPre." 15;";
+
+            }else{
+                $sentencia .= ";";
+            }
+
+            $stmt = $con->prepare($sentencia);
 
             $stmt->execute();
             $resultado = $stmt->get_result();
@@ -80,46 +108,11 @@
 
         }
 
-        public static function getProductosParaMostrar(){
+        public static function getProductosPorCategoria($categoria){
 
             $con = DataBase::connect();
-
-            if(isset($_SESSION['filtroPre'])){
-                if($_SESSION['filtroPre'] == 'menos'){
-                    $precio = '<=';
-                    
-                }else{
-                    $precio = '>=';
-                }
-            }
-
-            if(isset($_SESSION['filtroCat']) && isset($_SESSION['filtroPre'])){
-
-                if($_SESSION['filtroPre'] == 'menos'){
-                    $stmt = $con->prepare("SELECT * FROM PRODUCTOS WHERE categoria = ? AND precio <= 15;");
-                }else{
-                    $stmt = $con->prepare("SELECT * FROM PRODUCTOS WHERE categoria = ? AND precio >= 15;");
-                }
-                $stmt->bind_param("s",$_SESSION['filtroCat']);
-
-            }elseif(isset($_SESSION['filtroCat'])){
-
-                $stmt = $con->prepare("SELECT * FROM PRODUCTOS WHERE categoria = ?;");
-                $stmt->bind_param("s",$_SESSION['filtroCat']);
-
-            }elseif(isset($_SESSION['filtroPre'])){
-
-                if($_SESSION['filtroPre'] == 'menos'){
-                    $stmt = $con->prepare("SELECT * FROM PRODUCTOS WHERE precio <= 15;");
-                }else{
-                    $stmt = $con->prepare("SELECT * FROM PRODUCTOS WHERE precio >= 15;");
-                }
-
-            }else{
-
-                $stmt = $con->prepare("SELECT * FROM PRODUCTOS;");
-
-            }
+            $stmt = $con->prepare("SELECT * FROM PRODUCTOS WHERE categoria = ?;");
+            $stmt->bind_param("s",$categoria);
 
             $stmt->execute();
             $resultado = $stmt->get_result();
@@ -127,12 +120,80 @@
             $stmt->close();
             $con->close();
 
-            $productos_para_mostrar = [];
-            while($producto_para_mostrar = $resultado->fetch_object("Producto")){
-                $productos_para_mostrar[] = $producto_para_mostrar;
+            $productos = [];
+            while($producto = $resultado->fetch_object("Producto")){
+                $productos[] = $producto;
             }
 
-            return $productos_para_mostrar;
+            return $productos;
+        }
+
+        public static function getProductos($categoria){
+
+            session_start();
+
+            $filtroCat = $_SESSION['filtroCat'] ?? null;
+
+            switch($_SESSION['filtroPre'] ?? null){
+                case "mas":
+                    $filtroPre = ">=";
+                    break;
+                case "menos":
+                    $filtroPre = "<=";
+                    break;
+            }
+
+            $con = DataBase::connect();
+
+            $sentencia = "SELECT * FROM PRODUCTOS WHERE seccion = '".$categoria."'";
+
+            if(isset($_SESSION['filtroCat'])){
+                $sentencia .= " and categoria = '".$filtroCat."'";
+            }
+            if(isset($_SESSION['filtroPre'])){
+
+                if(str_contains($sentencia, "WHERE")){
+                    $sentencia .= " and precio ".$filtroPre." 15";
+                }else{
+                    $sentencia .= " and precio ".$filtroPre." 15";
+                }
+            }
+
+            $stmt = $con->prepare($sentencia);
+
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            $stmt->close();
+            $con->close();
+
+            $productos = [];
+            while($producto = $resultado->fetch_object("Producto")){
+                $productos[] = $producto;
+            }
+
+            return $productos;
+
+        }
+
+        public static function getBebidas(){
+
+            $con = DataBase::connect();
+
+            $stmt = $con->prepare("SELECT * FROM PRODUCTOS WHERE categoria = 'bebidas'");
+
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            $stmt->close();
+            $con->close();
+
+            $bebidas = [];
+            while($bebida = $resultado->fetch_object("Producto")){
+                $bebidas[] = $bebida;
+            }
+
+            return $bebidas;
 
         }
 

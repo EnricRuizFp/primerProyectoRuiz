@@ -1,86 +1,234 @@
 <?php
 
+    include_once "config/parameters.php";
     /* -- Inclusión de los DAOs -- */
     include_once "models/ProductoDAO.php";
 
     class productoController{
 
         /* -- Acciones pasadas por URL */
-        public function index(){
+        public static function index(){
 
             $productos = ProductoDAO::getAll();
-            include_once "views/productos.php";
+            include_once "views/productos/productos.php";
         }
 
         public static function getProductosAleatorios($cantidad){
 
-            $productos_aleatorios = ProductoDao::getProductosAleatorios($cantidad);
+            $productos = ProductoDao::getProductosAleatorios($cantidad);
 
-            return $productos_aleatorios;
+            return $productos;
 
         }
 
-        public static function filtroCat(){
+        /**
+         * /FILTROS PARA PAGINA PRODUCTOS
+         */
+        public static function filtroSec(){
 
             session_start();
 
-            // Obtener si hay valor en sesión
-            if(isset($_SESSION['filtroCat'])){
-
-                // Si es el mismo que el actual, borra el dato
-                if($_SESSION['filtroCat'] == $_GET['value']){
-
-                    $_SESSION['filtroCat'] = null;
-
+            //Set el dato en el filtro
+            if(isset($_SESSION['filtroSec'])){
+                if($_SESSION['filtroSec'] == $_GET['value']){
+                    $_SESSION['filtroSec'] = null;
                 }else{
-
-                    // Si el dato es diferente, lo actualiza
-                    $_SESSION['filtroCat'] = $_GET['value'];
-
+                    $_SESSION['filtroSec'] = $_GET['value'];
                 }
             }else{
-
-                // Si no hay valor en sesión, lo crea
-                $_SESSION['filtroCat'] = $_GET['value'];
+                $_SESSION['filtroSec'] = $_GET['value'];
             }
 
-            include_once "views/productos.php";
+            session_write_close();
 
+            $productos = ProductoDAO::getAll();
+            include_once "views/productos/productos.php";
+            
         }
 
-        public static function filtroPre(){
+        public static function filtroPreProd(){
 
             session_start();
 
-            // Obtener si hay valor en sesión
+            //Set el dato en el filtro
             if(isset($_SESSION['filtroPre'])){
-
-                // Si es el mismo que el actual, borra el dato
                 if($_SESSION['filtroPre'] == $_GET['value']){
-
                     $_SESSION['filtroPre'] = null;
-
                 }else{
-
-                    // Si el dato es diferente, lo actualiza
                     $_SESSION['filtroPre'] = $_GET['value'];
-
                 }
             }else{
-
-                // Si no hay valor en sesión, lo crea
                 $_SESSION['filtroPre'] = $_GET['value'];
             }
 
-            include_once "views/productos.php";
+            session_write_close();
+
+            $productos = ProductoDAO::getAll();
+            include_once "views/productos/productos.php";
 
         }
 
-        public static function getProductosParaMostrar(){
+        public static function eliminarFiltrosProd(){
+            
+            session_start();
+            $_SESSION['filtroSec'] = null;
+            $_SESSION['filtroPre'] = null;
 
-            $productos_para_mostrar = productoDAO::getProductosParaMostrar();
+            session_write_close();
 
-            return $productos_para_mostrar;
+            $productos = ProductoDAO::getAll();
+            include_once "views/productos/productos.php";
+        }
+
+        /**
+         * / FILTROS PARA PAGINA PIZZAS
+         */
+        public static function filtroCatPi(){
+
+            session_start();
+
+            //Set el dato en el filtro
+            if(isset($_SESSION['filtroCat'])){
+                if($_SESSION['filtroCat'] == $_GET['value']){
+                    $_SESSION['filtroCat'] = null;
+                }else{
+                    $_SESSION['filtroCat'] = $_GET['value'];
+                }
+            }else{
+                $_SESSION['filtroCat'] = $_GET['value'];
+            }
+
+            session_write_close();
+
+            $productos = ProductoDAO::getProductos("pizzas");
+            include_once "views/productos/pizzas.php";
+
+        }
+        public static function filtroPrePi(){
+
+            session_start();
+
+            //Set el dato en el filtro
+            if(isset($_SESSION['filtroPre'])){
+                if($_SESSION['filtroPre'] == $_GET['value']){
+                    $_SESSION['filtroPre'] = null;
+                }else{
+                    $_SESSION['filtroPre'] = $_GET['value'];
+                }
+            }else{
+                $_SESSION['filtroPre'] = $_GET['value'];
+            }
+
+            session_write_close();
+
+            $productos = ProductoDAO::getProductos("pizzas");
+            include_once "views/productos/pizzas.php";
+
+        }
+        public static function eliminarFiltrosPi(){
+            
+            session_start();
+            $_SESSION['filtroCat'] = null;
+            $_SESSION['filtroPre'] = null;
+
+            session_write_close();
+
+            $productos = ProductoDAO::getProductos("pizzas");
+            include_once "views/productos/pizzas.php";
+        }
+
+        /**
+         * / FILTROS PARA PAGINA BEBIAS
+         */
+        public static function filtroCatBe(){
+
+            session_start();
+
+            //Set el dato en el filtro
+            if(isset($_SESSION['filtroCat'])){
+                if($_SESSION['filtroCat'] == $_GET['value']){
+                    $_SESSION['filtroCat'] = null;
+                }else{
+                    $_SESSION['filtroCat'] = $_GET['value'];
+                }
+            }else{
+                $_SESSION['filtroCat'] = $_GET['value'];
+            }
+
+            session_write_close();
+
+            $productos = ProductoDAO::getProductos("bebidas");
+            include_once "views/productos/bebidas.php";
+
+        }
+        public static function eliminarFiltrosBe(){
+            
+            session_start();
+            $_SESSION['filtroCat'] = null;
+            $_SESSION['filtroPre'] = null;
+
+            session_write_close();
+
+            $productos = ProductoDAO::getProductos("bebidas");
+            include_once "views/productos/bebidas.php";
+        }
+
+        /**
+         * / FILTROS PARA PAGINA POSTRES
+         */
+        public static function filtroCatPo(){
+
+            session_start();
+
+            //Set el dato en el filtro
+            if(isset($_SESSION['filtroCat'])){
+                if($_SESSION['filtroCat'] == $_GET['value']){
+                    $_SESSION['filtroCat'] = null;
+                }else{
+                    $_SESSION['filtroCat'] = $_GET['value'];
+                }
+            }else{
+                $_SESSION['filtroCat'] = $_GET['value'];
+            }
+
+            session_write_close();
+
+            $productos = ProductoDAO::getProductos("postres");
+            include_once "views/productos/postres.php";
+
+        }
+        public static function eliminarFiltrosPo(){
+            
+            session_start();
+            $_SESSION['filtroCat'] = null;
+            $_SESSION['filtroPre'] = null;
+
+            session_write_close();
+
+            $productos = ProductoDAO::getProductos("postres");
+            include_once "views/productos/postres.php";
+        }
+
+        public static function getProductos($categoria){
+
+            $productos = productoDAO::getProductos();
+
+            return $productos;
+
+        }
+
+        public static function getProductosPorCategoria($categoria){
+
+            $productos = productoDAO::getProductosPorCategoria($categoria);
+
+            return $productos;
+
+        }
+
+        public static function producto($id){
+
+            $producto = ProductoDAO::getProducto($id);
+            include_once "views/productos/detallesProducto.php";
 
         }
 

@@ -20,10 +20,16 @@
                     <a class="nav-text p4" href="#">Ofertas</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-text p4" href="#">Menús</a>
+                    <a class="nav-text p4" href="?controller=general&action=productos">Carta</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-text p4" href="?controller=general&action=productos">Carta</a>
+                    <a class="nav-text p4" href="?controller=general&action=pizzas">Pizzas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-text p4" href="?controller=general&action=bebidas">Bebidas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-text p4" href="?controller=general&action=postres">Postres</a>
                 </li>
             </ul>
         </div>

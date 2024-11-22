@@ -138,7 +138,7 @@
                 </div>
             </div>
             <div class="inferiorSeccionDerechaFooter">
-                <img src="media/images/logos/Logo_LA_BUENIZZIMA-1_SF.webp" width="70%">
+                <a href="?controller=general"><img src="media/images/logos/Logo_LA_BUENIZZIMA-1_SF.webp" width="70%"></a>
             </div>
         </div>
     </div>

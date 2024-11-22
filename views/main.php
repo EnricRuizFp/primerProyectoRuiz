@@ -223,7 +223,7 @@
                                 <p class="p2 bold"><?= $producto_aleatorio->getPrecio()?> €</p>
                             </div>
 
-                            <a href="?controller=general&action=productos&producto=<?= $producto_aleatorio->getId()?>">
+                            <a href="?controller=producto&action=producto&value=<?= $producto_aleatorio->getId()?>">
                                 <div class="botonPedirAhoraPrimario">
                                     <p class="p4 bold">Pedir ahora</p>
                                 </div>
