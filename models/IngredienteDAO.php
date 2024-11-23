@@ -86,6 +86,28 @@
 
         }
 
+        public static function getIngredientesDefault($id){
+
+            $con = DataBase::connect();
+
+            $stmt = $con->prepare("SELECT i.* FROM INGREDIENTES i JOIN PRODUCTO_INGREDIENTE pi ON pi.ingrediente_id = i.id WHERE pi.producto_id = ?;");
+            $stmt->bind_param("i",$id);
+
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            $stmt->close();
+            $con->close();
+
+            $ingredientes = [];
+            while($ingrediente = $resultado->fetch_object("Ingrediente")){
+                $ingredientes[] = $ingrediente;
+            }
+
+            return $ingredientes;
+
+        }
+
     }
 
 ?>

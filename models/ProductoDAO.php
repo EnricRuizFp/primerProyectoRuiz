@@ -87,11 +87,11 @@
             return $cantidadProductos;
         }
 
-        public static function getProductosAleatorios($cantidad){
+        public static function getProductosAleatorios($cantidad,$categoria){
 
             $con = DataBase::connect();
-            $stmt = $con->prepare("SELECT * FROM PRODUCTOS ORDER BY RAND() LIMIT ?;");
-            $stmt->bind_param("i",$cantidad);
+            $stmt = $con->prepare("SELECT * FROM PRODUCTOS WHERE seccion = ? ORDER BY RAND() LIMIT ?;");
+            $stmt->bind_param("si",$categoria,$cantidad);
 
             $stmt->execute();
             $resultado = $stmt->get_result();

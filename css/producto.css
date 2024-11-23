@@ -1,0 +1,46 @@
+/* -- GENERAL -- */
+#contenedorGeneral{
+    background-color: aqua;
+    height: 1500px;
+}
+
+#contenedorContenido{
+    display: flex;
+}
+
+/* -- CONTENEDOR IZQUIERDO -- */
+#contenedorIzquierdo{
+    width: 50%;
+    background-color: red;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* -- CONTENEDOR DERECHO -- */
+#contenedorDerecho{
+    width: 50%;
+    background-color: burlywood;
+}
+
+#contenedorDetalles{
+    width: 70%;
+    margin-top: 100px;
+    margin-left: 20px;
+    background-color: beige;
+    padding: 35px;
+}
+
+/* -- CONTENIDO -- */
+#tituloDetalles{
+    margin-top: 15px;
+}
+
+#subtituloDetalles{
+    margin-top: 35px;
+}
+
+#ingredientesDefault{
+    margin-top: 35px;
+}

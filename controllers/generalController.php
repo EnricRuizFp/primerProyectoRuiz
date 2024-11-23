@@ -5,6 +5,11 @@
         /* -- Acciones pasadas por URL -- */
         public function index(){
 
+            // Generar 5 numeros random para mostrar pizzas
+            include_once "controllers/productoController.php";
+            include_once "models/Producto.php";
+
+            $productos_aleatorios = productoController::getProductosAleatorios(5,"pizzas");
             include_once "views/main.php";
 
         }

@@ -13,9 +13,9 @@
             include_once "views/productos/productos.php";
         }
 
-        public static function getProductosAleatorios($cantidad){
+        public static function getProductosAleatorios($cantidad, $categoria){
 
-            $productos = ProductoDao::getProductosAleatorios($cantidad);
+            $productos = ProductoDAO::getProductosAleatorios($cantidad, $categoria);
 
             return $productos;
 
@@ -228,6 +228,7 @@
         public static function producto($id){
 
             $producto = ProductoDAO::getProducto($id);
+            $ingredientesPorDefecto = IngredienteDAO::getIngredientesDefault($id);
             include_once "views/productos/detallesProducto.php";
 
         }

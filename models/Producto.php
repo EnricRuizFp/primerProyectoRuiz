@@ -67,6 +67,15 @@
             $this->imagen = $imagen;
         }
 
+        /**
+         * GET INGREDIENTES POR DEFECTO
+         */
+        public function getIngredientesDefault($id){
+            
+            $ingredientes = ProductoDAO::getIngredientesDefault($id);
+
+        }
+
     }
 
 ?>

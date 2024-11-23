@@ -7,7 +7,7 @@
 
     <!-- LINKS A CSS -->
     <link rel="stylesheet" href="css/general.css">
-    <link rel="stylesheet" href="css/generalProductos.css">
+    <link rel="stylesheet" href="css/producto.css">
 
     <!-- BOOTSTRAP -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-..." crossorigin="anonymous">
@@ -35,11 +35,40 @@
 
             <div id="contenedorIzquierdo">
                 <div id="contenedorImagen">
-                    <img src="<?php echo $producto->getImagen() ?>" alt="Imagen del producto.">
+                    <img src="<?php echo $producto->getImagen() ?>" alt="Imagen del producto." width="500px">
                 </div>
             </div>
             <div id="contenedorDerecho">
+                <div id="contenedorDetalles">
+                    <div id="contenidoDetalles">
+                        <div id="tituloDetalles">
+                            <h4>
+                                <?php echo ucfirst($producto->getNombre()); ?>
+                            </h4>
+                        </div>
 
+                        <div class="barraSeparación"><hr></div>
+
+                        <div id="subtituloDetalles">
+                            <p class="p3">
+                                <p class="p2 bold">Descripción</p>
+                                <?php echo ucfirst($producto->getDescripcion()); ?>
+                            </p>
+                        </div>
+                        <div id="ingredientesDefault">
+                            <p class="p3">
+                                <p class="p2 bold">Ingredientes</p>
+                                <?php
+                                
+                                    foreach($ingredientesPorDefecto as $ingredientePorDefecto){
+                                        echo $ingredientePorDefecto->getNombre()."<br>";
+                                    }
+
+                                ?>
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>

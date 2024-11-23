@@ -195,10 +195,6 @@
             <div id="contenidoSeccion3">
 
                 <?php
-                // Generar 5 numeros random para mostrar pizzas
-                include_once "controllers/productoController.php";
-                include_once "models/Producto.php";
-                $productos_aleatorios = productoController::getProductosAleatorios(5);
 
                 foreach($productos_aleatorios as $producto_aleatorio){
 
