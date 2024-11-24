@@ -1,6 +1,5 @@
 /* -- GENERAL -- */
 #contenedorGeneral{
-    background-color: aqua;
     height: 1500px;
 }
 
@@ -11,7 +10,6 @@
 /* -- CONTENEDOR IZQUIERDO -- */
 #contenedorIzquierdo{
     width: 50%;
-    background-color: red;
 
     display: flex;
     align-items: center;
@@ -21,14 +19,13 @@
 /* -- CONTENEDOR DERECHO -- */
 #contenedorDerecho{
     width: 50%;
-    background-color: burlywood;
 }
 
 #contenedorDetalles{
     width: 70%;
     margin-top: 100px;
     margin-left: 20px;
-    background-color: beige;
+    background-color: #F9F5EF;
     padding: 35px;
 }
 
@@ -43,4 +40,66 @@
 
 #ingredientesDefault{
     margin-top: 35px;
+}
+
+/* -- Contenedor ingredientes -- */
+#contenedorModificarIngredientes {
+    height: 0; /* Colapsado */
+    overflow: hidden; /* Oculta el contenido durante la transición */
+    display: none; /* Inicialmente oculto */
+
+    padding-top: 15px;
+}
+
+/* Configuración básica de las transiciones */
+#ingredientesDefault, #contenedorModificarIngredientes {
+    transition: height 0.5s ease-in-out;
+}
+
+#contenedorIngredientesComplementarios{
+    padding-top: 15px;
+    position: relative; /* Asegura un flujo correcto */
+    background-color: #F9F5EF; /* Fondo sólido que bloquea contenido detrás */
+}
+
+/* -- Texto Información del default -- */
+#iconoInformacionIngredientesDefault {
+    margin-left: 6px;
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    top: -3px;
+}
+#iconoInformacionIngredientesDefault::after {
+    content: "Ingredientes que contiene la pizza por defecto.\A Puedes añadir más en el botón inferior";
+    position: absolute;
+    top: 50%; /* Alinea verticalmente al centro */
+    left: 100%; /* Posiciona el texto a la derecha del ícono */
+    transform: translateX(10px) translateY(-50%); /* Desplaza el texto a la derecha y lo centra verticalmente */
+    opacity: 0;
+    visibility: hidden;
+    background-color: #F9F5EF;
+    border: 1px solid black;
+    height: 60px;
+    width: 360px;
+    color: black;
+    padding: 5px 10px;
+    border-radius: 5px;
+    white-space: pre-line; /* Permite los saltos de línea */
+    transition: opacity 0.3s, visibility 0s 0.3s;
+}
+#iconoInformacionIngredientesDefault:hover::after {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s;
+}
+
+/* -- Contenedor ingrediente personalizado -- */
+#contenedorIngredientes{
+    background-color: blue;
+    display: flex;
+    height: 300px;
+}
+.contenedorIngrediente{
+    background-color: red;
 }

@@ -229,6 +229,7 @@
 
             $producto = ProductoDAO::getProducto($id);
             $ingredientesPorDefecto = IngredienteDAO::getIngredientesDefault($id);
+            $ingredientes = IngredienteDAO::getAll();
             include_once "views/productos/detallesProducto.php";
 
         }
