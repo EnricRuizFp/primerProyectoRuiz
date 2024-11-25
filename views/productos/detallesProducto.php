@@ -23,14 +23,6 @@
     </div>
 
     <div id="contenedorGeneral">
-        <?php
-            echo "ID: ".$producto->getId()."<br>";
-            echo "Nombre: ".$producto->getNombre()."<br>";
-            echo "Descripcion: ".$producto->getDescripcion()."<br>";
-            echo "Precio: ".$producto->getPrecio()."<br>";
-            echo "Imagen: ".$producto->getImagen();
-        ?>
-
         <div id="contenedorContenido">
 
             <div id="contenedorIzquierdo">
@@ -65,16 +57,22 @@
                                             <path fill="#000000" fill-rule="evenodd" d="M10 3a7 7 0 100 14 7 7 0 000-14zm-9 7a9 9 0 1118 0 9 9 0 01-18 0zm8-4a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1zm.01 8a1 1 0 102 0V9a1 1 0 10-2 0v5z"/>
                                         </svg>
                                     </div>
-                                    
                                 </p>
-                                
-                                <?php
-                                
-                                    foreach($ingredientesPorDefecto as $ingredientePorDefecto){
-                                        echo $ingredientePorDefecto->getNombre()."<br>";
-                                    }
 
-                                ?>
+                                <div id="contenedorIngredienteDefault">
+
+                                    <?php
+                                    
+                                        foreach($ingredientesPorDefecto as $ingredientePorDefecto){
+                                            ?>
+                                            <div class="contenidoIngredienteDefault">
+                                                <p class="p4"> <?= $ingredientePorDefecto->getNombre(); ?> </p>
+                                            </div>
+                                            <?php
+                                        }
+
+                                    ?>
+                                </div>
                             </p>
                         </div>
 
@@ -99,6 +97,24 @@
                                     ?>
                                 </div>
                             </div>
+                        </div>
+
+                        <div id="contenedorInferior">
+
+                            <p class="p2 bold">Finalizar</p>
+
+                            <a href="?controller=carrito&action=añadir&value=<?= $producto->getId(); ?>">
+                                <div class="botonAñadirAlCarrito">
+                                    <p class="p4 bold">Añadir al carrito</p>
+                                </div>
+                            </a>
+
+                            <a href="?controller=carrito&action=destroy">
+                                <div id="botonHacerMenu">
+                                    <p class="p4 bold">Hacer menú</p>
+                                </div>
+                            </a>
+
                         </div>
                     </div>
                 </div>

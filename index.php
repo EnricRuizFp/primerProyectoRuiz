@@ -8,6 +8,7 @@
     include_once "controllers/generalController.php";
     include_once "controllers/adminController.php";
     include_once "controllers/ingredienteController.php";
+    include_once "controllers/carritoController.php";
 
 
 

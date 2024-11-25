@@ -1,6 +1,7 @@
 /* -- GENERAL -- */
 #contenedorGeneral{
     height: 1500px;
+    padding-top: 50px;
 }
 
 #contenedorContenido{
@@ -40,6 +41,21 @@
 
 #ingredientesDefault{
     margin-top: 35px;
+}
+
+#contenedorIngredienteDefault{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.contenidoIngredienteDefault{
+    border: 1px solid grey;
+    border-radius: 15px;
+    display: inline-block;
+    padding: 5px 30px;
+    height: 40px;
+    background-color: white;
 }
 
 /* -- Contenedor ingredientes -- */
@@ -96,10 +112,25 @@
 
 /* -- Contenedor ingrediente personalizado -- */
 #contenedorIngredientes{
-    background-color: blue;
     display: flex;
+    flex-wrap: wrap;
+    gap:2px;
     height: 300px;
 }
 .contenedorIngrediente{
-    background-color: red;
+    width: 33%;
+}
+
+/* -- BOTONES INFERIORES -- */
+#contenedorInferior{
+    padding-top: 30px;
+}
+
+.botonAñadirAlCarrito{
+    width: 30%;
+}
+
+#botonHacerMenu{
+    width: 60%;
+    margin-left: 15px;
 }
