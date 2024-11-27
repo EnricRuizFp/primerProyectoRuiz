@@ -5,9 +5,16 @@
         /* -- Acciones pasadas por URL -- */
         public function index(){
 
+            include_once "models/Producto.php";
+            include_once "models/ProductoDAO.php";
+
             session_start();
-            $productosCarrito = $_SESSION['carrito'];
-            $productos = ProductoDAO::getAll();
+            $carrito =  $_SESSION['carrito'];
+
+            $productosCarrito = ProductoDAO::getProductosCarrito($carrito);
+            
+            //var_dump($productosCarrito);
+
             include_once("views/carrito.php");
 
         }
@@ -16,12 +23,8 @@
 
             session_start();
 
-            echo "ID: ".$id."<br>";
-
             // Verificar si el carrito tiene productos
             if (isset($_SESSION['carrito']) && !empty($_SESSION['carrito'])) {
-                echo "Carrito ya iniciado<br><br>";
-                echo "Productos en el carrito:<br>";
 
                 $productoExiste = false;
 
@@ -31,7 +34,6 @@
                     if ($_SESSION['carrito'][$i]['producto'] == $id) {
 
                         // Producto existe, añadir 1
-                        echo "El producto está en el carrito.<br>";
                         $_SESSION['carrito'][$i]['cantidad'] += 1;
                         $productoExiste = true;
                         break;
@@ -40,16 +42,50 @@
 
                 // Si no se encuentra el producto, se añade
                 if (!$productoExiste) {
-                    echo "El producto no está en el carrito. Creando...<br>";
                     $_SESSION['carrito'][] = ['producto' => $id, 'cantidad' => 1];
                 }
 
             } else {
 
                 // El carrito no está iniciado, crear array y añadir producto
-                echo "Carrito iniciado.<br>";
                 $_SESSION['carrito'] = [];
                 $_SESSION['carrito'][] = ['producto' => $id, 'cantidad' => 1];
+            }
+
+            header("Location: ?controller=carrito");
+
+        }
+
+        public function quitar($id){
+
+            session_start();
+
+            // Verificar si el carrito tiene productos
+            if (isset($_SESSION['carrito']) && !empty($_SESSION['carrito'])) {
+
+                // Verificar si el producto existe
+                for ($i = 0; $i < count($_SESSION['carrito']); $i++) {
+
+                    if ($_SESSION['carrito'][$i]['producto'] == $id) {
+
+                        // Producto existe, si hay más de 0, bajar 1
+                        if($_SESSION['carrito'][$i]['cantidad'] > 1){
+                            $_SESSION['carrito'][$i]['cantidad'] -= 1;
+                            break;
+                        }else{
+
+                            //Producto hay 0
+                            array_splice($_SESSION['carrito'], $i, 1);
+                            break;
+                        }
+                        
+                    }
+                }
+
+            } else {
+
+                // El carrito no está iniciado, crear array y añadir producto
+                $_SESSION['carrito'] = [];
             }
 
             header("Location: ?controller=carrito");

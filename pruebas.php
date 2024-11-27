@@ -1,36 +1,50 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Divs alineados</title>
+    <title>Document</title>
+
+    <!-- BOOTSTRAP -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-..." crossorigin="anonymous">
+
     <style>
-        .container {
-            display: flex; /* Activa Flexbox */
-            justify-content: space-between; /* Espacio máximo entre los elementos */
-            align-items: center; /* Centra verticalmente los elementos si tienen diferente altura */
-            width: 100%; /* El contenedor ocupa todo el ancho */
-            border: 1px solid black; /* Solo para visualizar los bordes */
-            padding: 10px; /* Espacio interno opcional */
+        #contador {
+            display: inline-flex;
+            align-items: center;
+            border: 1px solid #ccc;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
         }
 
-        .left {
-            background-color: lightblue; /* Fondo para diferenciar */
-            padding: 10px; /* Espacio interno */
+        #contador a {
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            margin: 0 10px;
+            cursor: pointer;
         }
 
-        .right {
-            background-color: lightgreen; /* Fondo para diferenciar */
-            padding: 10px; /* Espacio interno */
+        #contador a:hover {
+            color: blue; /* Cambia el color al pasar el mouse */
+        }
+
+        #valor {
+            margin: 0 10px;
         }
     </style>
+
 </head>
 <body>
 
-    <div class="container">
-        <div class="left">Izquierda</div>
-        <div class="right">Derecha</div>
+    <div id="contador">
+        <a href="#" id="decrementar">-</a>
+        <span id="valor">1</span>
+        <a href="#" id="incrementar">+</a>
     </div>
+
 
 </body>
 </html>

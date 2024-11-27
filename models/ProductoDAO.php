@@ -197,6 +197,36 @@
 
         }
 
+        public static function getProductosCarrito($carrito){
+
+            $productos = ProductoDAO::getAll();
+
+            $productosCarrito = [];
+
+            if(!empty($carrito)){
+                foreach($carrito as $item){
+
+                    $productoId = $item['producto'];
+                    $cantidad = $item['cantidad'];
+    
+                    foreach($productos as $producto){
+    
+                        if($producto->getId() == $productoId){
+    
+                            $productosCarrito[] = ['producto'=>$producto,'cantidad'=>$cantidad];
+                            break;
+    
+                        }
+    
+                    }
+    
+                }
+            }
+
+            return $productosCarrito;
+
+        }
+
     }
 
 ?>

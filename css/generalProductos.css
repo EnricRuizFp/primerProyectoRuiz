@@ -30,9 +30,27 @@ a{
 
 .contenedorFiltros{
     background-color: #F9F5EF;
-    width: 20%;
     padding-top: 40px;
 }
+
+@media (max-width: 1200px){
+
+    .contenedorFiltrosSticky{
+        display: grid;
+        grid-template-columns: auto auto;
+        justify-content: start;
+    }
+
+    .separadorFiltros{
+        display: none;
+    }
+
+    .contenedorFiltroPrecios{
+        margin-left: 70px;
+    }
+
+}
+
 
 .contenedorContenido{
     width: 80%;
@@ -75,15 +93,9 @@ a{
 }
 
 /* -- Configuración del aspecto del contenedor --*/
-.contenedorProductos{
-    display: grid;
-    width: 100%;
-}
 .contenidoProductos{
     margin-left: 30px;
     margin-right: 30px;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
 }
 
 /* -- Contenedores generales -- */
