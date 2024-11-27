@@ -29,7 +29,7 @@
 
 
     <div class="migasDePan">
-        <p class="p4 bold">Inicio > Postres</p>
+        <p class="p4 bold">Inicio > Productos > Postres</p>
     </div>
 
     <div class="contenedorPrincipal container-fluid">

@@ -12,6 +12,8 @@
             $carrito =  $_SESSION['carrito'];
 
             $productosCarrito = ProductoDAO::getProductosCarrito($carrito);
+
+            $precioProductos = $this->getPrecioProductos($productosCarrito);
             
             //var_dump($productosCarrito);
 
@@ -90,6 +92,17 @@
 
             header("Location: ?controller=carrito");
 
+        }
+
+        public function getPrecioProductos($productosCarrito){
+
+            $precioProductos = 0;
+            foreach($productosCarrito as $productoCarrito){
+                $producto = $productoCarrito['producto'];
+                $cantidad = $productoCarrito['cantidad'];
+                $precioProductos += $producto->getPrecio()*$cantidad;
+            }
+            return $precioProductos;
         }
 
         public function destroy(){

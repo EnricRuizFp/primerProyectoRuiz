@@ -120,7 +120,7 @@
                                     
                                 </div>
                                 <div class="cantidad col-2">
-                                    <p class="p5 bold"><?php echo $producto->getPrecio()*$cantidad; ?></p>
+                                    <p class="p5 bold"><?php echo "€ ".$producto->getPrecio()*$cantidad; ?></p>
                                 </div>
                             </div>
                         </div>
@@ -164,14 +164,47 @@
                     </div>
                     <div id="contenedorPrecios" class="container-fluid">
                         <div class="row">
-                            <div class="col-6">
-                                <p class="p5">Subtotal artículos</p>
+                            <div class="col-6 contenedorDetallesPrecios">
+                                <p class="p4">Subtotal artículos</p>
                             </div>
-                            <div class="col-6">
-                                <p class="p5">PRECIO</p>
+                            <div class="col-6 contenedorDetallesPrecios">
+                                <p class="p4">€ <?= $precioProductos?></p>
+                            </div>
+                            <div class="col-6 contenedorDetallesPrecios">
+                                <p class="p4">Envío</p>
+                            </div>
+                            <div class="col-6 contenedorDetallesPrecios">
+                                <p class="p4">GRATIS</p>
+                            </div>
+                            <div class="col-6 contenedorDetallesPrecios">
+                                <p class="p4"><b>Total</b> (incl. 21% IVA)</p>
+                            </div>
+                            <div class="col-6 contenedorDetallesPrecios">
+                                <p class="p4 bold">€ <?= $precioProductos?></p>
                             </div>
                         </div>
                     </div>
+                    <hr>
+                    <div id="contenedorCodigoPromocional" class="container">
+                        <div class="row">
+                            <div class="col-10">
+                                <h8>AGREGAR CÓDIGO PROMOCIONAL</h8>
+                            </div>
+                            <div class="col-2">
+                                <svg id="botonMostrarContenedorCodigoPromocional" width="50%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M5.70711 9.71069C5.31658 10.1012 5.31658 10.7344 5.70711 11.1249L10.5993 16.0123C11.3805 16.7927 12.6463 16.7924 13.4271 16.0117L18.3174 11.1213C18.708 10.7308 18.708 10.0976 18.3174 9.70708C17.9269 9.31655 17.2937 9.31655 16.9032 9.70708L12.7176 13.8927C12.3271 14.2833 11.6939 14.2832 11.3034 13.8927L7.12132 9.71069C6.7308 9.32016 6.09763 9.32016 5.70711 9.71069Z" fill="#0F0F0F"/>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div id="contenedorIntroducirCodigo">
+                            <input id="codigoPromocional" name="codigoPromocional" placeholder="Introducir código">
+                            
+                        </div>
+                        
+
+                    </div>
+                    <hr>
                     
                 </div>
 
@@ -182,6 +215,26 @@
     </div>
 
     <?php include_once "views/others/footer.php"; ?>
+
+    <!-- SCRIPT ANIMACIÓN DESGLOSE CÓDIGO PROMOCIONAL -->
+    <script>
+        // Obtener botón y contenedor
+        const mostrarBtn = document.getElementById('botonMostrarContenedorCodigoPromocional');
+        const contenido = document.getElementById('contenedorIntroducirCodigo');
+
+        // Añadir evento de click al botón
+        mostrarBtn.addEventListener('click', () => {
+            // Si el div está cerrado (altura 0), lo abrimos
+            if (contenido.style.height === '0px' || contenido.style.height === '') {
+                // Cambiar a su altura natural con scrollHeight
+                contenido.style.height = contenido.scrollHeight + 'px';
+            } else {
+                // Si el div está abierto, lo cerramos
+                contenido.style.height = '0px';
+            }
+        });
+
+    </script>
 
 </body>
 </html>

@@ -1,13 +1,13 @@
-*{
-    margin:0px;
-    padding:0px;
+* {
+    margin: 0px;
+    padding: 0px;
 }
 
-#contenedorPrincpal{
-    margin-top:70px;
+#contenedorPrincpal {
+    margin-top: 70px;
 }
 
-#tituloPagina{
+#tituloPagina {
     background-color: #F9F5EF;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -15,7 +15,7 @@
     width: 100%;
 }
 
-#contenedorProductos{
+#contenedorProductos {
     padding: 30px;
     position: relative;
 }
@@ -26,31 +26,31 @@
     transform: translateX(-50%);
 }
 
-body hr{
+body hr {
     border: 0px;
     background-color: #FF4713 !important;
     opacity: 100%;
     height: 2px;
 }
 
-.producto{
+.producto {
     display: flex;
 }
 
-.imagenProducto{
+.imagenProducto {
     width: 30%;
 }
 
-.detallesProducto{
+.detallesProducto {
     width: 70%;
 }
 
-.tituloProducto{
+.tituloProducto {
     height: 30px;
 }
 
 /* -- CONTADOR DE ARTÍCULOS -- */
-.contador{
+.contador {
     display: inline-flex;
     align-items: center;
     border: 1px solid #ccc;
@@ -77,36 +77,64 @@ body hr{
 }
 
 /* -- SECCION AYUDA -- */
-#contenedorAyuda{
+#contenedorAyuda {
     background-color: #F9F5EF;
     margin-top: 40px;
     padding-top: 40px;
     padding-bottom: 40px;
 }
 
-#contenedorCentradoAyuda{
+#contenedorCentradoAyuda {
     text-align: center;
 }
 
-#contenidoAyuda a{
+#contenidoAyuda a {
     color: #FF4713;
 }
 
-
-
 /* -- SECCION DERECHA -- */
-#contenedorCarrito{
+#contenedorCarrito {
     background-color: aquamarine;
     padding-top: 30px;
     padding-right: 30px;
     padding-bottom: 30px;
 }
 
-#contenedorCompra{
+#contenedorCompra {
     background-color: #F9F5EF;
     padding: 25px;
 }
 
-#contenedorPrecios{
+#contenedorPrecios {
     background-color: aquamarine;
+    margin-top: 20px;
+}
+
+.contenedorDetallesPrecios {
+    padding: 0px !important;
+}
+
+/* -- SECCION CÓDIGO PROMOCIONAL -- */
+#contenedorIntroducirCodigo {
+    display: block;
+    height: 0px; /* Por defecto con altura 0 */
+    overflow: hidden;
+    transition: height 0.5s ease-in-out; /* Transición altura */
+    padding: 0 20px;
+    padding-left: 0px !important;
+}
+
+#contenedorCodigoPromocional svg {
+    cursor: pointer; /* Cambia el cursor al pasar por encima */
+}
+
+#codigoPromocional{
+    width: 100%;
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    border-bottom: 2px solid black;
+    height: 40px;
+    margin-top: 10px;
+    padding-left: 20px;
 }

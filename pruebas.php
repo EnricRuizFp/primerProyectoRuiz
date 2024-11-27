@@ -1,50 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mostrar con animación</title>
 
-    <!-- BOOTSTRAP -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-..." crossorigin="anonymous">
-
-    <style>
-        #contador {
-            display: inline-flex;
-            align-items: center;
-            border: 1px solid #ccc;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-family: Arial, sans-serif;
-            font-size: 16px;
-        }
-
-        #contador a {
-            text-decoration: none;
-            color: black;
-            font-weight: bold;
-            margin: 0 10px;
-            cursor: pointer;
-        }
-
-        #contador a:hover {
-            color: blue; /* Cambia el color al pasar el mouse */
-        }
-
-        #valor {
-            margin: 0 10px;
-        }
-    </style>
+  <style>
+    .contenido {
+      display: block; /* Cambiar a block para permitir la animación */
+      height: 0; /* Iniciar con altura 0 */
+      overflow: hidden;
+      transition: height 1s ease-in-out;
+      background-color: #f0f0f0;
+      padding: 0 20px;
+    }
+  </style>
 
 </head>
 <body>
 
-    <div id="contador">
-        <a href="#" id="decrementar">-</a>
-        <span id="valor">1</span>
-        <a href="#" id="incrementar">+</a>
-    </div>
+  <!-- Botón para mostrar el div -->
+  <button id="mostrarBtn">Mostrar Contenido</button>
 
+  <!-- Div oculto inicialmente -->
+  <div id="contenido" class="contenido">
+    <p>Este es el contenido que se mostrará con animación al hacer clic en el botón.</p>
+  </div>
+
+  <script>
+    // Obtener el botón y el div
+    const mostrarBtn = document.getElementById('mostrarBtn');
+    const contenido = document.getElementById('contenido');
+
+    // Función para animar la apertura o cierre del div
+    mostrarBtn.addEventListener('click', () => {
+      // Si el div está cerrado, lo abrimos
+      if (contenido.style.height === '0px' || contenido.style.height === '') {
+        // Cambiar a su altura natural con scrollHeight
+        contenido.style.height = contenido.scrollHeight + 'px';
+      } else {
+        // Si el div está abierto, lo cerramos
+        contenido.style.height = '0';
+      }
+    });
+  </script>
 
 </body>
 </html>
