@@ -72,7 +72,7 @@
          */
         public function getIngredientesDefault($id){
             
-            $ingredientes = ProductoDAO::getIngredientesDefault($id);
+            $ingredientes = IngredienteDAO::getIngredientesDefault($id);
 
         }
 
