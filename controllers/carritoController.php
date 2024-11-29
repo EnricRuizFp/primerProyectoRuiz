@@ -7,16 +7,18 @@
 
             include_once "models/Producto.php";
             include_once "models/ProductoDAO.php";
+            include_once "models/Oferta.php";
+            include_once "models/OfertaDAO.php";
 
             session_start();
             $carrito =  $_SESSION['carrito'];
 
             $productosCarrito = ProductoDAO::getProductosCarrito($carrito);
-
             $precioProductos = $this->getPrecioProductos($productosCarrito);
-            
-            //var_dump($productosCarrito);
-
+            if($_SESSION['oferta'] == "SI"){
+                $ofertaSeleccionada = $_SESSION['codigoOferta'];
+                
+            }
             include_once("views/carrito.php");
 
         }
@@ -109,6 +111,47 @@
             unset($_SESSION['carrito']);
         }
         
+        public function oferta(){
+
+            session_start();
+
+            include_once "models/Oferta.php";
+            include_once "models/OfertaDAO.php";
+
+            $oferta = $_POST['codigoPromocional'];
+            $ofertasActuales = OfertaDAO::getOfertasActuales();
+
+            echo $oferta;
+
+            $ofertaValida = "NO";
+            foreach($ofertasActuales as $ofertaActual){
+                if($ofertaActual->getNombre() == $oferta){
+
+                    $ofertaValida = "SI";
+                    break;
+
+                }
+            }
+
+            if($oferta == null){
+                $ofertaValida = "NULL";
+            }
+
+            if($ofertaValida == "SI"){
+                $_SESSION['oferta'] = true;
+                $_SESSION['codigoOferta'] = $oferta;
+                echo "oferta valida.";
+            }elseif($ofertaValida == "NO"){
+                $_SESSION['oferta'] = false;
+                echo "oferta invalida";
+            }else{
+                $_SESSION['oferta'] = "null";
+                echo "sin oferta";
+            }
+
+            header("Location: ?controller=carrito");
+
+        }
 
     }
 

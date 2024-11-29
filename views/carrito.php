@@ -197,11 +197,23 @@
                             </div>
                         </div>
 
-                        <div id="contenedorIntroducirCodigo">
-                            <input id="codigoPromocional" name="codigoPromocional" placeholder="Introducir código">
-                            
+                        <form id="contenedorIntroducirCodigo" action="?controller=carrito&action=oferta" method="POST">
+                            <input 
+                                id="codigoPromocional" 
+                                name="codigoPromocional" 
+                                placeholder="Introducir código"
+                                value="<?php echo isset($_POST['codigoPromocional']) ? htmlspecialchars($_POST['codigoPromocional']) : ""; ?>"
+                            >
+                            <button type="submit"><b>></b></button>
+                        </form>
+
+                        <div id="contenedorErrorCodigo">
+                            <p>El codigo no es válido.</p>
                         </div>
-                        
+
+                        <div id="contenedorCodigoAplicado">
+                            <p>El código de descuento se ha aplicado correctamente.</p>
+                        </div>
 
                     </div>
                     <hr>
@@ -216,23 +228,53 @@
 
     <?php include_once "views/others/footer.php"; ?>
 
-    <!-- SCRIPT ANIMACIÓN DESGLOSE CÓDIGO PROMOCIONAL -->
+    <!-- SCRIPTS -->
     <script>
+
+        /* -- DESGLOSE DEL APARTADO DE OFERTAS -- */
+
         // Obtener botón y contenedor
         const mostrarBtn = document.getElementById('botonMostrarContenedorCodigoPromocional');
         const contenido = document.getElementById('contenedorIntroducirCodigo');
 
         // Añadir evento de click al botón
         mostrarBtn.addEventListener('click', () => {
-            // Si el div está cerrado (altura 0), lo abrimos
+            // Si el contenedor está oculto
             if (contenido.style.height === '0px' || contenido.style.height === '') {
-                // Cambiar a su altura natural con scrollHeight
-                contenido.style.height = contenido.scrollHeight + 'px';
+                contenido.style.height = contenido.scrollHeight + 'px'; // Desplegar
+                contenido.style.visibility = 'visible'; 
+                contenido.style.opacity = '1';
+                contenido.classList.add('mostrado'); // Añadimos clase para el borde
             } else {
-                // Si el div está abierto, lo cerramos
-                contenido.style.height = '0px';
+                contenido.style.height = '0px'; // Colapsar
+                contenido.style.visibility = 'hidden'; 
+                contenido.style.opacity = '0';
+                contenido.classList.remove('mostrado'); // Quitamos la clase para el borde
             }
         });
+
+
+        /* -- OFERTA APLICADA -- */
+        <?php if ($_SESSION['oferta'] == "SI"): ?>
+
+            // Mostrar el div de éxito
+            document.getElementById('contenedorCodigoAplicado').style.display = 'block';
+            document.getElementById('contenedorErrorCodigo').style.display = 'none';
+
+        <?php elseif (!$_SESSION['oferta'] == "NO"): ?>
+
+            // Mostrar el div de error
+            document.getElementById('contenedorCodigoAplicado').style.display = 'none';
+            document.getElementById('contenedorErrorCodigo').style.display = 'block';
+
+        <?php else: ?>
+
+            // Si no hay oferta válida o inválida, ocultamos ambos divs
+            document.getElementById('contenedorCodigoAplicado').style.display = 'none';
+            document.getElementById('contenedorErrorCodigo').style.display = 'none';
+        
+        <?php endif; ?>
+
 
     </script>
 

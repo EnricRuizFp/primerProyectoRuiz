@@ -116,12 +116,20 @@ body hr {
 
 /* -- SECCION CÓDIGO PROMOCIONAL -- */
 #contenedorIntroducirCodigo {
-    display: block;
     height: 0px; /* Por defecto con altura 0 */
     overflow: hidden;
-    transition: height 0.5s ease-in-out; /* Transición altura */
+    transition: height 0.5s ease-in-out, border 0.5s ease-in-out;; /* Transición altura */
     padding: 0 20px;
     padding-left: 0px !important;
+    display: flex;
+    border-bottom: none;
+}
+
+#contenedorIntroducirCodigo.mostrado{
+    border-bottom: 2px solid black;
+    height: auto;
+    background-color: white;
+    margin-top: 15px;
 }
 
 #contenedorCodigoPromocional svg {
@@ -137,4 +145,19 @@ body hr {
     height: 40px;
     margin-top: 10px;
     padding-left: 20px;
+}
+
+#contenedorIntroducirCodigo input {
+    border: none;
+    outline: none;
+    flex: 1;
+    font-size: 14px;
+    background-color: transparent;
+}
+
+#contenedorIntroducirCodigo button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
 }

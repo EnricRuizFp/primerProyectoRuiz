@@ -13,7 +13,7 @@
         public function __construct(){
 
             // Se crea sin nada dentro del constructor porque se creará a partir de los datos
-            // que devuelva la creación del objeto INGREDIENTE
+            // que devuelva la creación del objeto PRODUCTO
 
         }
 

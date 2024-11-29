@@ -1,49 +1,57 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mostrar con animación</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input con botón</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f5f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
 
-  <style>
-    .contenido {
-      display: block; /* Cambiar a block para permitir la animación */
-      height: 0; /* Iniciar con altura 0 */
-      overflow: hidden;
-      transition: height 1s ease-in-out;
-      background-color: #f0f0f0;
-      padding: 0 20px;
-    }
-  </style>
+        .input-container {
+            display: flex;
+            align-items: center;
+            border-bottom: 2px solid black;
+            background-color: #f8f5f0;
+            padding: 5px;
+            width: 300px;
+        }
 
+        .input-container input {
+            border: none;
+            outline: none;
+            background-color: transparent;
+            flex: 1;
+            font-size: 14px;
+            color: black;
+        }
+
+        .input-container button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            margin-left: 10px;
+        }
+
+        .input-container button::after {
+            content: "→";
+            font-size: 16px;
+            color: black;
+        }
+    </style>
 </head>
 <body>
-
-  <!-- Botón para mostrar el div -->
-  <button id="mostrarBtn">Mostrar Contenido</button>
-
-  <!-- Div oculto inicialmente -->
-  <div id="contenido" class="contenido">
-    <p>Este es el contenido que se mostrará con animación al hacer clic en el botón.</p>
-  </div>
-
-  <script>
-    // Obtener el botón y el div
-    const mostrarBtn = document.getElementById('mostrarBtn');
-    const contenido = document.getElementById('contenido');
-
-    // Función para animar la apertura o cierre del div
-    mostrarBtn.addEventListener('click', () => {
-      // Si el div está cerrado, lo abrimos
-      if (contenido.style.height === '0px' || contenido.style.height === '') {
-        // Cambiar a su altura natural con scrollHeight
-        contenido.style.height = contenido.scrollHeight + 'px';
-      } else {
-        // Si el div está abierto, lo cerramos
-        contenido.style.height = '0';
-      }
-    });
-  </script>
-
+    <div class="input-container">
+        <input type="text" placeholder="Introducir código">
+        <button></button>
+    </div>
 </body>
 </html>
