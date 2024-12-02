@@ -3,55 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Input con botón</title>
+    <title>Menú Emergente</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f5f0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-
-        .input-container {
-            display: flex;
-            align-items: center;
-            border-bottom: 2px solid black;
-            background-color: #f8f5f0;
-            padding: 5px;
-            width: 300px;
-        }
-
-        .input-container input {
-            border: none;
-            outline: none;
-            background-color: transparent;
-            flex: 1;
-            font-size: 14px;
-            color: black;
-        }
-
-        .input-container button {
-            background: none;
-            border: none;
-            cursor: pointer;
+        /* Estilo para la lista y el enlace */
+        ul {
+            list-style: none;
             padding: 0;
-            margin-left: 10px;
+            margin: 0;
+            display: flex;
+            background-color: #f1f1f1;
+            font-family: Arial, sans-serif;
         }
 
-        .input-container button::after {
-            content: "→";
-            font-size: 16px;
+        li {
+            position: relative; /* Necesario para posicionar el menú emergente */
+        }
+
+        a {
+            text-decoration: none;
             color: black;
+            padding: 10px 20px;
+            display: block;
+        }
+
+        /* Estilo para el menú desplegable */
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%; /* Aparece debajo del enlace */
+            left: 0;
+            background-color: white;
+            border: 1px solid #ccc;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            width: 200px;
+            z-index: 1;
+        }
+
+        /* Mostrar el menú cuando se hace hover sobre el contenedor */
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        /* Estilo para los enlaces dentro del menú */
+        .dropdown-menu a {
+            padding: 10px;
+            color: black;
+            background-color: white;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* Cambiar el color de los enlaces cuando se pasa el mouse */
+        .dropdown-menu a:hover {
+            background-color: #f1f1f1;
         }
     </style>
 </head>
 <body>
-    <div class="input-container">
-        <input type="text" placeholder="Introducir código">
-        <button></button>
-    </div>
+
+    <nav>
+        <ul>
+            <li class="dropdown">
+                <a href="#" class="dropdown-link">Usuario</a>
+                <div class="dropdown-menu">
+                    <a href="#">Iniciar sesión</a>
+                    <a href="#">Crear cuenta</a>
+                    <a href="#">Estado de mi pedido</a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+
 </body>
 </html>

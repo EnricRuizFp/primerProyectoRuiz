@@ -106,7 +106,6 @@ body hr {
 }
 
 #contenedorPrecios {
-    background-color: aquamarine;
     margin-top: 20px;
 }
 
@@ -116,24 +115,12 @@ body hr {
 
 /* -- SECCION CÓDIGO PROMOCIONAL -- */
 #contenedorIntroducirCodigo {
-    height: 0px; /* Por defecto con altura 0 */
-    overflow: hidden;
-    transition: height 0.5s ease-in-out, border 0.5s ease-in-out;; /* Transición altura */
     padding: 0 20px;
     padding-left: 0px !important;
     display: flex;
-    border-bottom: none;
-}
-
-#contenedorIntroducirCodigo.mostrado{
     border-bottom: 2px solid black;
-    height: auto;
     background-color: white;
     margin-top: 15px;
-}
-
-#contenedorCodigoPromocional svg {
-    cursor: pointer; /* Cambia el cursor al pasar por encima */
 }
 
 #codigoPromocional{
@@ -160,4 +147,20 @@ body hr {
     border: none;
     cursor: pointer;
     font-size: 16px;
+}
+
+#contenedorErrorCodigo{
+    margin-top: 10px;
+}
+
+#contenedorCodigoAplicado{
+
+    margin-top: 10px;
+}
+
+/* -- contenedor Pagar -- */
+#contenedorPago{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

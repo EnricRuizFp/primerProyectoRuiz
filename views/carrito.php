@@ -176,25 +176,40 @@
                             <div class="col-6 contenedorDetallesPrecios">
                                 <p class="p4">GRATIS</p>
                             </div>
+
+                            <!-- Apartado descuento, solo visible si se ha aplicado crrectamente -->
+                            <div id="contenedorDescuentoAplicado" class="col-12 container-fluid">
+                                <div class="row">
+                                    <div class="col-6 contenedorDetallesPrecios">
+                                        <p class="p4">Descuento</p>
+                                    </div>
+                                    <div class="col-6 contenedorDetallesPrecios">
+                                        <p class="p4">€ <?= $descuentoAplicado ?></p>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="col-6 contenedorDetallesPrecios">
                                 <p class="p4"><b>Total</b> (incl. 21% IVA)</p>
                             </div>
                             <div class="col-6 contenedorDetallesPrecios">
-                                <p class="p4 bold">€ <?= $precioProductos?></p>
+                                <p class="p4 bold">€ 
+                                    <?php 
+                                    if(isset($_SESSION['oferta']) && $_SESSION['oferta'] == "SI"){
+                                        echo $precioConDescuento;
+                                    }else{
+                                        echo $precioSinDescuento;
+                                    }
+                                    ?>
                             </div>
                         </div>
                     </div>
+
                     <hr>
-                    <div id="contenedorCodigoPromocional" class="container">
-                        <div class="row">
-                            <div class="col-10">
-                                <h8>AGREGAR CÓDIGO PROMOCIONAL</h8>
-                            </div>
-                            <div class="col-2">
-                                <svg id="botonMostrarContenedorCodigoPromocional" width="50%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M5.70711 9.71069C5.31658 10.1012 5.31658 10.7344 5.70711 11.1249L10.5993 16.0123C11.3805 16.7927 12.6463 16.7924 13.4271 16.0117L18.3174 11.1213C18.708 10.7308 18.708 10.0976 18.3174 9.70708C17.9269 9.31655 17.2937 9.31655 16.9032 9.70708L12.7176 13.8927C12.3271 14.2833 11.6939 14.2832 11.3034 13.8927L7.12132 9.71069C6.7308 9.32016 6.09763 9.32016 5.70711 9.71069Z" fill="#0F0F0F"/>
-                                </svg>
-                            </div>
+
+                    <div id="contenedorCodigoPromocional">
+                        <div>
+                            <h8>AGREGAR CÓDIGO PROMOCIONAL</h8>
                         </div>
 
                         <form id="contenedorIntroducirCodigo" action="?controller=carrito&action=oferta" method="POST">
@@ -202,21 +217,47 @@
                                 id="codigoPromocional" 
                                 name="codigoPromocional" 
                                 placeholder="Introducir código"
-                                value="<?php echo isset($_POST['codigoPromocional']) ? htmlspecialchars($_POST['codigoPromocional']) : ""; ?>"
+                                value="<?php echo isset($_SESSION['codigoOferta']) ? htmlspecialchars($_SESSION['codigoOferta']) : ""; ?>"
                             >
                             <button type="submit"><b>></b></button>
                         </form>
 
                         <div id="contenedorErrorCodigo">
-                            <p>El codigo no es válido.</p>
+                            <p>El codigo no es válido.
+                                <svg fill="#b62020" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" stroke="#b62020" width="13px">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                    <g id="SVGRepo_iconCarrier">
+                                        <path d="M0 14.545L1.455 16 8 9.455 14.545 16 16 14.545 9.455 8 16 1.455 14.545 0 8 6.545 1.455 0 0 1.455 6.545 8z" fill-rule="evenodd"></path>
+                                    </g>
+                                </svg>
+                            </p>
                         </div>
 
                         <div id="contenedorCodigoAplicado">
-                            <p>El código de descuento se ha aplicado correctamente.</p>
+                            <p>El código de descuento se ha aplicado correctamente.
+                                <svg fill="#3e8626" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" width="25px">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                    <g id="SVGRepo_iconCarrier">
+                                        <path d="M5 16.577l2.194-2.195 5.486 5.484L24.804 7.743 27 9.937l-14.32 14.32z"></path>
+                                    </g>
+                                </svg>
+                            </p>
                         </div>
+                    </div>
+
+                    <hr>
+
+                    <div id="contenedorPago">
+                            
+                        <a href="?controller=carrito&action=pagar">
+                            <div id="botonPagarAhoraPrimario">
+                                <p class="p4 bold">Comprar</p>
+                            </div>
+                        </a>
 
                     </div>
-                    <hr>
                     
                 </div>
 
@@ -231,49 +272,47 @@
     <!-- SCRIPTS -->
     <script>
 
-        /* -- DESGLOSE DEL APARTADO DE OFERTAS -- */
+        // Mostrar contenedor derecho cuando haya productos en el carrito
+        <?php if ($cantidadProductos > 0): ?>
 
-        // Obtener botón y contenedor
-        const mostrarBtn = document.getElementById('botonMostrarContenedorCodigoPromocional');
-        const contenido = document.getElementById('contenedorIntroducirCodigo');
+            /* -- OFERTA APLICADA -- */
+            <?php if ($_SESSION['oferta'] == "SI"): ?>
 
-        // Añadir evento de click al botón
-        mostrarBtn.addEventListener('click', () => {
-            // Si el contenedor está oculto
-            if (contenido.style.height === '0px' || contenido.style.height === '') {
-                contenido.style.height = contenido.scrollHeight + 'px'; // Desplegar
-                contenido.style.visibility = 'visible'; 
-                contenido.style.opacity = '1';
-                contenido.classList.add('mostrado'); // Añadimos clase para el borde
-            } else {
-                contenido.style.height = '0px'; // Colapsar
-                contenido.style.visibility = 'hidden'; 
-                contenido.style.opacity = '0';
-                contenido.classList.remove('mostrado'); // Quitamos la clase para el borde
-            }
-        });
+                // Mostrar oferta en resumen pedido
+                document.getElementById('contenedorDescuentoAplicado').style.display = 'block';
 
+                // Mostrar el div de éxito
+                document.getElementById('contenedorCodigoAplicado').style.display = 'block';
+                document.getElementById('contenedorErrorCodigo').style.display = 'none';
 
-        /* -- OFERTA APLICADA -- */
-        <?php if ($_SESSION['oferta'] == "SI"): ?>
+            <?php elseif (!$_SESSION['oferta'] == "NO"): ?>
 
-            // Mostrar el div de éxito
-            document.getElementById('contenedorCodigoAplicado').style.display = 'block';
-            document.getElementById('contenedorErrorCodigo').style.display = 'none';
+                // Ocultar contenedor oferta en resumen pedido
+                document.getElementById('contenedorDescuentoAplicado').style.display = 'none';
 
-        <?php elseif (!$_SESSION['oferta'] == "NO"): ?>
+                // Mostrar el div de error
+                document.getElementById('contenedorCodigoAplicado').style.display = 'none';
+                document.getElementById('contenedorErrorCodigo').style.display = 'block';
 
-            // Mostrar el div de error
-            document.getElementById('contenedorCodigoAplicado').style.display = 'none';
-            document.getElementById('contenedorErrorCodigo').style.display = 'block';
+            <?php else: ?>
 
+                // Ocultar contenedor oferta en resumen pedido
+                document.getElementById('contenedorDescuentoAplicado').style.display = 'none';
+
+                // Si no hay oferta válida o inválida, ocultamos ambos divs
+                document.getElementById('contenedorCodigoAplicado').style.display = 'none';
+                document.getElementById('contenedorErrorCodigo').style.display = 'none';
+            
+            <?php endif; ?>
+        
+        // No mostrar el contenedor derecho si no hay productos en el carrito
         <?php else: ?>
 
-            // Si no hay oferta válida o inválida, ocultamos ambos divs
-            document.getElementById('contenedorCodigoAplicado').style.display = 'none';
-            document.getElementById('contenedorErrorCodigo').style.display = 'none';
+            document.getElementById('contenedorCarrito').style.display = 'none';
+            document.getElementById('contenedorProductos').style.height = '500px';
+            document.getElementById('contenedorProductos').className = 'col-12';
         
-        <?php endif; ?>
+        <?php endif; ?>           
 
 
     </script>

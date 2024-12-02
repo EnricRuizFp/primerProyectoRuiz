@@ -45,6 +45,55 @@
 
         }
 
+        public static function getTipoOferta($oferta){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("SELECT * FROM OFERTAS WHERE nombre = ?");
+            $stmt->bind_param("s",$oferta);
+
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            if( $resultado->num_rows > 0){
+                $fila = $resultado->fetch_assoc();
+                $tipo = $fila['tipo'];
+
+                //Obtener el valor de tipo
+                if(strpos($tipo, "%") !== false){
+                    return "%";
+                }else if(strpos($tipo, "€") !== false){
+                    return "€";
+                }else{
+                    return null;
+                }
+            }else{
+                return null;
+            }
+
+
+        }
+
+        public static function getCantidadOferta($oferta){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("SELECT * FROM OFERTAS WHERE nombre = ?");
+            $stmt->bind_param("s",$oferta);
+
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            if( $resultado->num_rows > 0){
+                $fila = $resultado->fetch_assoc();
+                $tipo = $fila['descuento'];
+
+                //Obtener el valor del descuento
+                return $tipo;
+            }else{
+                return null;
+            }
+
+        }
+
     }
 
 ?>

@@ -13,6 +13,16 @@
             include_once "views/main.php";
 
         }
+        public function ofertas(){
+
+            include_once "models/Oferta.php";
+            include_once "models/OfertaDAO.php";
+            
+            $ofertas = OfertaDAO::getAll();
+            include_once "views/ofertas.php";
+
+        }
+
         public function productos(){
 
             session_start();

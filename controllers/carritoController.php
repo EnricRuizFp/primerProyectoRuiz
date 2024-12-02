@@ -13,12 +13,24 @@
             session_start();
             $carrito =  $_SESSION['carrito'];
 
+            //Obtener los datos de los productos
             $productosCarrito = ProductoDAO::getProductosCarrito($carrito);
             $precioProductos = $this->getPrecioProductos($productosCarrito);
-            if($_SESSION['oferta'] == "SI"){
+            $cantidadProductos = $this->getCantidadProductosEnCarrito($productosCarrito);
+
+            //Obtener el dato de la oferta
+            if(isset($_SESSION['oferta']) && $_SESSION['oferta'] == "SI"){
                 $ofertaSeleccionada = $_SESSION['codigoOferta'];
-                
+
+                $precioConDescuento = $this->calcularPrecioConDescuento( $precioProductos, $ofertaSeleccionada);
+                $descuentoAplicado = $this->calcularDescuentoAplicado($precioProductos, $ofertaSeleccionada);
+
+            }else{
+
+                $precioSinDescuento = $precioProductos;
+
             }
+
             include_once("views/carrito.php");
 
         }
@@ -143,13 +155,56 @@
                 echo "oferta valida.";
             }elseif($ofertaValida == "NO"){
                 $_SESSION['oferta'] = false;
+                $_SESSION['codigoOferta'] = $oferta;
                 echo "oferta invalida";
             }else{
                 $_SESSION['oferta'] = "null";
+                $_SESSION['codigoOferta'] = null;
                 echo "sin oferta";
             }
 
             header("Location: ?controller=carrito");
+
+        }
+
+        public function calcularPrecioConDescuento($precioProductos, $ofertaSeleccionada){
+
+            $tipoOferta = OfertaDAO::getTipoOferta($ofertaSeleccionada);
+            $cantidadOferta = OfertaDAO::getCantidadOferta($ofertaSeleccionada);
+            
+            if($tipoOferta == "%"){
+                echo "oferta porcentaje";
+                $precioTotal = round($precioProductos * ($cantidadOferta / 100), 2); 
+            }elseif($tipoOferta == "€"){
+                echo "oferta euros";
+                $precioTotal = $precioProductos - $cantidadOferta;
+            }else{
+                echo "sin ofertas";
+            }
+
+            return $precioTotal;
+
+        }
+
+        public function calcularDescuentoAplicado($precioProductos, $ofertaSeleccionada){
+
+            $descuentoAplicado = $precioProductos - $this->calcularPrecioConDescuento($precioProductos, $ofertaSeleccionada);
+
+            return $descuentoAplicado;
+
+        }
+
+        public function getCantidadProductosEnCarrito($productosCarrito){
+
+            return count($productosCarrito);
+
+        }
+
+        public function pagar(){
+
+            // Si no hay sesión iniciada, lleva a la página de inicio sesión
+
+            //Si está iniciada, pedir confirmación
 
         }
 

@@ -17,7 +17,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-text p4" href="#">Ofertas</a>
+                    <a class="nav-text p4" href="?controller=general&action=ofertas">Ofertas</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-text p4" href="?controller=general&action=productos">Carta</a>
