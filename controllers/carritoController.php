@@ -174,7 +174,7 @@
             
             if($tipoOferta == "%"){
                 echo "oferta porcentaje";
-                $precioTotal = round($precioProductos * ($cantidadOferta / 100), 2); 
+                $precioTotal = $precioProductos - round($precioProductos * ($cantidadOferta / 100), 2); 
             }elseif($tipoOferta == "€"){
                 echo "oferta euros";
                 $precioTotal = $precioProductos - $cantidadOferta;

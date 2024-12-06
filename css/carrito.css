@@ -113,6 +113,11 @@ body hr {
     padding: 0px !important;
 }
 
+/* Por defecto, invisible */
+#contenedorDescuentoAplicado{
+    display: none;
+}
+
 /* -- SECCION CÓDIGO PROMOCIONAL -- */
 #contenedorIntroducirCodigo {
     padding: 0 20px;
@@ -151,11 +156,12 @@ body hr {
 
 #contenedorErrorCodigo{
     margin-top: 10px;
+    display: none;
 }
 
 #contenedorCodigoAplicado{
-
     margin-top: 10px;
+    display: none;
 }
 
 /* -- contenedor Pagar -- */

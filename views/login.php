@@ -18,8 +18,58 @@
 </head>
 <body>
 
-    <div id="">
-        
+    <div id="seccionSuperior" class="container-fluid d-flex align-items-center justify-content-center">
+        <div id="contenedorDivisor" class="row">
+            <div id="logoSuperior" class="col-12 mx-auto">
+                <a href="?controller=general">
+                    <img src="media/images/logos/Logo_LA_BUENIZZIMA-1_SF.webp" width="200px">
+                </a>
+            </div>
+            <hr>
+        </div>
+    </div>
+
+    <div id="seccionPrincipal" class="container-fluid">
+        <div class="row">
+            <div id="contenedorLogin" class="col-5 mx-auto">
+
+                <h4>Iniciar sesión</h4>
+                <p class="p5">¿Ya tienes una cuenta?</p>
+                <p class="p5">Inicia sesión para empezar a comprar.</p>
+
+                <div id="usuarioNoEncontrado">
+                    <p>El usuario no se ha encontrado en la base de datos. Por favor, pruebe de nuevo con otro usuario.</p>
+                </div>
+
+                <form id="formularioLogin" action="?controller=usuario&action=tryLogin" method="POST">
+
+                    <div id="contenedorUsuario">
+                        <div id="contenedorLabelUsuario">
+                            <label for="usuario"><p class="p4 bold">Usuario:</p></label>
+                        </div>
+                        <div id="contenedorInputUsuario">
+                            <input id="usuario" name="usuario" type="text" placeholder="Nombre de usuario o correo" required>
+                        </div>
+                    </div>
+
+                    <div id="contenedorContraseña">
+                        <div id="contenedorLabelContraseña">
+                            <label for="contraseña"><p class="p4 bold">Contraseña:</p></label>
+                        </div>
+                        <div id="contenedorInputContraseña">
+                            <input id="contraseña" name="contraseña" type="password" placeholder="Contraseña" required>
+                        </div>
+                    </div>
+
+                    <button id="botonIniciarSesion" class="mx-auto" type="submit">Iniciar sesión</button>
+
+                    <div id="crearCuenta">
+                        <p>¿No tienes cuenta? Haz clic aquí para <a href="?controller=usuario&action=register">crear una cuenta ahora</a></p>
+                    </div>
+
+                </form>
+            </div>
+        </div>
     </div>
 
     

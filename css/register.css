@@ -1,0 +1,89 @@
+#seccionSuperior #contenedorDivisor hr {
+    margin-top: 20px !important;
+    background-color: #FF4713 !important;
+    border: none !important;
+    opacity: 1 !important;
+    height: 2px !important;
+}
+
+#seccionSuperior, #seccionPrincipal{
+    background-color: #F9F5EF;
+}
+
+#contenedorRegister{
+    background-color: white;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    padding-top: 100px;
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-bottom: 50px;
+}
+
+/* -- Contenedor Usuario / Contraseña -- */
+#contenedorUsuario, #contenedorNombreCompleto, #contenedorCorreo, #contenedorContraseña, #contenedorRepetirContraseña, #contenedorDireccion, #contenedorTelefono, #contenedorTarjeta, #contenedorTarjeta, #contenedorCaducidad, #contenedorCVV, #contenedorChecks{
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+}
+#usuario, #nombreCompleto, #correo, #contraseña, #repetirContraseña, #direccion, #telefono, #numeroTarjeta, #fechaCaducidad, #cvv{
+    background-color: #D9D9D9;
+    width: 500px;
+    border: 0px;
+    height: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+#contenedorChecks {
+    margin-top: 100px;
+}
+#contenedorChecks a{
+    color: #FF4713;
+}
+
+
+/* -- BOTONES -- */
+#botonSubmitForm{
+    background-color: #FF4713;
+    padding-top: 7px;
+    padding-left: 120px;
+    padding-right: 120px;
+    display: inline-flex;
+    height: 40px;
+    color: white !important;
+    transition: background-color 0.5s ease;
+    border: 0px;
+
+    margin-top: 40px;
+}
+#botonSubmitForm:hover{
+    background-color: #000000;
+    padding-top: 7px;
+    padding-left: 120px;
+    padding-right: 120px;
+    display: inline-flex;
+    height: 40px;
+    color: white !important;
+}
+#tituloDatosBancarios{
+    margin-top: 40px;
+}
+
+/* Estilos base para los contenedores */
+#datosPersonales, #datosBancarios {
+    margin-top: 30px;
+}
+
+/* -- Contenedores información del registro -- */
+#contraseñaInvalida, #fechaInvalida, #usuarioRepetido, #usuarioCreado{
+    display: none;
+    margin-top: 20px;
+}
+
+/* -- Contenedor inicio de sesión -- */
+#contenedorInicioSesion{
+    margin-top: 40px;
+}
+#contenedorInicioSesion a{
+    color: #FF4713;
+}

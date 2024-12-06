@@ -1,0 +1,71 @@
+#seccionSuperior #contenedorDivisor hr {
+    margin-top: 20px !important;
+    background-color: #FF4713 !important;
+    border: none !important;
+    opacity: 1 !important;
+    height: 2px !important;
+}
+
+#seccionSuperior, #seccionPrincipal{
+    background-color: #F9F5EF;
+}
+
+#contenedorLogin{
+    background-color: white;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    padding-top: 100px;
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-bottom: 50px;
+}
+
+/* -- Contenedor Usuario / Contraseña -- */
+#contenedorUsuario, #contenedorContraseña{
+    margin-top: 30px;
+}
+#usuario, #contraseña{
+    background-color: #D9D9D9;
+    width: 500px;
+    border: 0px;
+    height: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+/* -- Boton iniciar sesión -- */
+#botonIniciarSesion{
+    background-color: #FF4713;
+    padding-top: 7px;
+    padding-left: 120px;
+    padding-right: 120px;
+    display: inline-flex;
+    height: 40px;
+    color: white !important;
+    transition: background-color 0.5s ease;
+    border: 0px;
+
+    margin-top: 40px;
+}
+#botonIniciarSesion:hover{
+    background-color: #000000;
+    padding-top: 7px;
+    padding-left: 120px;
+    padding-right: 120px;
+    display: inline-flex;
+    height: 40px;
+    color: white !important;
+}
+
+#crearCuenta{
+    margin-top: 40px;
+}
+
+#crearCuenta a{
+    color: #FF4713;
+}
+
+/* -- Contenedor Usuario no encontrado -- */
+#usuarioNoEncontrado{
+    display: none;
+}

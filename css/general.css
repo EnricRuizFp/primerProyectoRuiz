@@ -102,9 +102,11 @@ h8{
 .negro{
     color: black !important;
 }
-
 .blanco{
     color: #FFFFFF !important;
+}
+.red{
+    color: red !important;
 }
 
 /* -- GENERAL -- */
