@@ -34,12 +34,11 @@
 
             // Encriptar contraseña y datos bancarios
             $contraseñaEncriptada = password_hash($contraseñaIntroducida, PASSWORD_DEFAULT);
-            $tarjetaEncriptada = password_hash($tarjetaIntroducida, PASSWORD_DEFAULT);
 
 
             $con = DataBase::connect();
             $stmt = $con->prepare("INSERT INTO USUARIOS (usuario, nombre_completo, email, telefono, direccion, fecha_registro, contraseña, tarjeta_bancaria, fecha_vencimiento, cvv) VALUES (?,?,?,?,?,?,?,?,?,?)");
-            $stmt->bind_param("sssisssssi",$usuarioIntroducido, $nombreCompletoIntroducido, $correoIntroducido, $telefonoIntroducido, $direccionIntroducida, $fechaRegistro, $contraseñaEncriptada, $tarjetaEncriptada, $fechaVencimientoIntroducida, $cvvIntroducido);
+            $stmt->bind_param("sssisssssi",$usuarioIntroducido, $nombreCompletoIntroducido, $correoIntroducido, $telefonoIntroducido, $direccionIntroducida, $fechaRegistro, $contraseñaEncriptada, $tarjetaIntroducida, $fechaVencimientoIntroducida, $cvvIntroducido);
 
             $stmt->execute();
 
@@ -51,6 +50,37 @@
             }
 
             $stmt->close();
+        }
+
+        public static function getIdActual($usuario){
+
+            // Obtener el ID del usuario por el nombre
+            $con = DataBase::connect();
+
+            $stmt = $con->prepare("SELECT ID FROM USUARIOS WHERE usuario = ?");
+            $stmt->bind_param("s",$usuario);
+
+            $stmt->execute();
+
+            $resultado = $stmt->get_result();
+            $id = $resultado->fetch_assoc();
+
+            return $id['ID'];
+
+        }
+
+        public static function getUsuario($id){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare('SELECT * FROM USUARIOS WHERE ID = ?');
+            $stmt->bind_param('i',$id);
+
+            $stmt->execute();
+
+            $resultado = $stmt->get_result();
+            $usuario = $resultado->fetch_object("Usuario");
+
+            return $usuario;
         }
 
     }

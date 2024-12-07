@@ -63,3 +63,32 @@
         </div>
     </div>
 </nav>
+
+<script>
+
+    // Obtener el dato de sesión
+    const sesionActual = <?php echo isset($_SESSION['usuarioActual']) ? "'".$_SESSION['usuarioActual']."'" : "''"; ?>;
+
+    document.addEventListener("DOMContentLoaded", () => {
+
+        const contenedorMiCuenta = document.getElementById('contenedorMiCuenta');
+        const contenedorLogin = document.getElementById('contenedorLogin');
+        const contenedorRegister = document.getElementById('contenedorRegister');
+        const contenedorLogout = document.getElementById('contenedorCerrarSesion');
+
+        // Mostrar / ocultar contenedores
+        if(sesionActual){
+            contenedorMiCuenta.style.display = 'block';
+            contenedorLogin.style.display = 'none';
+            contenedorRegister.style.display = 'none';
+            contenedorLogout.style.display = 'block';
+        }else{
+            contenedorMiCuenta.style.display = 'none';
+            contenedorLogin.style.display = 'block';
+            contenedorRegister.style.display = 'block';
+            contenedorLogout.style.display = 'none';
+        }
+
+    });
+
+</script>

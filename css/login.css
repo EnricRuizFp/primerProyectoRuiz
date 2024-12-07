@@ -66,6 +66,9 @@
 }
 
 /* -- Contenedor Usuario no encontrado -- */
-#usuarioNoEncontrado{
+#sesionIniciada, #contraseñaIncorrecta, #usuarioInexistente{
     display: none;
+}
+#usuarioInexistente a{
+    color: #FF4713;
 }

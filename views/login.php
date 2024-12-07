@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,14 +37,38 @@
         <div class="row">
             <div id="contenedorLogin" class="col-5 mx-auto">
 
-                <h4>Iniciar sesión</h4>
-                <p class="p5">¿Ya tienes una cuenta?</p>
-                <p class="p5">Inicia sesión para empezar a comprar.</p>
-
-                <div id="usuarioNoEncontrado">
-                    <p>El usuario no se ha encontrado en la base de datos. Por favor, pruebe de nuevo con otro usuario.</p>
+                <div id="contenedorTitulo">
+                    <h4>Iniciar sesión</h4>
+                    <p class="p5">¿Ya tienes una cuenta?</p>
+                    <p class="p5">Inicia sesión para empezar a comprar.</p>
                 </div>
 
+                <!-- Contenedores de información -->
+                <div id="sesionIniciada">
+                    <h7>Has iniciado sesión!</h7>
+                    <p class="p4">Ya puedes empezar a comprar!</p>
+
+                    <a href="?controller=general&action=productos">
+                        <div class="botonPedirAhoraPrimario">
+                            <p class="p4 bold">Empezar a pedir</p>
+                        </div>
+                    </a>
+                    <a href="?controller=usuario">
+                        <div class="botonPedirAhoraPrimario">
+                            <p class="p4 bold">Mi cuenta</p>
+                        </div>
+                    </a>
+                </div>
+
+                <div id="contraseñaIncorrecta">
+                    <p class="p4 bold red">La contraseña proporcionada no coincide con el usuario.</p>
+                </div>
+
+                <div id="usuarioInexistente">
+                    <p class="p1 red">El usuario no existe!</p>
+                </div>
+
+                <!-- Contenedor Formulario de Inicio de Sesión -->
                 <form id="formularioLogin" action="?controller=usuario&action=tryLogin" method="POST">
 
                     <div id="contenedorUsuario">
@@ -64,10 +92,11 @@
                     <button id="botonIniciarSesion" class="mx-auto" type="submit">Iniciar sesión</button>
 
                     <div id="crearCuenta">
-                        <p>¿No tienes cuenta? Haz clic aquí para <a href="?controller=usuario&action=register">crear una cuenta ahora</a></p>
+                        <p>¿No tienes cuenta? Haz clic aquí para <a href="?controller=usuario&action=register" class="bold">crear una cuenta ahora</a></p>
                     </div>
 
                 </form>
+
             </div>
         </div>
     </div>
@@ -81,6 +110,66 @@
 
     <!-- Bootstrap Bundle with Popper (JS) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+    <!-- SCRIPT para visibilidad de contenedores -->
+    <script>
+
+        // Obtener el dato de sesión
+        const sesionActual = <?php echo $_SESSION['usuarioActual']; ?>;
+        const resultadoLogin = <?php echo isset($_SESSION['resultadoLogin']) ? "'".$_SESSION['resultadoLogin']."'" : "''"; ?>;
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const contenedorTitulo = document.getElementById('contenedorTitulo');
+            const contenedorIniciarSesion = document.getElementById('formularioLogin');
+
+            const contenedorSesionIniciada = document.getElementById('sesionIniciada');
+            const contenedorContraseñaIncorrecta = document.getElementById('contraseñaIncorrecta');
+            const contenedorUsuarioInexistente = document.getElementById('usuarioInexistente');
+
+            if (sesionActual != null) {
+                // Comprueba si hay un usuario en sesión
+                contenedorTitulo.style.display = 'none';
+                contenedorIniciarSesion.style.display = 'none';
+                contenedorSesionIniciada.style.display = 'block';
+                contenedorContraseñaIncorrecta.style.display = 'none';
+                contenedorUsuarioInexistente.style.display = 'none';
+            } else {
+                // Mostrar / ocultar contenedores según el resultado de login
+                switch (resultadoLogin) {
+                    case "userCorrect":
+                        contenedorTitulo.style.display = 'none';
+                        contenedorIniciarSesion.style.display = 'none';
+                        contenedorSesionIniciada.style.display = 'block';
+                        contenedorContraseñaIncorrecta.style.display = 'none';
+                        contenedorUsuarioInexistente.style.display = 'none';
+                        break;
+
+                    case "wrongPassword":
+                        contenedorIniciarSesion.style.display = 'block';
+                        contenedorSesionIniciada.style.display = 'none';
+                        contenedorContraseñaIncorrecta.style.display = 'block';
+                        contenedorUsuarioInexistente.style.display = 'none';
+                        break;
+
+                    case "wrongUser":
+                        contenedorIniciarSesion.style.display = 'block';
+                        contenedorSesionIniciada.style.display = 'none';
+                        contenedorContraseñaIncorrecta.style.display = 'none';
+                        contenedorUsuarioInexistente.style.display = 'block';
+                        break;
+
+                    default:
+                        contenedorIniciarSesion.style.display = 'block';
+                        contenedorSesionIniciada.style.display = 'none';
+                        contenedorContraseñaIncorrecta.style.display = 'none';
+                        contenedorUsuarioInexistente.style.display = 'none';
+                        break;
+                }
+            }
+        });
+
+
+    </script>
 
 </body>
 </html>

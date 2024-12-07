@@ -7,7 +7,10 @@
 
         public static function index(){
 
-            echo "PAGINA MI CUENTA";
+            session_start();
+            $usuario = UsuarioDAO::getUsuario($_SESSION['usuarioActual']);
+            session_write_close();
+            include_once "views/miCuenta.php";
 
         }
 
@@ -25,53 +28,56 @@
 
         public static function logout(){
 
-            echo "FUNCION LOGOUT";
+            session_start();
+
+            unset($_SESSION['usuarioActual']);
+
+            session_write_close();
+            header("Location: ?controller=general");
+            exit();
 
         }
 
         
         public static function tryLogin(){
 
+            session_start();
+
             //Obtener usuario / contraseña / usuarios de DB
             $usuarioIntroducido = $_POST['usuario'];
             $contraseñaIntroducida = $_POST['contraseña'];
             $usuarios = UsuarioDAO::getAll();
 
+            // Ver si el usuario existe
             $userFound = false;
-            $userId = null;
-
-            // Ver si usuario existe
-            foreach($usuarios as $usuario){
-
-                if(strpos($usuarioIntroducido, '@') !== false){
-
-                    // Buscar por email
-                    if($usuarioIntroducido == $usuario->getEmail()){
-                        echo "EMAIL ENCONTRADO";
-                        $userFound = true;
-                        $userId = $usuario->getId();
-                        break;
-                    }
+            $passwordCorrect = false;
+            foreach ($usuarios as $usuario) {
+                if ($usuario->getUsuario() == $usuarioIntroducido || $usuario->getEmail() == $usuarioIntroducido) {
+                    $userFound = true;
                     
-                }else{
-    
-                    // Buscar por usuario
-                    if($usuarioIntroducido == $usuario->getNombre()){
-                        echo "USUARIO ENCONTRADO";
-                        $userFound = true;
-                        $userId = $usuario->getId();
+                    if(password_verify($contraseñaIntroducida, $usuario->getContraseña())){
+                        $passwordCorrect = true;
+
+                        // Establecer el usuario actual en sesión
+                        $_SESSION['usuarioActual'] = UsuarioDAO::getIdActual($usuarioIntroducido);
+
                         break;
                     }
-    
+
                 }
-                
             }
 
-            // Verificar si el usuario se ha encontrado
-            if(!$userFound){
-                echo "EL USUARIO NO SE HA ENCONTRADO";
+            if($userFound && $passwordCorrect){
+                $_SESSION['resultadoLogin'] = "userCorrect";
+            }else if($userFound){
+                $_SESSION['resultadoLogin'] = "wrongPassword";
+            }else{
+                $_SESSION['resultadoLogin'] = "wrongUser";
             }
 
+            session_write_close();  // Asegurar que la sesión se guarda correctamente
+            header("Location: ?controller=usuario&action=login");  // Redirigir
+            exit();  // Detener la ejecución del script después de la redirección
             
         }
 
@@ -109,7 +115,7 @@
             // Verificar si el usuario existe
             $userFound = false;
             foreach ($usuarios as $usuario) {
-                if ($usuario->getNombre() == $usuarioIntroducido || $usuario->getEmail() == $correoIntroducido) {
+                if ($usuario->getUsuario() == $usuarioIntroducido || $usuario->getEmail() == $correoIntroducido) {
                     $userFound = true;
                     $_SESSION['resultadoRegister'] = "userExists";  // Asignar variable de sesión
                     break;
@@ -119,6 +125,9 @@
             if (!$userFound) {
 
                 UsuarioDAO::crearUsuario($usuarioIntroducido, $nombreCompletoIntroducido, $correoIntroducido, $contraseñaIntroducida, $direccionIntroducida, $telefonoIntroducido, $tarjetaIntroducida, $fechaVencimientoIntroducida, $cvvIntroducido);
+
+                // Establecer el usuario actual en sesión
+                $_SESSION['usuarioActual'] = UsuarioDAO::getIdActual($usuarioIntroducido);
 
                 $_SESSION['resultadoRegister'] = "userCreated";  // Si no se encuentra, asignar otro valor
             }
