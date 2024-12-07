@@ -52,8 +52,6 @@
                     <button id="botonMisPedidos"><h8>MIS PEDIDOS</h8></button>
                     <hr>
                     <button id="botonAtencionCliente"><h8>ATENCIÓN AL CLIENTE</h8></button>
-                    <hr>
-                    <button id="botonCambiarContraseña"><h8>CAMBIAR LA CONTRASEÑA</h8></button>
 
                 </div>
 
@@ -69,15 +67,18 @@
                     <div class="tituloDatos">
                         <h6>PERFIL</h6>
                     </div>
-                    <div class="contenedorDatos">
+                    <div id="contenedorDatos" class="contenedorDatos">
                         <div class="contenidoDatos container-fluid">
                             <div class="row">
 
                                 <div class="col-3">
                                     <p class="p5 bold">Usuario</p>
                                 </div>
-                                <div class="col-9">
+                                <div class="col-8">
                                     <p class="p5"><?php echo $usuario->getUsuario(); ?></p>
+                                </div>
+                                <div class="col-1">
+                                    <button id="botonEditarDatos"><p class="p5 naranja bold">Editar</p></button>
                                 </div>
 
                                 <div class="col-3">
@@ -112,9 +113,51 @@
                         </div>
                     </div>
 
+                    <div id="contenedorEditarDatos" class="contenedorEditarDatos">
+                        <div class="contenidoDatos container-fluid">
+                            <form id="formularioEditarDatos" class="row" action="?controller=usuario&action=editarDatos" method="POST">
+
+                                <div class="col-3">
+                                    <label for="usuario" class="p5 bold">Usuario</label>
+                                </div>
+                                <div class="col-8">
+                                    <input id="usuario" name="usuario" value="<?= $usuario->getUsuario() ?>">
+                                </div>
+                                <div class="col-1">
+                                    <button id="guardarEditarDatos"><p class="p5 naranja bold">Guardar</p></button>
+                                </div>
+
+                                <div class="col-3">
+                                    <label for="nombreCompleto" class="p5 bold">Nombre completo</label>
+                                </div>
+                                <div class="col-8">
+                                    <input id="nombreCompleto" name="nombreCompleto" value="<?= $usuario->getNombreCompleto() ?>">
+                                </div>
+                                <div class="col-1">
+                                    <button id="descartarEditarDatos"><p class="p5 naranja bold">Descartar</p></button>
+                                </div>
+
+                                <div class="col-3">
+                                    <label for="correo" class="p5 bold">Correo</label>
+                                </div>
+                                <div class="col-9">
+                                    <input id="correo" name="correo" value="<?= $usuario->getEmail() ?>">
+                                </div>
+
+                                <div class="col-3">
+                                    <label for="telefono" class="p5 bold">Teléfono</label>
+                                </div>
+                                <div class="col-9">
+                                    <input id="telefono" name="telefono" value="<?= $usuario->getTelefono() ?>">
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+
                     <!-- Dirección -->
                     <div class="tituloDatos">
-                        <h6>DIRECCIÓN</h6>
+                        <h6>DIRECCIONES</h6>
                     </div>
                     <div class="contenedorDatos">
                         <div class="contenidoDatos container-fluid">
@@ -133,7 +176,7 @@
 
                     <!-- Datos bancarios -->
                     <div class="tituloDatos">
-                        <h6>DATOS BANCARIOS</h>
+                        <h6>DATOS BANCARIOS</h6>
                     </div>
 
                     <button id="desbloquearDatosBancarios"><p class="p5">Mostrar datos bancarios</p></button>
@@ -170,6 +213,33 @@
 
                 </div>
 
+                <!-- MIS PEDIDOS -->
+                <div id="contenedorMisPedidos">
+                    <!-- Datos principales -->
+                    <div class="tituloDatos">
+                        <h6>MIS PEDIDOS</h6>
+                    </div>
+
+                    <div class="contenedorDatos">
+
+                        <?php
+
+                            foreach($pedidos as $pedido) {
+
+                                echo "PEDIDO:<br>";
+                                echo "ID: ".$pedido->getId();
+                                echo "OFERTA: ".$pedido->getOferta();
+                                echo "DESCUENTO: ".$pedido->getDescuento();
+                                echo "PRECIO: ".$pedido->getPrecioFinal();
+                                echo "ESTADO: ".$pedido->getEstadoPedido();
+
+                            }
+
+                        ?>
+
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -185,12 +255,47 @@
     <!-- SCRIPT DE ANIMACIONES Y BOTONES -->
     <script>
 
-        const botonMostrarDatosBancarios = document.getElementById('desbloquearDatosBancarios');
-        const contenedorDatosBancarios = document.getElementById('contenedorDatosBancarios');
+        document.addEventListener('DOMContentLoaded', () => {
 
-        botonMostrarDatosBancarios.addEventListener('click', function() {
-            botonMostrarDatosBancarios.style.display = 'none';
-            contenedorDatosBancarios.style.display = 'block';
+            /* ----- DEFINICIÓN DE LOS ELEMENTOS ----- */
+
+            /* -- BARRA LATERAL -- */
+
+            /* -- CONTENIDO PRINCIPAL -- */
+
+            // Contenedor perfil
+            const contenedorDatos = document.getElementById('contenedorDatos');
+            const contenedorEditarDatos = document.getElementById('contenedorEditarDatos');
+            const formularioEditarDatos = document.getElementById('formularioEditarDatos');
+
+            const botonEditarDatos = document.getElementById('botonEditarDatos');
+            const botonGuardarEditarDatos = document.getElementById('guardarEditarDatos');
+            const botonDescartarEditarDatos = document.getElementById('descartarEditarDatos');
+
+
+            /* ----- FUNCIONES DE LOS ELEMENTOS ----- */
+
+            /* -- BARRA LATERAL -- */
+
+            /* -- CONTENIDO PRINCIPAL -- */
+
+            // Contenedor perfil
+            botonEditarDatos.addEventListener('click', () => {
+                contenedorDatos.style.display = 'none';
+                contenedorEditarDatos.style.display = 'block';
+            });
+            botonGuardarEditarDatos.addEventListener('click', () => {
+                formularioEditarDatos.submit();
+                contenedorDatos.style.display = 'block';
+                contenedorEditarDatos.style.display = 'none';
+            });
+            botonDescartarEditarDatos.addEventListener('click', () => {
+                contenedorDatos.style.display = 'block';
+                contenedorEditarDatos.style.display = 'none';
+            });
+
+
+
         });
 
     </script>

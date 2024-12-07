@@ -2,6 +2,7 @@
 
     include_once "config/parameters.php";
     include_once "models/UsuarioDAO.php";
+    include_once "models/PedidoDAO.php";
 
     class usuarioController{
 
@@ -9,6 +10,8 @@
 
             session_start();
             $usuario = UsuarioDAO::getUsuario($_SESSION['usuarioActual']);
+            $pedidos = PedidoDAO::getPedidos($usuario->getId());
+
             session_write_close();
             include_once "views/miCuenta.php";
 
@@ -90,7 +93,6 @@
             $correoIntroducido = $_POST['correo'];
             $contraseñaIntroducida = $_POST['contraseña'];
             $repetirContraseñaIntroducida = $_POST['repetirContraseña'];
-            $direccionIntroducida = $_POST['direccion'];
             $telefonoIntroducido = $_POST['telefono'];
             $tarjetaIntroducida = $_POST['numeroTarjeta'];
             $fechaVencimientoIntroducida = $_POST['fechaCaducidad'];
@@ -124,7 +126,7 @@
         
             if (!$userFound) {
 
-                UsuarioDAO::crearUsuario($usuarioIntroducido, $nombreCompletoIntroducido, $correoIntroducido, $contraseñaIntroducida, $direccionIntroducida, $telefonoIntroducido, $tarjetaIntroducida, $fechaVencimientoIntroducida, $cvvIntroducido);
+                UsuarioDAO::crearUsuario($usuarioIntroducido, $nombreCompletoIntroducido, $correoIntroducido, $contraseñaIntroducida, $telefonoIntroducido, $tarjetaIntroducida, $fechaVencimientoIntroducida, $cvvIntroducido);
 
                 // Establecer el usuario actual en sesión
                 $_SESSION['usuarioActual'] = UsuarioDAO::getIdActual($usuarioIntroducido);
@@ -132,9 +134,28 @@
                 $_SESSION['resultadoRegister'] = "userCreated";  // Si no se encuentra, asignar otro valor
             }
         
-            session_write_close();  // Asegurar que la sesión se guarda correctamente
-            header("Location: ?controller=usuario&action=register");  // Redirigir
-            exit();  // Detener la ejecución del script después de la redirección
+            session_write_close();
+            header("Location: ?controller=usuario&action=register");
+            exit(); 
+        }
+
+        public static function editarDatos(){
+
+            session_start();
+
+            // Obtener datos del formulario
+            $usuario = $_SESSION['usuarioActual'];
+            $nombreUsuario = $_POST['usuario'];
+            $nombreCompleto = $_POST['nombreCompleto'];
+            $correo = $_POST['correo'];
+            $telefono = $_POST['telefono'];
+
+            UsuarioDAO::editarDatos($usuario, $nombreUsuario, $nombreCompleto, $correo, $telefono);
+
+            session_write_close();
+            header("Location: ?controller=usuario");
+            exit(); 
+
         }
 
     }

@@ -16,35 +16,30 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `PEDIDO`
+-- Table structure for table `DIRECCIONES`
 --
 
-DROP TABLE IF EXISTS `PEDIDO`;
+DROP TABLE IF EXISTS `DIRECCIONES`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `PEDIDO` (
-  `ID` int NOT NULL AUTO_INCREMENT,
-  `cliente_id` int DEFAULT NULL,
-  `productos_id` int DEFAULT NULL,
-  `oferta_id` int DEFAULT NULL,
-  `descuento` decimal(5,2) DEFAULT NULL,
-  `precio_final` decimal(6,2) DEFAULT NULL,
-  `estado_pedido` varchar(25) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  KEY `cliente_id` (`cliente_id`),
-  KEY `oferta_id` (`oferta_id`),
-  CONSTRAINT `PEDIDO_ibfk_1` FOREIGN KEY (`cliente_id`) REFERENCES `USUARIOS` (`ID`) ON DELETE CASCADE,
-  CONSTRAINT `PEDIDO_ibfk_2` FOREIGN KEY (`oferta_id`) REFERENCES `OFERTAS` (`ID`) ON DELETE CASCADE
+CREATE TABLE `DIRECCIONES` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `usuario_id` int DEFAULT NULL,
+  `calle` varchar(255) NOT NULL,
+  `codigo_postal` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `usuario_id` (`usuario_id`),
+  CONSTRAINT `DIRECCIONES_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `USUARIOS` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `PEDIDO`
+-- Dumping data for table `DIRECCIONES`
 --
 
-LOCK TABLES `PEDIDO` WRITE;
-/*!40000 ALTER TABLE `PEDIDO` DISABLE KEYS */;
-/*!40000 ALTER TABLE `PEDIDO` ENABLE KEYS */;
+LOCK TABLES `DIRECCIONES` WRITE;
+/*!40000 ALTER TABLE `DIRECCIONES` DISABLE KEYS */;
+/*!40000 ALTER TABLE `DIRECCIONES` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

@@ -1,6 +1,6 @@
 <?php
 
-    /* -- Inclusión del archivo de configuración de la DB */
+    /* -- Inclusión del archivo de configuración de la DB -- */
     include_once "config/dataBase.php";
     include_once "models/Usuario.php";
 
@@ -25,7 +25,7 @@
             return $usuarios;
         }
 
-        public static function crearUsuario($usuarioIntroducido, $nombreCompletoIntroducido, $correoIntroducido, $contraseñaIntroducida, $direccionIntroducida, $telefonoIntroducido, $tarjetaIntroducida, $fechaVencimientoIntroducida, $cvvIntroducido){
+        public static function crearUsuario($usuarioIntroducido, $nombreCompletoIntroducido, $correoIntroducido, $contraseñaIntroducida, $telefonoIntroducido, $tarjetaIntroducida, $fechaVencimientoIntroducida, $cvvIntroducido){
 
             // Pasar las fechas a dato tipo fecha
             $fechaRegistro = date("Y-m-d");
@@ -37,8 +37,8 @@
 
 
             $con = DataBase::connect();
-            $stmt = $con->prepare("INSERT INTO USUARIOS (usuario, nombre_completo, email, telefono, direccion, fecha_registro, contraseña, tarjeta_bancaria, fecha_vencimiento, cvv) VALUES (?,?,?,?,?,?,?,?,?,?)");
-            $stmt->bind_param("sssisssssi",$usuarioIntroducido, $nombreCompletoIntroducido, $correoIntroducido, $telefonoIntroducido, $direccionIntroducida, $fechaRegistro, $contraseñaEncriptada, $tarjetaIntroducida, $fechaVencimientoIntroducida, $cvvIntroducido);
+            $stmt = $con->prepare("INSERT INTO USUARIOS (usuario, nombre_completo, email, telefono, fecha_registro, contraseña, tarjeta_bancaria, fecha_vencimiento, cvv) VALUES (?,?,?,?,?,?,?,?,?,?)");
+            $stmt->bind_param("sssisssssi",$usuarioIntroducido, $nombreCompletoIntroducido, $correoIntroducido, $telefonoIntroducido, $fechaRegistro, $contraseñaEncriptada, $tarjetaIntroducida, $fechaVencimientoIntroducida, $cvvIntroducido);
 
             $stmt->execute();
 
@@ -83,6 +83,15 @@
             return $usuario;
         }
 
+        public static function editarDatos($usuario, $nombreUsuario, $nombreCompleto, $correo, $telefono){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("UPDATE USUARIOS SET usuario = ?, nombre_completo = ?, email = ?, telefono = ? WHERE ID = ?");
+            $stmt->bind_param("sssis",$nombreUsuario, $nombreCompleto, $correo, $telefono, $usuario);
+
+            $stmt->execute();
+
+        }
     }
 
 ?>

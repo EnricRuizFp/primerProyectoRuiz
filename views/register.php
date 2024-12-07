@@ -46,7 +46,7 @@ session_start();
 
                     <form id="formularioDatosBancarios" class="row" action="?controller=usuario&action=tryRegister" method="POST">
 
-                        <!-- Datos personales -->
+                        <!-- tab datos personales -->
                         <div id="datosPersonales" class="col-6">
                             <h7>Información personal</h7>
 
@@ -75,18 +75,13 @@ session_start();
                                 <input id="repetirContraseña" name="repetirContraseña" type="password" placeholder="Repite tu contraseña" minlength="9" required>
                             </div>
 
-                            <div id="contenedorDireccion">
-                                <label for="direccion" class="p4 bold">Dirección:</label>
-                                <input id="direccion" name="direccion" type="text" placeholder="EJ: Calle Barcelona 23 1a" required>
-                            </div>
-
                             <div id="contenedorTelefono">
                                 <label for="telefono" class="p4 bold">Teléfono:</label>
                                 <input id="telefono" name="telefono" type="number" placeholder="Número de teléfono" minlength="9" required>
                             </div>
                         </div>
 
-                        <!-- Slide datos bancarios -->
+                        <!-- tab datos bancarios -->
                         <div id="datosBancarios" class="col-6">
                             <h7 id="tituloDatosBancarios">Datos bancarios</h7>
 

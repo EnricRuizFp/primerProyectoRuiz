@@ -52,6 +52,25 @@ header {
     border: 2px solid #FF4713;
     padding: 20px;
 }
+#contenidoPrincipal button{
+    background-color: transparent;
+    border: 0px;
+}
+
+/* -- Formulario editar datos -- */
+#contenedorEditarDatos{
+    display: none;
+}
+#formularioEditarDatos{
+    margin-top: 20px;
+    border: 2px solid #FF4713;
+    padding: 20px;
+}
+#formularioEditarDatos input{
+    border: none;
+    border-bottom: 1px solid black;
+    width: 300px;
+}
 
 /* -- Boton desbloquear datos bancarios -- */
 #desbloquearDatosBancarios{
