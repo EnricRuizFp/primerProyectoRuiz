@@ -91,6 +91,22 @@
 
             $stmt->execute();
 
+            $stmt->close();
+            $con->close();
+
+        }
+
+        public static function editarDatosBancarios($usuario, $tarjetaBancaria, $fechaCaducidad, $cvv){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("UPDATE USUARIOS SET tarjeta_bancaria = ?, fecha_vencimiento = ?, cvv = ? WHERE ID = ?");
+            $stmt->bind_param("ssii", $tarjetaBancaria, $fechaCaducidad, $cvv, $usuario);
+
+            $stmt->execute();
+
+            $stmt->close();
+            $con->close();
+
         }
     }
 

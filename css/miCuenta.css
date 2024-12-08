@@ -57,7 +57,7 @@ header {
     border: 0px;
 }
 
-/* -- Formulario editar datos -- */
+/* DATOS */
 #contenedorEditarDatos{
     display: none;
 }
@@ -67,6 +67,28 @@ header {
     padding: 20px;
 }
 #formularioEditarDatos input{
+    border: none;
+    border-bottom: 1px solid black;
+    width: 300px;
+}
+
+/* DIRECCIONES */
+#contenedorAñadirDirecciones{
+    display: none;
+}
+#contenedorAñadirDirecciones input{
+    border: none;
+    border-bottom: 1px solid black;
+}
+
+/* DATOS BANCARIOS */
+#contenedorEditarDatosBancarios{
+    margin-top: 20px;
+    border: 2px solid #FF4713;
+    padding: 20px;
+    display: none;
+}
+#contenedorEditarDatosBancarios input{
     border: none;
     border-bottom: 1px solid black;
     width: 300px;

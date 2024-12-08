@@ -202,7 +202,14 @@
 
         public function pagar(){
 
+            session_start();
+
             // Si no hay sesión iniciada, lleva a la página de inicio sesión
+            if(!isset($_SESSION['usuarioActual'])){
+                echo "SESIÓN NO INICIADA";
+            }else{
+                echo "SESIÓN INICIADA, PROCEDIENDO A COMPRAR";
+            }
 
             //Si está iniciada, pedir confirmación
 

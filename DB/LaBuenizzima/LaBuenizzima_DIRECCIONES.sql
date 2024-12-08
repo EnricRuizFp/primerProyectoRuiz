@@ -23,14 +23,15 @@ DROP TABLE IF EXISTS `DIRECCIONES`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `DIRECCIONES` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `ID` int NOT NULL AUTO_INCREMENT,
   `usuario_id` int DEFAULT NULL,
   `calle` varchar(255) NOT NULL,
   `codigo_postal` varchar(20) NOT NULL,
-  PRIMARY KEY (`id`),
+  `ciudad` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
   KEY `usuario_id` (`usuario_id`),
   CONSTRAINT `DIRECCIONES_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `USUARIOS` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,6 +40,7 @@ CREATE TABLE `DIRECCIONES` (
 
 LOCK TABLES `DIRECCIONES` WRITE;
 /*!40000 ALTER TABLE `DIRECCIONES` DISABLE KEYS */;
+INSERT INTO `DIRECCIONES` VALUES (2,8,'C/ Francesc macia 123','8780','Barcelona');
 /*!40000 ALTER TABLE `DIRECCIONES` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-07 18:59:23
+-- Dump completed on 2024-12-08 14:45:06

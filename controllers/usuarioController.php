@@ -3,6 +3,7 @@
     include_once "config/parameters.php";
     include_once "models/UsuarioDAO.php";
     include_once "models/PedidoDAO.php";
+    include_once "models/DireccionDAO.php";
 
     class usuarioController{
 
@@ -10,6 +11,7 @@
 
             session_start();
             $usuario = UsuarioDAO::getUsuario($_SESSION['usuarioActual']);
+            $direcciones = DireccionDAO::getDirecciones($_SESSION['usuarioActual']);
             $pedidos = PedidoDAO::getPedidos($usuario->getId());
 
             session_write_close();
@@ -155,6 +157,53 @@
             session_write_close();
             header("Location: ?controller=usuario");
             exit(); 
+
+        }
+
+        public static function añadirDirecciones(){
+
+            session_start();
+
+            // Obtener datos del formulario
+            $usuario = $_SESSION['usuarioActual'];
+            $codigoPostal = $_POST['codigoPostal'];
+            $ciudad = $_POST['ciudad'];
+            $calle = $_POST['calle'];
+
+            // Subir a la DB
+            DireccionDAO::añadirDireccion($usuario, $codigoPostal, $ciudad, $calle);
+
+            session_write_close();
+            header("Location: ?controller=usuario");
+            exit();
+
+        }
+
+        public static function eliminarDireccion($id){
+
+            DireccionDAO::eliminarDireccion($id);
+
+            header("Location: ?controller=usuario");
+            exit();
+
+        }
+
+        public static function editarDatosBancarios(){
+
+            session_start();
+
+            // Obtener datos del formulario
+            $usuario = $_SESSION['usuarioActual'];
+            $tarjetaBancaria = $_POST['tarjeta'];
+            $fechaCaducidad = $_POST['fechaCaducidad'];
+            $cvv = $_POST['cvv'];
+
+            // Editar los datos
+            UsuarioDAO::editarDatosBancarios($usuario, $tarjetaBancaria, $fechaCaducidad, $cvv);
+
+            session_write_close();
+            header("Location: ?controller=usuario");
+            exit();
 
         }
 
