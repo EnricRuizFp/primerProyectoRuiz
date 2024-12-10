@@ -51,6 +51,13 @@
             $this->ciudad = $ciudad;
         }
 
+        public function getDirecciones($id){
+
+            $direcciones = DireccionDAO::getDirecciones($id);
+
+            return $direcciones;
+        }
+
     }
 
 ?>

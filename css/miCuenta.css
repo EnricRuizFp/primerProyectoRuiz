@@ -17,10 +17,10 @@ header {
 
 /* --- BOTONES LATERAL IZQUEIRDO --- */
 #menuLateral{
-    padding-left: 30px;
-    padding-top: 50px;
-    padding-bottom: 50px;
-    padding-right: 50px;
+    padding-left: 80px;
+    padding-top: 80px;
+    padding-bottom: 80px;
+    padding-right: 80px;
 }
 #seccionesMenuLateral{
     color: black;
@@ -100,5 +100,10 @@ header {
     background-color: transparent;
 }
 #contenedorDatosBancarios{
+    display: none;
+}
+
+/* Por defecto */
+#contenedorMisPedidos, #contenedorAtencionCliente {
     display: none;
 }

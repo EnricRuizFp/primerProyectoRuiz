@@ -31,7 +31,7 @@
 
             }
 
-            include_once("views/carrito.php");
+            include_once "views/carrito.php";
 
         }
 
@@ -204,16 +204,42 @@
 
             session_start();
 
-            // Si no hay sesión iniciada, lleva a la página de inicio sesión
-            if(!isset($_SESSION['usuarioActual'])){
-                echo "SESIÓN NO INICIADA";
-            }else{
-                echo "SESIÓN INICIADA, PROCEDIENDO A COMPRAR";
+            if(isset($_SESSION['usuarioActual'])){
+
+                // Obtener las direcciones del usuario
+                $direcciones = DireccionDAO::getDirecciones($_SESSION['usuarioActual']);
+                $cantidadDirecciones = DireccionDAO::getCantidadDirecciones($_SESSION['usuarioActual']);
+                $datosBancariosValidos = UsuarioDAO::validacionDatosBancarios($_SESSION['usuarioActual']);
             }
 
-            //Si está iniciada, pedir confirmación
+            $_SESSION['direccionActual'] = null;
+
+            // Si no hay sesión iniciada, lleva a la página de inicio sesión
+            session_write_close();
+            include_once "views/comprar.php";
+            exit(); 
 
         }
+
+        public function seleccionarDireccion(){
+
+            session_start();
+
+            if(isset($_SESSION['usuarioActual'])){
+
+                // Obtener las direcciones del usuario
+                $direcciones = DireccionDAO::getDirecciones($_SESSION['usuarioActual']);
+                $cantidadDirecciones = DireccionDAO::getCantidadDirecciones($_SESSION['usuarioActual']);
+            }
+            $_SESSION['direccionActual'] = $_POST['direccion'];
+
+            session_write_close();
+            include_once "views/comprar.php";
+            exit(); 
+
+        }
+
+
 
     }
 

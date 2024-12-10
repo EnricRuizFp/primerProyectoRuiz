@@ -123,6 +123,13 @@ h8{
     display: inline-flex;
 }
 
+.mostrar{
+    display: block;
+}
+.ocultar{
+    display: none;
+}
+
 /* -- BARRA NAV -- */
 /* Asegura que los iconos estén siempre alineados a la derecha */
 .navbar-icons {

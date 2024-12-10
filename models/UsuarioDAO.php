@@ -25,7 +25,7 @@
             return $usuarios;
         }
 
-        public static function crearUsuario($usuarioIntroducido, $nombreCompletoIntroducido, $correoIntroducido, $contraseñaIntroducida, $telefonoIntroducido, $tarjetaIntroducida, $fechaVencimientoIntroducida, $cvvIntroducido){
+        public static function crearUsuario($usuarioIntroducido, $nombreCompletoIntroducido, $correoIntroducido, $contraseñaIntroducida, $telefonoIntroducido){
 
             // Pasar las fechas a dato tipo fecha
             $fechaRegistro = date("Y-m-d");
@@ -37,8 +37,8 @@
 
 
             $con = DataBase::connect();
-            $stmt = $con->prepare("INSERT INTO USUARIOS (usuario, nombre_completo, email, telefono, fecha_registro, contraseña, tarjeta_bancaria, fecha_vencimiento, cvv) VALUES (?,?,?,?,?,?,?,?,?,?)");
-            $stmt->bind_param("sssisssssi",$usuarioIntroducido, $nombreCompletoIntroducido, $correoIntroducido, $telefonoIntroducido, $fechaRegistro, $contraseñaEncriptada, $tarjetaIntroducida, $fechaVencimientoIntroducida, $cvvIntroducido);
+            $stmt = $con->prepare("INSERT INTO USUARIOS (usuario, nombre_completo, email, telefono, fecha_registro, contraseña) VALUES (?,?,?,?,?,?)");
+            $stmt->bind_param("sssiss",$usuarioIntroducido, $nombreCompletoIntroducido, $correoIntroducido, $telefonoIntroducido, $fechaRegistro, $contraseñaEncriptada);
 
             $stmt->execute();
 
@@ -106,6 +106,25 @@
 
             $stmt->close();
             $con->close();
+
+        }
+
+        public static function validacionDatosBancarios($id){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("SELECT tarjeta_bancaria, fecha_vencimiento, cvv FROM USUARIOS WHERE ID = ?");
+            $stmt->bind_param("i", $id);
+
+            $stmt->execute();
+
+            $resultado = $stmt->get_result()->fetch_assoc();
+
+            if(!empty($resultado['tarjeta_bancaria']) && !empty($resultado['fecha_vencimiento']) && !empty($resultado['cvv'])){
+                return true;
+            }else{
+                return false;
+            }
+
 
         }
     }

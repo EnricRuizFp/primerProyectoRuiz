@@ -85,21 +85,6 @@ session_start();
                         <div id="datosBancarios" class="col-6">
                             <h7 id="tituloDatosBancarios">Datos bancarios</h7>
 
-                            <div id="contenedorTarjeta">
-                                <label for="numeroTarjeta" class="p4 bold">Número de tarjeta:</label>
-                                <input id="numeroTarjeta" name="numeroTarjeta" type="number" placeholder="Número de tarjeta" minlength="16" maxlength="16" required>
-                            </div>
-
-                            <div id="contenedorCaducidad">
-                                <label for="fechaCaducidad" class="p4 bold">Fecha de vencimiento:</label>
-                                <input id="fechaCaducidad" name="fechaCaducidad" type="date" placeholder="Fecha de caducidad" required>
-                            </div>
-
-                            <div id="contenedorCVV">
-                                <label for="cvv" class="p4 bold">Código de seguridad:</label>
-                                <input id="cvv" name="cvv" type="number" placeholder="cvv" minlength="3" maxlength="3" required>
-                            </div>
-
                             <div id="contenedorChecks">
                                 <div id="contenedorCheckTerminos">
                                     <input id="checkBoxTerminos" type="checkbox" name="checkBoxTerminos" value="terminos" required oninvalid="this.setCustomValidity('Debe aceptar los términos y condiciones para crear una cuenta.')" oninput="this.setCustomValidity('')"> Acepto los <a href="?controller=general&action=terminos">términos y condiciones de uso</a>.
@@ -119,10 +104,6 @@ session_start();
                             <!-- Contenedores de información -->
                             <div id="contraseñaInvalida">
                                 <p class="bold red">Las contraseñas introducidas no coinciden.</p>
-                            </div>
-
-                            <div id="fechaInvalida">
-                                <p class="bold red">La fecha de caducidad de la tarjeta no es válida.</p>
                             </div>
 
                             <div id="usuarioRepetido">
@@ -172,7 +153,6 @@ session_start();
             const contenedorRegistro = document.getElementById('datosUsuario');
 
             const contenedorContraseñaInvalida = document.getElementById('contraseñaInvalida');
-            const contenedorFechaInvalida = document.getElementById('fechaInvalida');
             const contenedorUsuarioRepetido = document.getElementById('usuarioRepetido');
             const contenedorUsuarioCreado = document.getElementById('usuarioCreado');
 
@@ -181,28 +161,24 @@ session_start();
 
                 case "invalidPasswords":
                     contenedorContraseñaInvalida.style.display = 'block';
-                    contenedorFechaInvalida.style.display = 'none';
                     contenedorUsuarioRepetido.style.display = 'none';
                     contenedorUsuarioCreado.style.display = 'none';
                     break;
                 
                 case "invalidCardDate":
                     contenedorContraseñaInvalida.style.display = 'none';
-                    contenedorFechaInvalida.style.display = 'block';
                     contenedorUsuarioRepetido.style.display = 'none';
                     contenedorUsuarioCreado.style.display = 'none';
                     break;
                 
                 case "userExists":
                     contenedorContraseñaInvalida.style.display = 'none';
-                    contenedorFechaInvalida.style.display = 'none';
                     contenedorUsuarioRepetido.style.display = 'block';
                     contenedorUsuarioCreado.style.display = 'none';
                     break;
 
                 case "userCreated":
                     contenedorContraseñaInvalida.style.display = 'none';
-                    contenedorFechaInvalida.style.display = 'none';
                     contenedorUsuarioRepetido.style.display = 'none';
                     contenedorUsuarioCreado.style.display = 'block';
 
@@ -212,7 +188,6 @@ session_start();
                 
                 default:
                     contenedorContraseñaInvalida.style.display = 'none';
-                    contenedorFechaInvalida.style.display = 'none';
                     contenedorUsuarioRepetido.style.display = 'none';
                     contenedorUsuarioCreado.style.display = 'none';
                     break;

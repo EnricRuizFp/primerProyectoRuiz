@@ -72,5 +72,22 @@
 
         }
 
+        public static function getCantidadDirecciones($id){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("SELECT count(*) FROM DIRECCIONES WHERE usuario_id = ?");
+            $stmt->bind_param("i", $id);
+
+            $stmt->execute();
+
+            $stmt->bind_result($cantidadDirecciones);
+            $stmt->fetch();
+
+            $stmt->close();
+            $con->close();
+
+            return $cantidadDirecciones;
+        }
+
     }
 ?>

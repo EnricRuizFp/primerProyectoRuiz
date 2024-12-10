@@ -96,18 +96,10 @@
             $contraseñaIntroducida = $_POST['contraseña'];
             $repetirContraseñaIntroducida = $_POST['repetirContraseña'];
             $telefonoIntroducido = $_POST['telefono'];
-            $tarjetaIntroducida = $_POST['numeroTarjeta'];
-            $fechaVencimientoIntroducida = $_POST['fechaCaducidad'];
-            $cvvIntroducido = $_POST['cvv'];
 
             // Verificar si las contraseñas coinciden
             if($contraseñaIntroducida != $repetirContraseñaIntroducida){
                 $_SESSION['resultadoRegister'] = "invalidPasswords";
-                session_write_close();
-                header("Location: ?controller=usuario&action=register");
-                exit();
-            }else if($fechaVencimientoIntroducida < date("Y-m-d")){
-                $_SESSION['resultadoRegister'] = "invalidCardDate";
                 session_write_close();
                 header("Location: ?controller=usuario&action=register");
                 exit();
@@ -128,7 +120,7 @@
         
             if (!$userFound) {
 
-                UsuarioDAO::crearUsuario($usuarioIntroducido, $nombreCompletoIntroducido, $correoIntroducido, $contraseñaIntroducida, $telefonoIntroducido, $tarjetaIntroducida, $fechaVencimientoIntroducida, $cvvIntroducido);
+                UsuarioDAO::crearUsuario($usuarioIntroducido, $nombreCompletoIntroducido, $correoIntroducido, $contraseñaIntroducida, $telefonoIntroducido);
 
                 // Establecer el usuario actual en sesión
                 $_SESSION['usuarioActual'] = UsuarioDAO::getIdActual($usuarioIntroducido);

@@ -47,11 +47,11 @@
 
                 <div id="seccionesMenuLateral">
 
-                    <button id="botonPerfil"><h8>PERFIL</h8></button>
+                    <button id="botonMostrarPerfil"><h8>PERFIL</h8></button>
                     <hr>
-                    <button id="botonMisPedidos"><h8>MIS PEDIDOS</h8></button>
+                    <button id="botonMostrarMisPedidos"><h8>MIS PEDIDOS</h8></button>
                     <hr>
-                    <button id="botonAtencionCliente"><h8>ATENCIÓN AL CLIENTE</h8></button>
+                    <button id="botonMostrarAtencionCliente"><h8>ATENCIÓN AL CLIENTE</h8></button>
 
                 </div>
 
@@ -67,7 +67,7 @@
                     <div class="tituloDatos">
                         <h6>PERFIL</h6>
                     </div>
-                    <div id="contenedorDatos" class="contenedorDatos">
+                    <div id="contenedorDatos" class="contenedorDatos mostrar">
                         <div class="contenidoDatos container-fluid">
                             <div class="row">
 
@@ -342,6 +342,21 @@
                     </div>
                 </div>
 
+                <!-- ATENCIÓN AL CLIENTE -->
+                <div id="contenedorAtencionCliente">
+                    <!-- Datos principales -->
+                    <div class="tituloDatos">
+                        <h6>ATENCIÓN AL CLIENTE</h6>
+                    </div>
+
+                    <div class="contenedorDatos">
+
+                        <p>Atención al cliente</p>
+
+                    </div>
+                </div>
+
+
             </div>
         </div>
     </div>
@@ -362,6 +377,13 @@
             /* ----- DEFINICIÓN DE LOS ELEMENTOS ----- */
 
             /* -- BARRA LATERAL -- */
+            const botonMostrarPerfil = document.getElementById('botonMostrarPerfil');
+            const botonMostrarPedidos = document.getElementById('botonMostrarMisPedidos');
+            const botonMostrarAtencionCliente = document.getElementById('botonMostrarAtencionCliente');
+
+            const contenedorPerfil = document.getElementById('contenedorPerfil');
+            const contenedorMisPedidos = document.getElementById('contenedorMisPedidos');
+            const contenedorAtencionCliente = document.getElementById('contenedorAtencionCliente');
 
             /* -- CONTENIDO PRINCIPAL -- */
 
@@ -399,6 +421,21 @@
             /* ----- FUNCIONES DE LOS ELEMENTOS ----- */
 
             /* -- BARRA LATERAL -- */
+            botonMostrarPerfil.addEventListener('click', () => {
+                contenedorPerfil.style.display = 'block';
+                contenedorMisPedidos.style.display = 'none';
+                contenedorAtencionCliente.style.display = 'none';
+            });
+            botonMostrarPedidos.addEventListener('click', () => {
+                contenedorPerfil.style.display = 'none';
+                contenedorMisPedidos.style.display = 'block';
+                contenedorAtencionCliente.style.display = 'none';
+            });
+            botonMostrarAtencionCliente.addEventListener('click', () => {
+                contenedorPerfil.style.display = 'none';
+                contenedorMisPedidos.style.display = 'none';
+                contenedorAtencionCliente.style.display = 'block';
+            });
 
             /* -- CONTENIDO PRINCIPAL -- */
 

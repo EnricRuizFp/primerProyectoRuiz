@@ -1,0 +1,51 @@
+#barraNavegacionComprar{
+    height: 70px;
+    border-bottom: 1px solid black;
+    display: flex;
+    align-items: center;
+}
+
+#seccionTitulo{
+    display: flex;
+    background-color: #F9F5EF;
+}
+
+#seccionEnvio{
+    background-color: aquamarine;
+}
+
+/* -- Formulario de selección de una dirección -- */
+.form-select{
+    background: none;
+    border: none;
+    outline: none;
+    overflow: hidden;
+}
+.form-select option:checked {
+    background-color: #dbd9d3;
+}
+.form-select option:hover {
+    background-color: #dbd9d3;
+}
+.direccionSeleccionable{
+    border: 1px solid black;
+    padding: 15px;
+}
+.direccionSeleccionable:focus{
+    background-color: #dbd9d3 !important;
+}
+
+#botonEnviarDireccion{
+    padding: 10px 40px;
+    background-color: #FF4713;
+    border: 0px;
+}
+
+/* -- Resumel del pedido -- */
+#seccionResumen{
+    padding: 30px;
+}
+#contenedorSeccionResumen{
+    background-color: #F9F5EF;
+    padding: 30px;
+}
