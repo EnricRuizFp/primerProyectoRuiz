@@ -89,5 +89,21 @@
             return $cantidadDirecciones;
         }
 
+        public static function getDireccion($id){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("SELECT * FROM DIRECCIONES WHERE ID = ?");
+            $stmt->bind_param("i", $id);
+
+            $stmt->execute();
+
+            $direccion = $stmt->get_result()->fetch_object("Direccion");
+
+            $stmt->close();
+            $con->close();
+
+            return $direccion;
+        }
+
     }
 ?>

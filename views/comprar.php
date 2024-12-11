@@ -109,15 +109,102 @@ session_start();
 
                     <div id="contenedorCesta">
                         <h7>RESUMEN DE LA CESTA</h7>
+
+                        <div id="contenedorResumenProductos">
+
+                            <?php
+
+                                foreach($productosCarrito as $productoCarrito){
+
+                                    $producto = $productoCarrito['producto'];
+                                    $cantidad = $productoCarrito['cantidad'];
+
+                                    ?>
+
+                                    <div class="contenedorProducto container-fluid">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <img src="<?= $producto->getImagen() ?>" width="100px">
+                                            </div>
+                                            <div class="col-9">
+                                                <p class="p3 bold">Producto: <?= $producto->getNombre() ?></p>
+                                                <p class="p5">Cantidad: <?= $cantidad ?></p>
+                                                <p class="p5">Precio: <?= $cantidad*$producto->getPrecio() ?></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+
+                                    <?php
+
+                                }
+
+                            ?>
+
+                        </div>
+
                     </div>
 
                     <hr>
 
-                    <div id="contenedorResumen">
+                    <div id="contenedorResumen" class="container-fluid">
                         <h7>RESUMEN DEL PEDIDO</h7>
+
+                        <div class="row">
+
+                            <div class="col-8">
+                                <p>Subtotal de artículos</p>
+                            </div>
+                            <div class="col-4">
+                                <p>€ <?php echo $precioProductos ?> </p>
+                            </div>
+
+                            <div class="col-8">
+                                <p>Envío</p>
+                            </div>
+                            <div class="col-4">
+                                <p>GRATIS</p>
+                            </div>
+
+                            <div id="contenedorDescuento" class="container-fluid col-12">
+                                <dav class="row">
+                                    <div class="col-8">
+                                        <p>Descuento</p>
+                                    </div>
+                                    <div class="col-4">
+                                        <p>€ -<?= $descuentoAplicado ?></p>
+                                    </div>
+                                </dav>
+                            </div>
+
+                            <div class="col-8">
+                                <p>Dirección de entrega</p>
+                            </div>
+                            <div class="col-4">
+                                <p><?php if(isset($direccionActual)){echo $direccionActual->getCalle();}else{echo "Seleccione una dirección";} ?></p>
+                            </div>
+
+                            <div class="col-8">
+                                <p class="p4"><b>Total</b> (incl. 21% IVA)</p>
+                            </div>
+                            <div class="col-4">
+                                <p>€ <?php if(isset($descuentoAplicado) && $descuentoAplicado != null){echo $precioConDescuento; }else{echo $precioSinDescuento; } ?></p>
+                            </div>
+
+                        </div>
+
+                        <div id="datosInvalidos">
+                            <p>Para poder pagar, primero rellena todos los datos.</p>
+                        </div>
+
+                        <a id="botonPagar" href="?controller=carrito&action=comprar">
+                            <div class="botonPedirAhoraPrimario">
+                                <p class="p4 bold">Pagar ahora</p>
+                            </div>
+                        </a>
+                        
                     </div>
                 </div>
-                
                 
             </div>
             
@@ -140,6 +227,7 @@ session_start();
         const direccionActual = <?= isset($_SESSION['direccionActual']) ? $_SESSION['direccionActual'] : 'null'; ?>;
         const datosBancariosValidos = <?= isset($datosBancariosValidos) ? $datosBancariosValidos : 'null'; ?>;
 
+        const valorDescuento = <?= isset($descuentoAplicado) ? $descuentoAplicado : 'null'; ?>;
 
         document.addEventListener('DOMContentLoaded', () => {
 
@@ -155,6 +243,13 @@ session_start();
 
             // Boton enviar direccion
             const botonEnviarFormulario = document.getElementById('botonMostrarPerfil');
+
+            // Contenedor Descuento
+            const contenedorDescuento = document.getElementById('contenedorDescuento');
+
+            // Validación datos
+            const contenedorDatosInvalidos = document.getElementById('datosInvalidos');
+            const botonPagar = document.getElementById('botonPagar')
 
 
             /* -- FUNCIONES -- */
@@ -180,12 +275,18 @@ session_start();
                             contenedorTitulo.style.display = 'none';
                             contenedorFormularioDirecciones.style.display = 'none';
                             contenedorDireccionSeleccionada.style.display = 'block';
+
+                            contenedorDatosInvalidos.style.display = 'none';
+                            botonPagar.style.display = 'block';
                         }else{
 
                             //Dirección por añadir
                             contenedorTitulo.style.display = 'block';
                             contenedorFormularioDirecciones.style.display = 'block';
                             contenedorDireccionSeleccionada.style.display = 'none';
+
+                            contenedorDatosInvalidos.style.display = 'block';
+                            botonPagar.style.display = 'none';
                         }
 
                     }else{
@@ -211,10 +312,17 @@ session_start();
 
                 // No se ha iniciado sesión
                 contenedorSinSesion.style.display = 'block';
+                contenedorSinDatosBancarios.style.display = 'none';
                 contenedorsinDirecciones.style.display = 'none';
                 contenedorFormularioDirecciones.style.display = 'none';
                 contenedorDireccionSeleccionada.style.display = 'none';
 
+            }
+
+            if(valorDescuento == 0){
+                contenedorDescuento.style.display = 'none';
+            }else{
+                contenedorDescuento.style.display = 'block';
             }
 
         });

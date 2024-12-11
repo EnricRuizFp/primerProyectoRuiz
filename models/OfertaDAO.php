@@ -48,8 +48,8 @@
         public static function getTipoOferta($oferta){
 
             $con = DataBase::connect();
-            $stmt = $con->prepare("SELECT * FROM OFERTAS WHERE nombre = ?");
-            $stmt->bind_param("s",$oferta);
+            $stmt = $con->prepare("SELECT * FROM OFERTAS WHERE ID = ?");
+            $stmt->bind_param("i",$oferta);
 
             $stmt->execute();
             $resultado = $stmt->get_result();
@@ -76,8 +76,8 @@
         public static function getCantidadOferta($oferta){
 
             $con = DataBase::connect();
-            $stmt = $con->prepare("SELECT * FROM OFERTAS WHERE nombre = ?");
-            $stmt->bind_param("s",$oferta);
+            $stmt = $con->prepare("SELECT * FROM OFERTAS WHERE ID = ?");
+            $stmt->bind_param("i",$oferta);
 
             $stmt->execute();
             $resultado = $stmt->get_result();
@@ -88,6 +88,27 @@
 
                 //Obtener el valor del descuento
                 return $tipo;
+            }else{
+                return null;
+            }
+
+        }
+
+        public static function getOfertaId($oferta){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("SELECT * FROM OFERTAS WHERE nombre = ?");
+            $stmt->bind_param("s",$oferta);
+
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            if( $resultado->num_rows > 0){
+                $fila = $resultado->fetch_assoc();
+                $id = $fila['ID'];
+
+                //Obtener el valor del descuento
+                return $id;
             }else{
                 return null;
             }
