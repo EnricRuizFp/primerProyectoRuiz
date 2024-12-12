@@ -156,7 +156,7 @@ session_start();
                                 <p>Subtotal de artículos</p>
                             </div>
                             <div class="col-4">
-                                <p>€ <?php echo $precioProductos ?> </p>
+                                <p><?php echo $precioProductos ?> €</p>
                             </div>
 
                             <div class="col-8">
@@ -172,7 +172,7 @@ session_start();
                                         <p>Descuento</p>
                                     </div>
                                     <div class="col-4">
-                                        <p>€ -<?= $descuentoAplicado ?></p>
+                                        <p>-<?= $descuentoAplicado ?> €</p>
                                     </div>
                                 </dav>
                             </div>
@@ -188,7 +188,7 @@ session_start();
                                 <p class="p4"><b>Total</b> (incl. 21% IVA)</p>
                             </div>
                             <div class="col-4">
-                                <p>€ <?php if(isset($descuentoAplicado) && $descuentoAplicado != null){echo $precioConDescuento; }else{echo $precioSinDescuento; } ?></p>
+                                <p><?php if(isset($descuentoAplicado) && $descuentoAplicado != null){echo $precioConDescuento; }else{echo $precioSinDescuento; } ?> €</p>
                             </div>
 
                         </div>

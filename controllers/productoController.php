@@ -1,7 +1,7 @@
 <?php
 
-    include_once "config/parameters.php";
     /* -- Inclusión de los DAOs -- */
+    include_once "config/parameters.php";
     include_once "models/ProductoDAO.php";
 
     class productoController{
@@ -211,7 +211,7 @@
 
         public static function getProductos($categoria){
 
-            $productos = productoDAO::getProductos();
+            $productos = productoDAO::getProductos($categoria);
 
             return $productos;
 

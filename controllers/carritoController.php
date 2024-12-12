@@ -152,12 +152,8 @@
                 $ofertaValida = "NULL";
             }
 
-            echo "PP: ".$precioProductos. "OFERTA: ".$_POST['codigoPromocional'];
-
             // Obtener el valor de la oferta
             $descuentoAplicado = $this->calcularDescuentoAplicado($precioProductos, $oferta);
-
-            echo "PP: ".$precioProductos." DA: ".$descuentoAplicado;
 
             // Si la oferta baja demasiado el precio, no se aplica ( OFERTA VALIDA = NO )
             if($precioProductos < $descuentoAplicado){
@@ -175,7 +171,7 @@
                 $_SESSION['codigoOferta'] = null;
             }
 
-            //header("Location: ?controller=carrito");
+            header("Location: ?controller=carrito");
 
         }
 
@@ -197,8 +193,6 @@
         }
 
         public function calcularDescuentoAplicado($precioProductos, $ofertaSeleccionada){
-
-            echo "PP: ".$precioProductos." OS: ".$ofertaSeleccionada;
 
             $descuentoAplicado = $precioProductos - $this->calcularPrecioConDescuento($precioProductos, $ofertaSeleccionada);
 
@@ -236,8 +230,6 @@
             //Obtener el dato de la oferta
             if(isset($_SESSION['oferta']) && $_SESSION['oferta']){
                 $ofertaSeleccionada = OfertaDAO::getOfertaId($_SESSION['codigoOferta']);
-
-                echo "BRRR OFERTA: ".$ofertaSeleccionada;
 
                 $precioConDescuento = $this->calcularPrecioConDescuento( $precioProductos, $ofertaSeleccionada);
                 $descuentoAplicado = $this->calcularDescuentoAplicado($precioProductos, $ofertaSeleccionada);
@@ -309,35 +301,54 @@
 
             include_once "models/Oferta.php";
             include_once "models/OfertaDAO.php";
+            include_once "controllers/pedidoController.php";
 
             //Obtener los datos de los productos
             $carrito =  $_SESSION['carrito'];
             $productosCarrito = ProductoDAO::getProductosCarrito($carrito);
             $precioProductos = $this->getPrecioProductos($productosCarrito);
 
-
             // Obtener los datos del pedido
             $usuarioActual = $_SESSION['usuarioActual'];
             $oferta_id = OfertaDAO::getOfertaId($_SESSION['codigoOferta']);
             $precioFinal = $this->calcularPrecio(  $oferta_id, $precioProductos);
-            $descuento = $this->calcularDescuentoAplicado($precioProductos, $_SESSION['codigoOferta']);
+            $descuento = $precioProductos - $precioFinal;
             $estadoPedido = "pedido";
             $fechaPedido = date("Y-m-d H:i:s");
 
-            // Generar productos
-
-            // Enviar datos a la BD
-
-
-
+            /*
             // DATOS A INTRODUCIR:
             echo "PEDIDO:<br>";
             echo "cliente: ".$usuarioActual."<br>";
             echo "oferta_id: ".$oferta_id."<br>";
+            echo "precio: ".$precioProductos."<br>";
             echo "descuento: ".$descuento."<br>";
             echo "precio final: ".$precioFinal."<br>";
             echo "estado: ".$estadoPedido."<br>";
-            echo "fecha: ".$fechaPedido."<br>";
+            echo "fecha: ".$fechaPedido."<br><br>";
+
+            echo "PRODUCTOS:<br>";
+            foreach($productosCarrito as $productoCarrito){
+
+                echo "producto_id: ".$productoCarrito['producto']->getId();
+                echo "<br>";
+                echo "cantidad: ".$productoCarrito['cantidad'];
+                echo "<br>";
+                echo "precioTotal: ".$productoCarrito['producto']->getPrecio()*$productoCarrito['cantidad'];
+                echo "<br>";
+                echo "precio: ".$productoCarrito['producto']->getPrecio();
+                echo "<br><br>";
+
+            }
+            */
+            
+            $validacion = pedidoController::generarPedido($usuarioActual,$oferta_id,$precioProductos,$descuento,$precioFinal,$estadoPedido,$fechaPedido, $productosCarrito);
+
+            if($validacion){
+                header("Location: ?controller=pedido&action=success");
+            }else{
+                header("Location: ?controller=pedido&action=error");
+            }
 
         }
 

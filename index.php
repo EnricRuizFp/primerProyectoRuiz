@@ -10,6 +10,7 @@
     include_once "controllers/ingredienteController.php";
     include_once "controllers/carritoController.php";
     include_once "controllers/usuarioController.php";
+    include_once "controllers/pedidoController.php";
 
 
     /* -- Obtener datos por URL -- */
