@@ -177,8 +177,8 @@
 
         public function calcularPrecioConDescuento($precioProductos, $ofertaSeleccionada){
 
-            $tipoOferta = OfertaDAO::getTipoOferta($ofertaSeleccionada);
-            $cantidadOferta = OfertaDAO::getCantidadOferta($ofertaSeleccionada);
+            $tipoOferta = OfertaDAO::getTipoOferta(OfertaDAO::getOfertaId($ofertaSeleccionada));
+            $cantidadOferta = OfertaDAO::getCantidadOferta(OfertaDAO::getOfertaId($ofertaSeleccionada));
 
             if($tipoOferta == "%"){
                 $precioTotal = $precioProductos - round($precioProductos * ($cantidadOferta / 100), 2); 
@@ -228,11 +228,12 @@
             $precioProductos = $this->getPrecioProductos($productosCarrito);
 
             //Obtener el dato de la oferta
-            if(isset($_SESSION['oferta']) && $_SESSION['oferta']){
+            if(isset($_SESSION['oferta']) && $_SESSION['oferta'] == true){
                 $ofertaSeleccionada = OfertaDAO::getOfertaId($_SESSION['codigoOferta']);
 
                 $precioConDescuento = $this->calcularPrecioConDescuento( $precioProductos, $ofertaSeleccionada);
                 $descuentoAplicado = $this->calcularDescuentoAplicado($precioProductos, $ofertaSeleccionada);
+                $precioSinDescuento = $precioProductos;
 
             }else{
 
@@ -278,6 +279,7 @@
 
                 $precioConDescuento = $this->calcularPrecioConDescuento( $precioProductos, $ofertaSeleccionada);
                 $descuentoAplicado = $this->calcularDescuentoAplicado($precioProductos, $ofertaSeleccionada);
+                $precioSinDescuento = $precioProductos;
 
             }else{
 
@@ -345,6 +347,13 @@
             $validacion = pedidoController::generarPedido($usuarioActual,$oferta_id,$precioProductos,$descuento,$precioFinal,$estadoPedido,$fechaPedido, $productosCarrito);
 
             if($validacion){
+
+                // Resetear el carrito, ofertas y dirección seleccionada
+                $_SESSION['carrito'] = null;
+                $_SESSION['oferta'] = null;
+                $_SESSION['codigoOferta'] = null;
+                $_SESSION['direccionActual'] = null;
+
                 header("Location: ?controller=pedido&action=success");
             }else{
                 header("Location: ?controller=pedido&action=error");

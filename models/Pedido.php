@@ -9,6 +9,8 @@
         protected $descuento;
         protected $precio_final;
         protected $estado_pedido;
+        protected $fecha;
+        protected $precio;
 
         public function __construct(){
             // Se crea sin nada dentro del constructor porque se creará a partir de los datos
@@ -39,6 +41,12 @@
         public function getEstadoPedido(){
             return $this->estado_pedido;
         }
+        public function getFecha(){
+            return $this->fecha;
+        }
+        public function getEstado(){
+            return $this->estado_pedido;
+        }
 
         /**
          * SETTERS
@@ -62,6 +70,12 @@
             $this->precio_final = $precio_final;
         }
         public function setEstadoPedido($estado_pedido){
+            $this->estado_pedido = $estado_pedido;
+        }
+        public function setFecha($fecha){
+            $this->fecha = $fecha;
+        }
+        public function setEstado($estado_pedido){
             $this->estado_pedido = $estado_pedido;
         }
 

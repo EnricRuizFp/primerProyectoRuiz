@@ -47,11 +47,11 @@
 
                 <div id="seccionesMenuLateral">
 
-                    <button id="botonMostrarPerfil"><h8>PERFIL</h8></button>
+                    <button id="botonMostrarPerfil" type="button"><h8>PERFIL</h8></button>
                     <hr>
-                    <button id="botonMostrarMisPedidos"><h8>MIS PEDIDOS</h8></button>
+                    <button id="botonMostrarMisPedidos" type="button"><h8>MIS PEDIDOS</h8></button>
                     <hr>
-                    <button id="botonMostrarAtencionCliente"><h8>ATENCIÓN AL CLIENTE</h8></button>
+                    <button id="botonMostrarAtencionCliente" type="button"><h8>ATENCIÓN AL CLIENTE</h8></button>
 
                 </div>
 
@@ -78,7 +78,7 @@
                                     <p class="p5"><?php echo $usuario->getUsuario(); ?></p>
                                 </div>
                                 <div class="col-1">
-                                    <button id="botonEditarDatos"><p class="p5 naranja bold">Editar</p></button>
+                                    <button id="botonEditarDatos" type="button"><p class="p5 naranja bold">Editar</p></button>
                                 </div>
 
                                 <div class="col-3">
@@ -123,7 +123,7 @@
                                     <input id="usuario" name="usuario" value="<?= $usuario->getUsuario() ?>">
                                 </div>
                                 <div class="col-1">
-                                    <button id="guardarEditarDatos"><p class="p5 naranja bold">Guardar</p></button>
+                                    <button id="guardarEditarDatos" type="button"><p class="p5 naranja bold">Guardar</p></button>
                                 </div>
 
                                 <div class="col-3">
@@ -205,7 +205,7 @@
                                 ?>
 
                                 <div class="col-12">
-                                    <button id="añadirDireccion"><p class="p5 naranja bold">Añadir</p></button>
+                                    <button id="añadirDireccion" type="button"><p class="p5 naranja bold">Añadir</p></button>
                                 </div>
 
                             </div>
@@ -231,7 +231,7 @@
                                     <button id="descartarAñadirDireccion" type="button" class="p5 naranja bold">Descartar</button>
                                 </div>
                                 <div class="col-1">
-                                    <button id="guardarAñadirDireccion"><p class="p5 naranja bold">Añadir</p></button>
+                                    <button id="guardarAñadirDireccion" type="button"><p class="p5 naranja bold">Añadir</p></button>
                                 </div>
 
                             </form>
@@ -243,7 +243,7 @@
                         <h6>DATOS BANCARIOS</h6>
                     </div>
 
-                    <button id="desbloquearDatosBancarios"><p class="p5">Mostrar datos bancarios</p></button>
+                    <button id="desbloquearDatosBancarios" type="button"><p class="p5">Mostrar datos bancarios</p></button>
 
                     <div id="contenedorDatosBancarios" class="contenedorDatos">
                         <div class="contenidoDatos container-fluid">
@@ -256,7 +256,7 @@
                                     <p class="p5">**** **** **** *<?= substr($usuario->getTarjetaBancaria(), -3) ?></p>
                                 </div>
                                 <div class="col-1">
-                                    <button id="editarDatosBancarios"><p class="p5 naranja bold">Editar</p></button>
+                                    <button id="editarDatosBancarios" type="button"><p class="p5 naranja bold">Editar</p></button>
                                 </div>
 
                                 <div class="col-3">
@@ -288,7 +288,7 @@
                                     <input id="tarjeta" name="tarjeta" value="<?= $usuario->getTarjetaBancaria() ?>">
                                 </div>
                                 <div class="col-1">
-                                    <button id="guardarEditarDatosBancarios"><p class="p5 naranja bold">Guardar</p></button>
+                                    <button id="guardarEditarDatosBancarios" type="button"><p class="p5 naranja bold">Guardar</p></button>
                                 </div>
 
                                 <div class="col-3">
@@ -328,15 +328,14 @@
 
                             foreach($pedidos as $pedido) {
 
-                                echo "PEDIDO:<br>";
-                                echo "ID: ".$pedido->getId();
-                                echo "OFERTA: ".$pedido->getOferta();
+                                echo "PEDIDO: ".$pedido->getId();
+                                echo "OFERTA: ".$pedido->getOfertaId();
                                 echo "DESCUENTO: ".$pedido->getDescuento();
                                 echo "PRECIO: ".$pedido->getPrecioFinal();
-                                echo "ESTADO: ".$pedido->getEstadoPedido();
+                                echo "ESTADO: ".$pedido->getEstado();
+                                echo "FECHA: ".$pedido->getFecha()."<br><br>";
 
                             }
-
                         ?>
 
                     </div>
@@ -355,7 +354,6 @@
 
                     </div>
                 </div>
-
 
             </div>
         </div>
@@ -384,6 +382,8 @@
             const contenedorPerfil = document.getElementById('contenedorPerfil');
             const contenedorMisPedidos = document.getElementById('contenedorMisPedidos');
             const contenedorAtencionCliente = document.getElementById('contenedorAtencionCliente');
+
+            console.log("botonMostrarPerfil");
 
             /* -- CONTENIDO PRINCIPAL -- */
 

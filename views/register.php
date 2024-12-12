@@ -35,7 +35,7 @@ session_start();
 
     <div id="seccionPrincipal" class="container-fluid">
         <div class="row">
-            <div id="contenedorRegister" class="col-9 mx-auto">
+            <div id="contenedorRegister" class="col-5 mx-auto">
 
                 <div id="informacionSuperior">
                     <h4>Crear cuenta</h4>
@@ -47,7 +47,7 @@ session_start();
                     <form id="formularioDatosBancarios" class="row" action="?controller=usuario&action=tryRegister" method="POST">
 
                         <!-- tab datos personales -->
-                        <div id="datosPersonales" class="col-6">
+                        <div id="datosPersonales" class="col-12">
                             <h7>Información personal</h7>
 
                             <div id="contenedorUsuario">
@@ -65,6 +65,11 @@ session_start();
                                 <input id="correo" name="correo" type="text" placeholder="Correo electrónico" required>
                             </div>
 
+                            <div id="contenedorTelefono">
+                                <label for="telefono" class="p4 bold">Teléfono:</label>
+                                <input id="telefono" name="telefono" type="number" placeholder="Número de teléfono" minlength="9" required>
+                            </div>
+
                             <div id="contenedorContraseña">
                                 <label for="contraseña" class="p4 bold">Contraseña:</label>
                                 <input id="contraseña" name="contraseña" type="password" placeholder="Introduce tu contraseña" minlength="9" required>
@@ -74,16 +79,6 @@ session_start();
                                 <label for="repetiContraseña" class="p4 bold">Repetir contraseña:</label>
                                 <input id="repetirContraseña" name="repetirContraseña" type="password" placeholder="Repite tu contraseña" minlength="9" required>
                             </div>
-
-                            <div id="contenedorTelefono">
-                                <label for="telefono" class="p4 bold">Teléfono:</label>
-                                <input id="telefono" name="telefono" type="number" placeholder="Número de teléfono" minlength="9" required>
-                            </div>
-                        </div>
-
-                        <!-- tab datos bancarios -->
-                        <div id="datosBancarios" class="col-6">
-                            <h7 id="tituloDatosBancarios">Datos bancarios</h7>
 
                             <div id="contenedorChecks">
                                 <div id="contenedorCheckTerminos">

@@ -21,7 +21,7 @@
 }
 
 /* -- Contenedor Usuario / Contraseña -- */
-#contenedorUsuario, #contenedorNombreCompleto, #contenedorCorreo, #contenedorContraseña, #contenedorRepetirContraseña, #contenedorDireccion, #contenedorTelefono, #contenedorTarjeta, #contenedorTarjeta, #contenedorCaducidad, #contenedorCVV, #contenedorChecks{
+#contenedorUsuario, #contenedorNombreCompleto, #contenedorCorreo, #contenedorContraseña, #contenedorRepetirContraseña, #contenedorDireccion, #contenedorTelefono, #contenedorTarjeta, #contenedorTarjeta, #contenedorCaducidad, #contenedorCVV{
     margin-top: 30px;
     display: flex;
     flex-direction: column;
@@ -35,7 +35,7 @@
     padding-right: 20px;
 }
 #contenedorChecks {
-    margin-top: 100px;
+    margin-top: 50px;
 }
 #contenedorChecks a{
     color: #FF4713;
@@ -65,12 +65,9 @@
     height: 40px;
     color: white !important;
 }
-#tituloDatosBancarios{
-    margin-top: 40px;
-}
 
 /* Estilos base para los contenedores */
-#datosPersonales, #datosBancarios {
+#datosPersonales{
     margin-top: 30px;
 }
 

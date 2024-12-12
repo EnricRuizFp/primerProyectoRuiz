@@ -251,7 +251,7 @@
             </div>
 
             <div id="seccionDerechaSeccion4">
-                <a href="?controller=general&action=usuario">
+                <a href="?controller=usuario&action=register">
                     <div class="botonRegistrarseAhoraPrimario2">
                         <p class="p4 bold">REGISTRARSE AHORA</p>
                     </div>
