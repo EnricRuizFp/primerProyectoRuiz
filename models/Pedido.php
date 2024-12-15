@@ -4,13 +4,13 @@
 
         protected $ID;
         protected $cliente_id;
-        protected $productos_id;
         protected $oferta_id;
         protected $descuento;
         protected $precio_final;
         protected $estado_pedido;
         protected $fecha;
         protected $precio;
+        protected $direccion;
 
         public function __construct(){
             // Se crea sin nada dentro del constructor porque se creará a partir de los datos
@@ -26,9 +26,6 @@
         public function getCliente(){
             return $this->cliente_id;
         }
-        public function getProductosId(){
-            return $this->productos_id;
-        }
         public function getOfertaId(){
             return $this->oferta_id;
         }
@@ -38,14 +35,17 @@
         public function getPrecioFinal(){
             return $this->precio_final;
         }
-        public function getEstadoPedido(){
+        public function getEstado(){
             return $this->estado_pedido;
         }
         public function getFecha(){
             return $this->fecha;
         }
-        public function getEstado(){
-            return $this->estado_pedido;
+        public function getPrecio(){
+            return $this->precio;
+        }
+        public function getDireccion(){
+            return $this->direccion;
         }
 
         /**
@@ -56,9 +56,6 @@
         }
         public function setCliente($cliente){
             $this->cliente_id = $cliente;
-        }
-        public function setProductosId($productos_id){
-            $this->productos_id = $productos_id;
         }
         public function setOfertaId($oferta_id){
             $this->oferta_id = $oferta_id;
@@ -75,10 +72,21 @@
         public function setFecha($fecha){
             $this->fecha = $fecha;
         }
-        public function setEstado($estado_pedido){
-            $this->estado_pedido = $estado_pedido;
+        public function setPrecio($precio){
+            $this->precio = $precio;
+        }
+        public function setDireccion($direccion){
+            $this->direccion = $direccion;
         }
 
+
+        public function getOferta($oferta_id){
+            
+            $oferta = PedidoDAO::getOferta($oferta_id);
+
+            return $oferta;
+
+        }
 
     }
 

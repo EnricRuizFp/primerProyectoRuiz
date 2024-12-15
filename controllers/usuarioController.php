@@ -4,6 +4,7 @@
     include_once "models/UsuarioDAO.php";
     include_once "models/PedidoDAO.php";
     include_once "models/DireccionDAO.php";
+    include_once "models/ProductoPedidoDAO.php";
 
     class usuarioController{
 
@@ -12,7 +13,7 @@
             session_start();
             $usuario = UsuarioDAO::getUsuario($_SESSION['usuarioActual']);
             $direcciones = DireccionDAO::getDirecciones($_SESSION['usuarioActual']);
-            $pedidos = PedidoDAO::getPedidos($usuario->getId());
+            $pedidos = PedidoDAO::getPedidosOrdenados($usuario->getId());
 
             session_write_close();
             include_once "views/miCuenta.php";
@@ -199,6 +200,20 @@
 
         }
 
+        public static function pedido(){
+
+            $id = $_GET['id'];
+
+            // Obtener los datos del pedido
+            $pedido = PedidoDAO::getPedido($id);
+
+            $pedidoProductos = PedidoDAO::getDetalles($pedido->getId());
+            $direccion = DireccionDAO::getDireccion($pedido->getDireccion());
+
+            include_once "views/pedido.php";
+
+
+        }
     }
 
 ?>

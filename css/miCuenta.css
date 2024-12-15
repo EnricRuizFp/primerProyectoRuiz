@@ -107,3 +107,10 @@ header {
 #contenedorMisPedidos, #contenedorAtencionCliente {
     display: none;
 }
+
+
+/* -- MIS PEDIDOS -- */
+.tituloSeccion{
+    padding-top: 30px;
+    margin-bottom: 20px;
+}

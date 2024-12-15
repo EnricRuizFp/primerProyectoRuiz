@@ -318,6 +318,8 @@
             $estadoPedido = "pedido";
             $fechaPedido = date("Y-m-d H:i:s");
 
+            $direccion = $_SESSION['direccionActual'];
+
             /*
             // DATOS A INTRODUCIR:
             echo "PEDIDO:<br>";
@@ -344,7 +346,7 @@
             }
             */
             
-            $validacion = pedidoController::generarPedido($usuarioActual,$oferta_id,$precioProductos,$descuento,$precioFinal,$estadoPedido,$fechaPedido, $productosCarrito);
+            $validacion = pedidoController::generarPedido($usuarioActual,$oferta_id,$precioProductos,$descuento,$precioFinal,$estadoPedido,$fechaPedido, $productosCarrito, $direccion);
 
             if($validacion){
 

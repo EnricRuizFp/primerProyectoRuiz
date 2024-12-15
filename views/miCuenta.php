@@ -316,25 +316,51 @@
                 </div>
 
                 <!-- MIS PEDIDOS -->
-                <div id="contenedorMisPedidos">
+                <div id="contenedorMisPedidos" class="container-fluid">
                     <!-- Datos principales -->
                     <div class="tituloDatos">
                         <h6>MIS PEDIDOS</h6>
                     </div>
 
-                    <div class="contenedorDatos">
+                    <div class="contenedorDatos row">
+
+                        <!-- TABLA PEDIDOS -->
+                        <div class="col-1">
+                            <p class="p5 bold">ID</p>
+                        </div>
+                        <div class="col-2">
+                            <p class="p5 bold">Fecha</p>
+                        </div>
+                        <div class="col-8">
+                            <p class="p5 bold">Productos</p>
+                        </div>
+                        <div class="col-1">
+                            <p class="p5 bold">Precio</p>
+                        </div>
 
                         <?php
 
-                            foreach($pedidos as $pedido) {
+                            foreach($pedidos as $pedido){
 
-                                echo "PEDIDO: ".$pedido->getId();
-                                echo "OFERTA: ".$pedido->getOfertaId();
-                                echo "DESCUENTO: ".$pedido->getDescuento();
-                                echo "PRECIO: ".$pedido->getPrecioFinal();
-                                echo "ESTADO: ".$pedido->getEstado();
-                                echo "FECHA: ".$pedido->getFecha()."<br><br>";
+                                ?>
 
+                                <hr>
+
+                                <div class="col-1">
+                                    <p class="p5"><?= $pedido->getId() ?></p>
+                                </div>
+                                <div class="col-2">
+                                    <p class="p5"><?= $pedido->getFecha() ?></p>
+                                </div>
+                                <div class="col-8">
+                                    <a href="?controller=usuario&action=pedido&id=<?= $pedido->getId()?>">Ver los productos de este pedido</a>
+                                </div>
+                                <div class="col-1">
+                                    <p class="p5"><?= $pedido->getPrecioFinal() ?></p>
+                                </div>
+
+                                <?php
+                                
                             }
                         ?>
 

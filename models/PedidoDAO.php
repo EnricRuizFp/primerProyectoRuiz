@@ -47,12 +47,12 @@
 
         }
 
-        public static function generarPedido($usuarioActual,$oferta_id,$precioProductos,$descuento,$precioFinal,$estadoPedido,$fechaPedido, $productosCarrito){
+        public static function generarPedido($usuarioActual,$oferta_id,$precioProductos,$descuento,$precioFinal,$estadoPedido,$fechaPedido, $productosCarrito, $direccion){
 
             $con = DataBase::connect();
 
-            $stmt = $con->prepare("INSERT INTO PEDIDO (cliente_id, oferta_id, precio, descuento, precio_final, estado_pedido, fecha) VALUES (?,?,?,?,?,?,?)");
-            $stmt->bind_param("iidddss", $usuarioActual,$oferta_id,$precioProductos,$descuento,$precioFinal,$estadoPedido,$fechaPedido);
+            $stmt = $con->prepare("INSERT INTO PEDIDO (cliente_id, oferta_id, precio, descuento, precio_final, estado_pedido, fecha, direccion) VALUES (?,?,?,?,?,?,?,?)");
+            $stmt->bind_param("iidddssi", $usuarioActual,$oferta_id,$precioProductos,$descuento,$precioFinal,$estadoPedido,$fechaPedido, $direccion);
 
             // Ejecutar creación de pedido
             if($stmt->execute()){
@@ -85,6 +85,89 @@
 
 
             return $validacion;
+
+        }
+
+        public static function getProductosPedido($id){
+
+            $con = DataBase::connect();
+
+            $stmt = $con->prepare("SELECT * FROM PEDIDO_PRODUCTO WHERE pedido_id = ?");
+            $stmt->bind_param("i", $id);
+
+        }
+
+        public static function getOferta($oferta_id){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("SELECT nombre FROM OFERTAS WHERE ID = ?");
+            $stmt->bind_param("i", $oferta_id);
+
+            $stmt->execute();
+
+            $resultado = $stmt->get_result();
+
+            echo $resultado;
+
+            return $resultado;
+
+        }
+
+        public static function getPedido($id){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("SELECT * FROM PEDIDO WHERE ID = ?");
+            $stmt->bind_param("i", $id);
+
+            $stmt->execute();
+
+            $resultado = $stmt->get_result();
+            $pedido = $resultado->fetch_object("Pedido");
+
+            return $pedido;
+
+        }
+
+        public static function getDetalles($id){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("SELECT ID, producto_id, cantidad, precio, precio_unidad FROM PEDIDO_PRODUCTO WHERE pedido_id = ?");
+            $stmt->bind_param("i", $id);
+
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            $detalles = [];
+
+            while($row = $resultado->fetch_assoc()) {
+                $detalles[] = $row;
+            }
+
+            $stmt->close();
+            $con->close();
+
+            return $detalles;
+
+        }
+
+        public static function getPedidosOrdenados($usuario){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("SELECT * FROM PEDIDO WHERE cliente_id = ? ORDER BY fecha DESC, ID DESC");
+            $stmt->bind_param("i", $usuario);
+
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            $pedidos = [];
+            while($pedido = $resultado->fetch_object("Pedido")){
+                $pedidos[] = $pedido;
+            }
+
+            $stmt->close();
+            $con->close();
+
+            return $pedidos;
 
         }
 
