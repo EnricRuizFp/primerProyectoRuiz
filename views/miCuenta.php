@@ -42,7 +42,7 @@
             <div id="menuLateral" class="col-3">
 
                 <div id="bienvenida">
-                    <p class="p3">Te damos la bienvenida, <?php echo $usuario->getNombre(); ?></p>
+                    <p class="p3">Te damos la bienvenida, <?php echo $usuario->getUsuario(); ?></p>
                 </div>
 
                 <div id="seccionesMenuLateral">
@@ -52,6 +52,11 @@
                     <button id="botonMostrarMisPedidos" type="button"><h8>MIS PEDIDOS</h8></button>
                     <hr>
                     <button id="botonMostrarAtencionCliente" type="button"><h8>ATENCIÓN AL CLIENTE</h8></button>
+
+                    <div id="seccionAdmin" class="<?php if($isAdmin){?> mostrar <?php }else{?> ocultar <?php }?>">
+                        <hr>
+                        <a href="?controller=admin"><h8>ADMIN</h8></a>
+                    </div>
 
                 </div>
 
@@ -401,6 +406,9 @@
             /* ----- DEFINICIÓN DE LOS ELEMENTOS ----- */
 
             /* -- BARRA LATERAL -- */
+            const seccionAdmin = document.getElementById('seccionAdmin');
+            const botonAdmin = document.getElementById('botonAdmin');
+
             const botonMostrarPerfil = document.getElementById('botonMostrarPerfil');
             const botonMostrarPedidos = document.getElementById('botonMostrarMisPedidos');
             const botonMostrarAtencionCliente = document.getElementById('botonMostrarAtencionCliente');
@@ -408,8 +416,6 @@
             const contenedorPerfil = document.getElementById('contenedorPerfil');
             const contenedorMisPedidos = document.getElementById('contenedorMisPedidos');
             const contenedorAtencionCliente = document.getElementById('contenedorAtencionCliente');
-
-            console.log("botonMostrarPerfil");
 
             /* -- CONTENIDO PRINCIPAL -- */
 

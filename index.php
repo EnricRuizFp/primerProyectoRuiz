@@ -11,6 +11,7 @@
     include_once "controllers/carritoController.php";
     include_once "controllers/usuarioController.php";
     include_once "controllers/pedidoController.php";
+    include_once "controllers/apiController.php";
 
 
     /* -- Obtener datos por URL -- */

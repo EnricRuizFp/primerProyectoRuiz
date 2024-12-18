@@ -15,6 +15,8 @@
             $direcciones = DireccionDAO::getDirecciones($_SESSION['usuarioActual']);
             $pedidos = PedidoDAO::getPedidosOrdenados($usuario->getId());
 
+            $isAdmin = $usuario->getUsuario() == "admin";
+
             session_write_close();
             include_once "views/miCuenta.php";
 

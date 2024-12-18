@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADMIN</title>
+
+    <!-- LINKS A CSS -->
+    <link rel="stylesheet" href="css/general.css">
+    <link rel="stylesheet" href="css/admin.css">
+
+    <!-- BOOTSTRAP -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+
+    <!-- FUENTES -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    
+    <div class="container-fluid">
+        <div class="row">
+
+            <div id="tituloAdmin" class="col-12">
+                <h2>PANEL DEL ADMINISTRADOR</h2>
+            </div>
+
+            <div id="lateralPanel" class="col-2">
+                <a href="?controller=admin&action=pedidos">PEDIDOS</a>
+                <a href="?controller=admin&action=usuarios">USUARIOS</a>
+                <a href="?controller=admin&action=productos">PRODUCTOS</a>
+                <a href="?controller=admin&action=ingredientes">INGREDIENTES</a>
+                <a href="?controller=admin&action=ofertas">OFERTAS</a>
+            </div>
+
+            <div id="contenedorPrincipal" class="col-10">
+
+                <div id="funcionSinImplementar">
+                    <h5>Función sin implementar</h5>
+                </div>
+
+                <!-- CONTENEDOR PEDIDOS -->
+                <div id="contenedorPedidos">
+                    <p>Contenedor Pedidos</p>
+                </div>
+
+                <!-- CONTENEDOR USUARIOS -->
+                <div id="contenedorUsuarios">
+                    <p>Contenedor Usuarios</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper (JS) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

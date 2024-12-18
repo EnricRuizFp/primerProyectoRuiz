@@ -8,20 +8,21 @@
         /* -- Acciones pasadas por URL -- */
         public function index(){
 
-            include_once "views/admin/";
+            include_once "views/admin/index.html";
 
         }
 
-        public function productos(){
+        public function pedidos(){
 
-            include_once "views/admin/productos.php";
+            echo "SIN FUNCIONALIDAD<br><a href='?controller=admin'>Volver</a>";
 
         }
 
-        public function ingredientes(){
+        public function usuarios(){
+            include_once "views/admin/usuarios.html";
 
-            $ingredientes = IngredienteDAO::getAll();
-            include_once "views/admin/ingredientes.php";
+           // header("Location: views/admin/usuarios.html");
+
         }
 
     }

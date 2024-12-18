@@ -1,0 +1,45 @@
+/* -- GENERAL -- */
+th{
+    background-color: red;
+}
+
+#tituloAdmin, #lateralPanel{
+    background-color: #D9D9D9;
+}
+#lateralPanel{
+    height: 1000px;
+}
+
+.botonesLaterales{
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* -- CONTENIDO PRINCIPAL -- */
+#contenedorPedidos{
+    display: none;
+}
+.campoFormulario{
+    margin-top: 10px;
+}
+
+#funcionSinImplementar{
+    display: none;
+}
+
+/* -- TABLA USUARIOS -- */
+#usuariosTable{
+    width: 70%;
+}
+.botonEditarUsuario:hover{
+    background-color: beige;
+}
+.botonEditarUsuario:active{
+    background-color: aquamarine;
+}
+.botonEliminarUsuario:hover{
+    background-color: beige;
+}
+.botonEliminarUsuario:active{
+    background-color: aquamarine;
+}

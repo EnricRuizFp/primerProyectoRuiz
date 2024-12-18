@@ -81,7 +81,7 @@
 
         public function admin(){
 
-            include_once "views/admin/index.php";
+            include_once "views/admin/index.html";
 
         }
 

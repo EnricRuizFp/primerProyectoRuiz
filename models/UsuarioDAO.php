@@ -25,6 +25,25 @@
             return $usuarios;
         }
 
+        public static function getUsuarios(){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("SELECT * FROM USUARIOS");
+
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            $usuarios = [];
+            while($usuario = $resultado->fetch_assoc()){
+                $usuarios[] = $usuario;
+            }
+
+            $stmt->close();
+            $con->close();
+
+            return $usuarios;
+        }
+
         public static function crearUsuario($usuarioIntroducido, $nombreCompletoIntroducido, $correoIntroducido, $contraseñaIntroducida, $telefonoIntroducido){
 
             // Pasar las fechas a dato tipo fecha
@@ -125,6 +144,18 @@
                 return false;
             }
 
+        }
+
+        public static function eliminarUsuario($id){
+        
+            $con = DataBase::connect();
+            $stmt = $con->prepare("DROP FROM USUARIOS WHERE ID = ?");
+            $stmt->bind_param("i", $id);
+
+            $stmt->execute();
+
+            $stmt->close();
+            $con->close();
 
         }
     }
