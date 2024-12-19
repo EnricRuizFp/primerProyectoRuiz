@@ -26,11 +26,11 @@
             </div>
 
             <div id="lateralPanel" class="col-2">
-                <a href="?controller=admin&action=pedidos">PEDIDOS</a>
-                <a href="?controller=admin&action=usuarios">USUARIOS</a>
-                <a href="?controller=admin&action=productos">PRODUCTOS</a>
-                <a href="?controller=admin&action=ingredientes">INGREDIENTES</a>
-                <a href="?controller=admin&action=ofertas">OFERTAS</a>
+                <button id="botonObtenerAllPedidos" class="botonesLaterales" type="button">PEDIDOS</button>
+                <button id="botonObtenerAllUsuarios" class="botonesLaterales" type="button">USUARIOS</button>
+                <button id="botonObtenerAllProductos" class="botonesLaterales" type="button">PRODUCTOS</button>
+                <button id="botonObtenerAllIngredientes" class="botonesLaterales" type="button">INGREDIENTES</button>
+                <button id="botonObtenerAllOfertas" class="botonesLaterales" type="button">OFERTAS</button>
             </div>
 
             <div id="contenedorPrincipal" class="col-10">
@@ -45,8 +45,99 @@
                 </div>
 
                 <!-- CONTENEDOR USUARIOS -->
-                <div id="contenedorUsuarios">
-                    <p>Contenedor Usuarios</p>
+                <div id="contenedorUsuarios" class="container-fluid">
+
+                    <!-- Boton agregar usuario -->
+                    <button type="button" class="btn btn-primary botonAñadir" data-bs-toggle="modal" data-bs-target="#modalAñadirUsuario">
+                        Añadir Usuario
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="modalAñadirUsuario" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Crear usuario</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+
+                                <!-- Formulario dentro del modal -->
+                                <form id="formularioCrearUsuario" method="POST" enctype="multipart/form-data">
+                                    <div class="modal-body">
+
+                                        <div class="mb-3">
+                                            <label for="usuario" class="form-label">Usuario</label>
+                                            <input type="text" id="usuario" name="usuario" class="form-control">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="nombre_completo" class="form-label">Nombre completo</label>
+                                            <input type="text" id="nombre_completo" name="nombre_completo" class="form-control">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="email" class="form-label">Email</label>
+                                            <input type="email" id="email" name="email" class="form-control">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="telefono" class="form-label">Teléfono</label>
+                                            <input type="number" id="telefono" name="telefono" class="form-control">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="contraseña" class="form-label">Contraseña</label>
+                                            <input type="password" id="contraseña" name="contraseña" class="form-control">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="tarjeta_bancaria" class="form-label">Tarjeta bancaria</label>
+                                            <input type="text" id="tarjeta_bancaria" name="tarjeta_bancaria" class="form-control">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="fecha_vencimiento" class="form-label">Fecha de vencimiento</label>
+                                            <input type="text" id="fecha_vencimiento" name="fecha_vencimiento" class="form-control">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="cvv" class="form-label">CVV</label>
+                                            <input type="number" id="cvv" name="cvv" class="form-control">
+                                        </div>
+
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                        <input type="submit" name="action" id="action" class="btn btn-success" value="Añadir">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TABLA DE USUARIOS -->
+                    <div id="tablaUsuarios">
+
+                        <div class="tituloTable row">
+                            <div class="col-1">
+                                <p class="h4">ID</p>
+                            </div>
+                            <div class="col-5">
+                                <p class="h4">Datos usuario</p>
+                            </div>
+                            <div class="col-4">
+                                <p class="h4">Datos bancarios</p>
+                            </div>
+                            <div class="col-2">
+                                <p class="h4">Acciones</p>
+                            </div>
+                        </div>
+    
+                        <div id="contenedorDatosUsuarios"></div>
+
+                    </div>
+
                 </div>
 
             </div>
@@ -55,6 +146,120 @@
 
     <!-- Bootstrap Bundle with Popper (JS) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+    <!-- SCRIPT -->
+    <script>
+
+        async function fetchUsuarios(){
+
+            const respuesta = await fetch(`?controller=api&action=obtenerAllUsuarios`, 
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+
+            const datosPeticion = await respuesta.json();
+
+            const contenedorDatosUsuarios = document.querySelector('#contenedorDatosUsuarios');
+            contenedorDatosUsuarios.innerHTML = '';
+
+            datosPeticion.forEach(usuario => {
+
+                const row = document.createElement('div');
+                row.classList.add('datosTable', 'row');
+
+                row.innerHTML += `
+                    <div class="col-1">
+                        <p><b>${usuario.ID}</b></p>
+                    </div>
+                    <div class="col-5">
+                        <p><b>Usuario:</b> ${usuario.usuario}</p>
+                        <p><b>Nombre completo:</b> ${usuario.nombre_completo}</p>
+                        <p><b>Email:</b> ${usuario.email}</p>
+                        <p><b>Teléfono:</b> ${usuario.telefono}</p>
+                        <p><b>Fecha registro:</b> ${usuario.fecha_registro}</p>
+                        <p><b>Contraseña:</b> ${usuario.contraseña}</p>
+                    </div>
+                    <div class="col-4">
+                        <p><b>Tarjeta bancaria:</b> ${usuario.tarjeta_bancaria}</p>
+                        <p><b>Fecha vencimiento:</b> ${usuario.fecha_vencimiento}</p>
+                        <p><b>CVV:</b> ${usuario.cvv}</p>
+                    </div>
+                    <div class="col-2">
+                        <button class='botonesTabla botonEditar' onclick='editarUsuario(${usuario.ID})'>Editar</button>
+                        <button class='botonesTabla botonEliminar' onclick='eliminarUsuario(${usuario.ID})'>Eliminar</button>
+                    </div>
+                `;
+
+                contenedorDatosUsuarios.appendChild(row);
+
+            });
+
+        }
+
+        async function editarUsuario(id){
+
+            // Función sin respuesta
+            console.log("Función Editar Usuario que abrirá un modal.");
+
+        }
+
+        async function eliminarUsuario(id){
+
+            console.log("Función eliminar Usuario");
+
+            // Lamar al controller que elimina el usuario y después recarga la tabla
+            const respuesta = await fetch(`?controller=api&action=eliminarUsuario&id=${id}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+            );
+
+            const datosPeticion = await respuesta.json();
+
+            const tableBody = document.querySelector('#usuariosTable tbody');
+            tableBody.innerHTML = '';
+
+            datosPeticion.forEach(usuario => {
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${usuario.ID}</td>
+                    <td>${usuario.usuario}</td>
+                    <td>${usuario.nombre_completo}</td>
+                    <td>${usuario.email}</td>
+                    <td>${usuario.telefono}</td>
+                    <td>${usuario.fecha_registro}</td>
+                    <td>${usuario.contraseña}</td>
+                    <td>${usuario.tarjeta_bancaria}</td>
+                    <td>${usuario.fecha_vencimiento}</td>
+                    <td>${usuario.cvv}</td>
+                    <td><button class='botonEditarUsuario' onclick='editarUsuario(${usuario.ID})'>Editar</button></td>
+                    <td><button class='botonEditarUsuario' onclick='eliminarUsuario(${usuario.ID})'>Eliminar</button></td>
+                `;
+
+                tableBody.appendChild(row);
+            });
+
+
+        }
+
+
+        /* -- BOTONES -- */
+        document.querySelector('#botonObtenerAllUsuarios').addEventListener('click', function() {
+            fetchUsuarios();
+        });
+
+        document.querySelector('#botonAñadirUsuario').addEventListener('click', function() {
+            
+        });
+
+    </script>
 
 </body>
 </html>

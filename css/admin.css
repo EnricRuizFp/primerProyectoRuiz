@@ -1,8 +1,4 @@
 /* -- GENERAL -- */
-th{
-    background-color: red;
-}
-
 #tituloAdmin, #lateralPanel{
     background-color: #D9D9D9;
 }
@@ -13,6 +9,11 @@ th{
 .botonesLaterales{
     width: 100%;
     margin-top: 10px;
+}
+
+.botonAñadir{
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 /* -- CONTENIDO PRINCIPAL -- */
@@ -28,18 +29,32 @@ th{
 }
 
 /* -- TABLA USUARIOS -- */
-#usuariosTable{
-    width: 70%;
+#contenedorUsuarios{
+    padding-top: 30px;
 }
-.botonEditarUsuario:hover{
+#tablaUsuarios{
+    margin-top: 30px;
+    margin-left: 20px;
+    margin-right: 50px;
+}
+
+/* -- TABLAS GENERALES -- */
+.datosTable{
+    background-color: white;
+    border-top: 1px solid black;
+    margin-bottom: 5px;
+    padding-top: 15px;
+}
+
+.botonesTabla{
+    margin-top: 15px;
+}
+.botonEditar, .botonEliminar{
+    width: 100%;
+}
+.botonEditar:hover, .botonEliminar:hover{
     background-color: beige;
 }
-.botonEditarUsuario:active{
-    background-color: aquamarine;
-}
-.botonEliminarUsuario:hover{
-    background-color: beige;
-}
-.botonEliminarUsuario:active{
+.botonEditar:active, .botonEliminar:active{
     background-color: aquamarine;
 }
