@@ -25,25 +25,6 @@
             return $usuarios;
         }
 
-        public static function getUsuarios(){
-
-            $con = DataBase::connect();
-            $stmt = $con->prepare("SELECT * FROM USUARIOS");
-
-            $stmt->execute();
-            $resultado = $stmt->get_result();
-
-            $usuarios = [];
-            while($usuario = $resultado->fetch_assoc()){
-                $usuarios[] = $usuario;
-            }
-
-            $stmt->close();
-            $con->close();
-
-            return $usuarios;
-        }
-
         public static function crearUsuario($usuarioIntroducido, $nombreCompletoIntroducido, $correoIntroducido, $contraseñaIntroducida, $telefonoIntroducido){
 
             // Pasar las fechas a dato tipo fecha
@@ -149,13 +130,105 @@
         public static function eliminarUsuario($id){
         
             $con = DataBase::connect();
-            $stmt = $con->prepare("DROP FROM USUARIOS WHERE ID = ?");
+            $stmt = $con->prepare("DELETE FROM USUARIOS WHERE ID = ?");
             $stmt->bind_param("i", $id);
 
             $stmt->execute();
 
             $stmt->close();
             $con->close();
+
+        }
+
+        /* FUNCIONES PARA LA API */
+        public static function getUsuarios(){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("SELECT * FROM USUARIOS");
+
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            $usuarios = [];
+            while($usuario = $resultado->fetch_assoc()){
+                $usuarios[] = $usuario;
+            }
+
+            $stmt->close();
+            $con->close();
+
+            return $usuarios;
+        }
+
+        public static function obtenerUsuario($id){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare('SELECT * FROM USUARIOS WHERE ID = ?');
+            $stmt->bind_param('i',$id);
+
+            $stmt->execute();
+
+            $resultado = $stmt->get_result();
+            $usuario = $resultado->fetch_assoc();
+
+            $stmt->close();
+            $con->close();
+
+            return $usuario;
+
+        }
+
+        public static function editarUsuario($id, $usuario, $nombre_completo, $email, $telefono, $tarjeta_bancaria, $fecha_vencimiento, $cvv){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("UPDATE USUARIOS SET usuario = ?, nombre_completo = ?, email = ?, telefono = ?, tarjeta_bancaria = ?, fecha_vencimiento = ?, cvv = ? WHERE ID = ?");
+            $stmt->bind_param("sssissii",$usuario, $nombre_completo, $email, $telefono, $tarjeta_bancaria, $fecha_vencimiento, $cvv, $id);
+
+            $stmt->execute();
+
+            $stmt->close();
+            $con->close();
+
+            return true;
+
+        }
+
+        public static function crearUsuarioAdmin($usuario, $nombre_completo, $email, $telefono, $contraseña, $tarjeta_bancaria, $fecha_vencimiento, $cvv){
+
+            $encrtyptedPassword = password_hash($contraseña, PASSWORD_DEFAULT);
+            $fecha_registro = date("Y-m-d");
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("INSERT INTO USUARIOS (usuario, nombre_completo, email, telefono, fecha_registro, contraseña, tarjeta_bancaria, fecha_vencimiento, cvv) VALUES (?,?,?,?,?,?,?,?,?)");
+            $stmt->bind_param("sssissssi",$usuario, $nombre_completo, $email, $telefono, $fecha_registro, $encrtyptedPassword, $tarjeta_bancaria, $fecha_vencimiento, $cvv);
+
+            $stmt->execute();
+
+            // Verificar consulta
+            if($stmt->affected_rows > 0){
+                return true;
+            }else{
+                return false;
+            }
+
+        }
+
+        public static function cambiarContraseña($id, $contraseña){
+
+            $encryptedPassword = password_hash($contraseña, PASSWORD_DEFAULT);
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("UPDATE USUARIOS SET contraseña = ? WHERE ID = ?");
+            $stmt->bind_param("si",$encryptedPassword, $id);
+
+            $stmt->execute();
+
+            // Verificar consulta
+            if($stmt->affected_rows > 0){
+                return true;
+            }else{
+                return false;
+            }
 
         }
     }

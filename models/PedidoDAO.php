@@ -88,15 +88,6 @@
 
         }
 
-        public static function getProductosPedido($id){
-
-            $con = DataBase::connect();
-
-            $stmt = $con->prepare("SELECT * FROM PEDIDO_PRODUCTO WHERE pedido_id = ?");
-            $stmt->bind_param("i", $id);
-
-        }
-
         public static function getOferta($oferta_id){
 
             $con = DataBase::connect();
@@ -168,6 +159,50 @@
             $con->close();
 
             return $pedidos;
+
+        }
+
+        /* -- FUNCIONES PARA LA API -- */
+        public static function getAllPedidos(){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("SELECT * FROM PEDIDO");
+
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            $pedidos = [];
+            while($pedido = $resultado->fetch_assoc()){
+                $pedidos[] = $pedido;
+            }
+
+            $stmt->close();
+            $con->close();
+
+            return $pedidos;
+
+        }
+
+        public static function getProductosPedido($id){
+
+            $con = DataBase::connect();
+
+            $stmt = $con->prepare("SELECT * FROM PEDIDO_PRODUCTO WHERE pedido_id = ?");
+            $stmt->bind_param("i", $id);
+
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            $productos = [];
+            while($producto = $resultado->fetch_assoc()){
+                $productos[] = $producto;
+            }
+
+            $stmt->close();
+            $con->close();
+
+            return $productos;
+
 
         }
 

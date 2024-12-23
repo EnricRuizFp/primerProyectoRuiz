@@ -193,11 +193,11 @@ header{
     } 
 }
 @media (max-width: 900px){
-    .contenedorPizzasSeccion3:nth-child(n+3) { 
+    .contenedorPizzasSeccion3:nth-child(n+2) { 
         display: none;
     }
     .contenedorPizzasSeccion3 {
-        width: 50%;
+        width: 100%;
     } 
 }
 

@@ -28,6 +28,10 @@
     display: none;
 }
 
+#contenedorDefault{
+    padding: 50px;
+}
+
 /* -- TABLA USUARIOS -- */
 #contenedorUsuarios{
     padding-top: 30px;
