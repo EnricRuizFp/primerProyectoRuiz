@@ -227,6 +227,47 @@
 
         }
 
+        /**
+         * FUNCIONES PARA LA API
+         */
+        public static function obtenerAllProductos(){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("SELECT * FROM PRODUCTOS");
+
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            $productos = [];
+            while($producto = $resultado->fetch_assoc()){
+                $productos[] = $producto;
+            }
+
+            $stmt->close();
+            $con->close();
+
+            return $productos;
+
+        }
+
+        public static function getPrecioProducto($producto_id){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("SELECT precio FROM PRODUCTOS WHERE ID = ?");
+            $stmt->bind_param("i",$producto_id);
+
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            $stmt->close();
+            $con->close();
+
+            $precioProducto = (int) $resultado->fetch_row()[0];
+
+            return $precioProducto;
+
+        }
+
     }
 
 ?>

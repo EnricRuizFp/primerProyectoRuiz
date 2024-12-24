@@ -231,6 +231,22 @@
             }
 
         }
+
+        public static function validacionUsuario($id){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("SELECT count(*) FROM USUARIOS WHERE ID = ?");
+            $stmt->bind_param("i", $id);
+
+            $stmt->execute();
+
+            $stmt->bind_result($count);
+            $stmt->fetch();
+
+            return $count > 0;
+
+        }
+
     }
 
 ?>

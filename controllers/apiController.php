@@ -3,7 +3,7 @@
 class apiController{
 
     /**
-     * PEDIDOS
+     * PEDIDOS // PRODUCTOS
      */
     function obtenerAllPedidos(){
         header("Access-Control-Allow-Origin: *");
@@ -34,9 +34,140 @@ class apiController{
         }else{
             echo json_encode(["error" => "ID no proporcionado."]);
         }
+    }
+
+    function obtenerProductos(){
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json; charset=UTF-8");
+        header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+
+        include_once "models/ProductoDAO.php";
+        $productos = ProductoDAO::obtenerAllProductos();
+        echo json_encode($productos);
+    }
+
+    function crearPedido(){
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json; charset=UTF-8");
+        header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+
+        // Obtener el ID del JSON
+        $data = json_decode(file_get_contents("php://input"), true);
+        $cliente_id = $data['cliente_id'] ?? null;
+        $oferta_id = $data['oferta_id'] ?? null;
+        $direccion = $data['direccion'] ?? null;
+        $fecha = $data['fecha'] ?? null;
+        $productos = $data['productos'] ?? null;
+
+        if($cliente_id && $direccion && $fecha && $productos){
+
+            $validacionCliente = UsuarioDAO::validacionUsuario($cliente_id);
+
+            if($validacionCliente){
+                include_once "models/PedidoDAO.php";
+                $validacion = PedidoDAO::crearPedido($cliente_id, $oferta_id, $direccion, $fecha, $productos);
+                echo json_encode($validacion);
+            }else{
+                echo json_encode(["error" => "Cliente no existe."]);
+            }
+            
+        }else{
+            echo json_encode(["error" => "Datos no proporcionados."]);
+        }
+    }
+
+    function editarPedido(){
+
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json; charset=UTF-8");
+        header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+
+        // Obtener el ID del JSON
+        $data = json_decode(file_get_contents("php://input"), true);
+        $pedido_id = $data["pedido_id"] ?? null;
+        $cliente_id = $data['cliente_id'] ?? null;
+        $oferta_id = $data['oferta_id'] ?? null;
+        $direccion = $data['direccion'] ?? null;
+        $fecha = $data['fecha'] ?? null;
+        $productos = $data['productos'] ?? null;
+
+        if($cliente_id && $direccion && $fecha && $productos){
+
+            $validacionCliente = UsuarioDAO::validacionUsuario($cliente_id);
+
+            if($validacionCliente){
+                include_once "models/PedidoDAO.php";
+                $validacion = PedidoDAO::editarPedido($cliente_id, $oferta_id, $direccion, $fecha, $productos);
+                echo json_encode($validacion);
+            }else{
+                echo json_encode(["error" => "Cliente no existe."]);
+            }
+            
+        }else{
+            echo json_encode(["error" => "Datos no proporcionados."]);
+        }
 
     }
 
+    function obtenerPedidos(){
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json; charset=UTF-8");
+        header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+
+        // Obtener el ID del JSON
+        $data = json_decode(file_get_contents("php://input"), true);
+        $cliente_id = $data['cliente_id'] ?? null;
+        $fecha_ini = $data['fecha_inicio'] ?? null;
+        $fecha_fin = $data['fecha_fin'] ?? null;
+        $precio_ini = $data['precio_ini'] ?? null;
+        $precio_fin = $data['precio_fin'] ?? null;
+
+        if($cliente_id){
+            // Filtrar por cliente
+            $pedidos = PedidoDAO::obtenerPedidosPorUsuario($cliente_id);
+            echo json_encode($pedidos);
+
+        }else if($fecha_ini && $fecha_fin){
+            // Filtrar por fecha
+            $pedidos = PedidoDAO::obtenerPedidosPorFechas($fecha_ini, $fecha_fin);
+            echo json_encode($pedidos);
+
+        }else if($precio_ini && $precio_fin){
+            // Filtrar por fecha
+            $pedidos = PedidoDAO::obtenerPedidosPorPrecio($precio_ini, $precio_fin);
+            echo json_encode($pedidos);
+
+        }else{
+            // Datos mal proporcionados
+            echo json_encode(['error'=> 'Datos mal proporcionados.']);
+        }
+    }
+
+    function obtenerPedido(){
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json; charset=UTF-8");
+        header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+
+        // Obtener el ID del JSON
+        $data = json_decode(file_get_contents("php://input"), true);
+        $pedido_id = $data['id'] ?? null;
+
+        // Obtener los datos del pedido
+        if($pedido_id){
+            // Filtrar por fecha
+            $pedido = PedidoDAO::obtenerPedido($pedido_id);
+            echo json_encode($pedido);
+
+        }else{
+            // Datos mal proporcionados
+            echo json_encode(['error'=> 'Datos mal proporcionados.']);
+        }
+    }
 
     /**
      * USUARIOS
