@@ -25,17 +25,19 @@ DROP TABLE IF EXISTS `PEDIDO`;
 CREATE TABLE `PEDIDO` (
   `ID` int NOT NULL AUTO_INCREMENT,
   `cliente_id` int DEFAULT NULL,
-  `productos_id` int DEFAULT NULL,
   `oferta_id` int DEFAULT NULL,
   `descuento` decimal(5,2) DEFAULT NULL,
   `precio_final` decimal(6,2) DEFAULT NULL,
   `estado_pedido` varchar(25) DEFAULT NULL,
+  `fecha` date DEFAULT NULL,
+  `precio` decimal(6,2) DEFAULT NULL,
+  `direccion` int DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `cliente_id` (`cliente_id`),
   KEY `oferta_id` (`oferta_id`),
   CONSTRAINT `PEDIDO_ibfk_1` FOREIGN KEY (`cliente_id`) REFERENCES `USUARIOS` (`ID`) ON DELETE CASCADE,
   CONSTRAINT `PEDIDO_ibfk_2` FOREIGN KEY (`oferta_id`) REFERENCES `OFERTAS` (`ID`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -44,6 +46,7 @@ CREATE TABLE `PEDIDO` (
 
 LOCK TABLES `PEDIDO` WRITE;
 /*!40000 ALTER TABLE `PEDIDO` DISABLE KEYS */;
+INSERT INTO `PEDIDO` VALUES (8,3,5,1.20,6.80,'repartiendo','2024-12-12',8.00,3),(13,8,5,8.55,48.45,'entregado','2024-12-14',57.00,3),(14,8,10,15.00,77.95,'pedido','2024-12-15',92.95,NULL),(27,2,NULL,0.00,53.00,'repartiendo','2024-12-27',53.00,3),(29,2,NULL,0.00,34.00,'pedido','2024-12-27',34.00,2),(30,2,NULL,0.00,89.00,'pedido','2024-12-27',89.00,2);
 /*!40000 ALTER TABLE `PEDIDO` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -56,4 +59,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-08 14:45:06
+-- Dump completed on 2024-12-26  2:00:18

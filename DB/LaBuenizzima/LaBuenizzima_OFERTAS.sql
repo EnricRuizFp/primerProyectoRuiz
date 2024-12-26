@@ -31,7 +31,7 @@ CREATE TABLE `OFERTAS` (
   `fecha_inicio` date DEFAULT NULL,
   `fecha_fin` date DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +40,7 @@ CREATE TABLE `OFERTAS` (
 
 LOCK TABLES `OFERTAS` WRITE;
 /*!40000 ALTER TABLE `OFERTAS` DISABLE KEYS */;
-INSERT INTO `OFERTAS` VALUES (5,'INV15OFF','Descuento del 15% en todos los productos durante el invierno.',15.00,'%','2024-10-01','2025-02-15'),(6,'BF10OFF','Descuento del 10% en todos los productos por Black Friday.',10.00,'%','2024-11-25','2024-11-29'),(7,'SUM10OFF','Descuento de 10€ en todos los pedidos realizados durante el verano.',10.00,'€','2024-06-01','2024-08-31'),(8,'PRIMERPEDIDO','Descuento de 15€ en tu primer pedido.',15.00,'€','2024-01-01','2025-01-01'),(9,'BLACKFRIDAY','Descuento del 8% en todos los productos durante el black friday',8.00,'%','2024-11-25','2024-12-01');
+INSERT INTO `OFERTAS` VALUES (5,'INV15OFF','Descuento del 15% en todos los productos durante el invierno.',15.00,'%','2024-10-01','2025-02-15'),(6,'BF10OFF','Descuento del 10% en todos los productos por Black Friday.',10.00,'%','2024-11-25','2024-11-29'),(7,'SUM10OFF','Descuento de 10€ en todos los pedidos realizados durante el verano.',10.00,'€','2024-06-01','2024-08-31'),(9,'BLACKFRIDAY','Descuento del 8% en todos los productos durante el black friday',8.00,'%','2024-11-25','2024-12-01'),(10,'PRIMERPEDIDO','Descuento de 15€ en tu primer pedido.',15.00,'€','2024-01-01','2025-01-01');
 /*!40000 ALTER TABLE `OFERTAS` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-08 14:45:06
+-- Dump completed on 2024-12-26  2:00:18

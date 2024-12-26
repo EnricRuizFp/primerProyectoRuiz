@@ -30,11 +30,11 @@ CREATE TABLE `USUARIOS` (
   `telefono` int DEFAULT NULL,
   `fecha_registro` date DEFAULT NULL,
   `contraseña` varchar(255) NOT NULL,
-  `tarjeta_bancaria` varchar(255) NOT NULL,
+  `tarjeta_bancaria` varchar(255) DEFAULT NULL,
   `fecha_vencimiento` date DEFAULT NULL,
   `cvv` int DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,7 +43,7 @@ CREATE TABLE `USUARIOS` (
 
 LOCK TABLES `USUARIOS` WRITE;
 /*!40000 ALTER TABLE `USUARIOS` DISABLE KEYS */;
-INSERT INTO `USUARIOS` VALUES (1,'enric','ruiz badia','enricruizfp@ibf.cat',654735274,'2024-12-04','','',NULL,NULL),(2,'joan','garcía perez','joangarcia@gmail.com',623456789,'2024-10-04','','',NULL,NULL),(3,'ana','martínez ruiz','anamartinez@example.com',634567890,'2023-12-24','','',NULL,NULL),(4,'marta','fernández lópez','martafernandez@example.com',612345678,'2023-01-14','','',NULL,NULL),(5,'alberto','olmo acevedo','albertoolmo@gmail.com',685243004,'2024-11-15','','',NULL,NULL),(6,'alpierto','alpierto olmo acevedo','alpierto@gmail.com',546345634,'2024-12-06','$2y$10$S8B80Pb9gEQ74ENNbnOf..1A7e/HTPlSjKZbm9vxfPyibsDR/d.YW','$2y$10$sF.hUf/fh3slpzU.UWYqdOhccJF2wtNQx4PVhZzKJQ3b.K6Y1zF8W','2024-12-20',342),(7,'remeibadia','Remei Badia Resina','remei@gmail.com',534745623,'2024-12-06','$2y$10$qym/bzszjdV1OEEgUmD4HOeOFEUHyX70OFswe8Gp2DnVclzmNczQu','$2y$10$eyFJVYywQur2Pkkn92n35.DsiBC4qOO0Ehw8W/lAtwgHiqs09xBXa','2028-10-11',255),(8,'enricruiz','Enric Ruiz Badia','enricruizbadia@gmail.com',534745623,'2024-12-06','$2y$10$4a7rGsuXucAKo480Bsxs3ulrq63RuMnRCsnCo8xFfGo6NLPAYhvgG','1234234534564587','2024-12-10',256),(9,'ernesto1704','Ernesto Ruiz Fernandez','ernesto.1704@hotmail.com',534723465,'2024-12-07','$2y$10$Sws9i7w5aRckmt6FaFECUeeqp9g2SyD7xLc3XWvMZIuO4AXVXA0QS','1234123412341234','2028-10-18',255);
+INSERT INTO `USUARIOS` VALUES (2,'joan','garcía perez','joangarcia@gmail.com',623456789,'2024-10-04','','1234234534564587','2026-05-22',255),(3,'ana','martínez ruiz','anamartinez@example.com',634567890,'2023-12-24','','1234234534564587','2024-12-12',234),(4,'marta','fernández lópez','martafernandez@example.com',612345678,'2023-01-14','','',NULL,NULL),(5,'alberto','olmo acevedo','albertoolmo@gmail.com',685243004,'2024-11-15','','',NULL,NULL),(6,'alpierto','alpierto olmo acevedo','alpierto@gmail.com',546345634,'2024-12-06','$2y$10$S8B80Pb9gEQ74ENNbnOf..1A7e/HTPlSjKZbm9vxfPyibsDR/d.YW','$2y$10$sF.hUf/fh3slpzU.UWYqdOhccJF2wtNQx4PVhZzKJQ3b.K6Y1zF8W','2024-12-20',342),(7,'remeibadia','Remei Badia Resina','remei@gmail.com',534745623,'2024-12-06','$2y$10$qym/bzszjdV1OEEgUmD4HOeOFEUHyX70OFswe8Gp2DnVclzmNczQu','$2y$10$eyFJVYywQur2Pkkn92n35.DsiBC4qOO0Ehw8W/lAtwgHiqs09xBXa','2028-10-11',255),(8,'enricruiz','Enric Ruiz Badia','enricruizbadia@gmail.com',534745623,'2024-12-06','$2y$10$4a7rGsuXucAKo480Bsxs3ulrq63RuMnRCsnCo8xFfGo6NLPAYhvgG','1234234534564587','2024-12-10',876),(9,'ernesto1704','Ernesto Ruiz Fernandez','ernesto.1704@hotmail.com',534723465,'2024-12-07','$2y$10$Sws9i7w5aRckmt6FaFECUeeqp9g2SyD7xLc3XWvMZIuO4AXVXA0QS','1234123412341234','2028-10-18',255),(10,'admin','Admin','admin@gmail.com',634734854,'2024-12-10','$2y$10$tcDjTQVUDjMtCbpvBM1Pxed56RMpNElVncQXW70HUoSCmh4KsID2a',NULL,NULL,NULL),(11,'alexruiz','Alex Ruiz Badia','alex@gmail.com',546345634,'2024-12-11','$2y$10$DRIFp.7LYVEGDjRHzqS0L.ZnlvcipOQdo9Si/Su6FY43/C8EeHQte',NULL,NULL,NULL);
 /*!40000 ALTER TABLE `USUARIOS` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -56,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-08 14:45:06
+-- Dump completed on 2024-12-26  2:00:18
