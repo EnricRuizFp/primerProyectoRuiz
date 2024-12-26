@@ -17,9 +17,6 @@
 }
 
 /* -- CONTENIDO PRINCIPAL -- */
-#contenedorPedidos{
-    display: none;
-}
 .campoFormulario{
     margin-top: 10px;
 }
@@ -33,10 +30,10 @@
 }
 
 /* -- TABLA USUARIOS -- */
-#contenedorUsuarios{
+#contenedorPedidos, #contenedorUsuarios, #contenedorProductos, #contenedorIngredientes, #contenedorOfertas{
     padding-top: 30px;
 }
-#tablaUsuarios{
+#tablaPedidos, #tablaUsuarios, #tablaProductos, #tablaIngredientes, #tablaOfertas{
     margin-top: 30px;
     margin-left: 20px;
     margin-right: 50px;

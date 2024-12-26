@@ -163,7 +163,7 @@ async function editarPedido(id) {
     const productosSeleccionados = await respuesta2.json();
 
     // Llamar a la API para obtener todos los productos disponibles
-    const respuestaProd = await fetch(`?controller=api&action=obtenerProductos`, 
+    const respuestaProd = await fetch(`?controller=api&action=obtenerAllProductos`, 
     {
         method: 'POST',
         headers: {
@@ -271,7 +271,7 @@ function removeProductEdit(index) {
 async function crearPedido(){
 
     // Llamar a la api para obtener los datos de los productos
-    const respuestaProd = await fetch(`?controller=api&action=obtenerProductos`, 
+    const respuestaProd = await fetch(`?controller=api&action=obtenerAllProductos`, 
         {
             method: 'POST',
             headers: {
@@ -360,6 +360,26 @@ addProductBtn.addEventListener('click', () => {
 function removeProduct(index) {
     selectedProducts.splice(index, 1);
     renderTable();
+}
+
+async function eliminarPedido(id){
+
+    // Llamar a la API para eliminar el pedido
+    const respuesta = await fetch(`?controller=api&action=eliminarPedido`, 
+        {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id })
+        }
+    );
+    const resultado = await respuesta.json();
+
+    console.log(resultado);
+
+    fetchPedidos();
+
 }
 
 /* -- FILTROS -- */
@@ -454,6 +474,7 @@ document.querySelector('#formularioEditarPedido').addEventListener('submit', asy
         oferta_id: document.querySelector('#editar_oferta_id').value,
         fecha: document.querySelector('#editar_fecha').value,
         direccion: document.querySelector('#editar_direccion').value,
+        estado: document.querySelector('#selectEstado').value,
         productos: selectedProductsEdit
     };
 
@@ -511,8 +532,11 @@ document.querySelector('#formularioFiltroFecha').addEventListener('submit', asyn
 
     const datos = {
         fecha_inicio: document.querySelector('#filtrar_fecha_inicio').value,
-        fecha_fin: document.querySelector('#filtrar_fecha_fin').value
+        fecha_fin: document.querySelector('#filtrar_fecha_fin').value,
+        orden: document.querySelector('#orden_filtro_fecha').value
     };
+
+    console.log(datos);
 
     const respuesta = await fetch(`?controller=api&action=obtenerPedidos`, {
         method: 'POST',
@@ -522,6 +546,8 @@ document.querySelector('#formularioFiltroFecha').addEventListener('submit', asyn
         body: JSON.stringify(datos)
     });
     const resultado = await respuesta.json();
+
+    console.log(resultado);
 
     if(resultado.error){
         alert(resultado.error);
@@ -539,7 +565,8 @@ document.querySelector('#formularioFiltroPrecio').addEventListener('submit', asy
 
     const datos = {
         precio_ini: document.querySelector('#filtrar_precio_inicio').value,
-        precio_fin: document.querySelector('#filtrar_precio_fin').value
+        precio_fin: document.querySelector('#filtrar_precio_fin').value,
+        orden: document.querySelector('#orden_filtro_precio').value
     };
 
     const respuesta = await fetch(`?controller=api&action=obtenerPedidos`, {

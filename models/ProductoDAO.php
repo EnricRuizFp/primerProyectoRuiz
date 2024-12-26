@@ -268,6 +268,151 @@
 
         }
 
+        public static function crearProducto($nombre, $descripcion, $seccion, $ingredientes, $categoria, $precio, $imagen){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("INSERT INTO PRODUCTOS (nombre, descripcion, categoria, precio, imagen, seccion) VALUES (?,?,?,?,?,?)");
+            $stmt->bind_param("sssdss", $nombre, $descripcion, $categoria, $precio, $imagen, $seccion);
+
+            if( $stmt->execute() ){
+
+                // Obtener el ID insertado
+                $producto_id = $con->insert_id;
+
+                $stmt->close();
+
+                $stmt = $con->prepare("INSERT INTO PRODUCTO_INGREDIENTE (producto_id, ingrediente_id) VALUES (?,?)");
+                foreach($ingredientes as $ingrediente){
+
+                    $stmt->bind_param("ii",$producto_id,$ingrediente);
+                    if( $stmt->execute() ){
+
+                        // Ha funcionado bien, no hacer nada para pasar al siguiente
+
+                    }else{
+                        return "Error al añadir ingrediente".$ingrediente;
+                    }
+
+                }
+
+                return true;
+            
+            }else{
+                return "Error al crear el producto.";
+            }
+
+        }
+
+        public static function obtenerProductos($filtro){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("SELECT * FROM PRODUCTOS WHERE seccion = ?");
+            $stmt->bind_param("s", $filtro);
+
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            $productos = [];
+            while($producto = $resultado->fetch_assoc()){
+                $productos[] = $producto;
+            }
+
+            $stmt->close();
+            $con->close();
+
+            return $productos;
+
+        }
+
+        public static function obtenerProducto($producto_id){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("SELECT * FROM PRODUCTOS WHERE ID = ?");
+            $stmt->bind_param("i",$producto_id);
+
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            $producto = $resultado->fetch_assoc();
+
+            $stmt->close();
+            $con->close();
+
+            return $producto;
+
+        }
+
+        public static function editarProducto($id, $nombre, $descripcion, $seccion, $ingredientes, $categoria, $precio, $imagen){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("UPDATE PRODUCTOS SET nombre = ?, descripcion = ?, categoria = ?, precio = ?, imagen = ? , seccion = ? WHERE ID = ?");
+            $stmt->bind_param("sssdssi", $nombre, $descripcion, $categoria, $precio, $imagen, $seccion, $id);
+
+            if( $stmt->execute() ){
+
+                $stmt->close();
+
+                // Eliminar todas las relaciones anteriores
+                $stmt = $con->prepare("DELETE FROM PRODUCTO_INGREDIENTE WHERE producto_id = ?");
+                $stmt->bind_param("i",$id);
+
+                if( $stmt->execute() ){
+
+                    // Volver a crear todas las relaciones
+                    $stmt = $con->prepare("INSERT INTO PRODUCTO_INGREDIENTE (producto_id, ingrediente_id) VALUES (?,?)");
+                    foreach($ingredientes as $ingrediente){
+
+                        $stmt->bind_param("ii",$id,$ingrediente);
+                        if( $stmt->execute() ){
+
+                            // Ha funcionado bien, no hacer nada para pasar al siguiente
+
+                        }else{
+                            return "Error al añadir ingrediente".$ingrediente;
+                        }
+
+                    }
+
+                    return true;
+
+                }else{
+                    return "Error al eliminar las relaciones con los ingredientes";
+                }
+            
+            }else{
+                return "Error al crear el producto.";
+            }
+
+        }
+
+        public static function eliminarProducto($producto_id){
+
+            $con = DataBase::connect();
+
+            // Eliminar el pedido
+            $stmt = $con->prepare("DELETE FROM PRODUCTOS WHERE ID = ?");
+            $stmt->bind_param("i",$producto_id);
+
+            if( $stmt->execute() ){
+
+                $stmt->close();
+
+                // Eliminar todos los productos del pedido
+                $stmt = $con->prepare("DELETE FROM PRODUCTO_INGREDIENTE WHERE producto_id = ?");
+                $stmt->bind_param("i",$producto_id);
+
+                if( $stmt->execute() ){
+                    return true;
+                }else{
+                    return "Error al eliminar sus ingredientes";
+                }
+
+            }else{
+                return "Error al eliminar el producto";
+            }
+
+        }
+
     }
 
 ?>

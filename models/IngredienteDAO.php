@@ -108,6 +108,146 @@
 
         }
 
+        public static function obtenerAllIngredientes(){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("SELECT * FROM INGREDIENTES");
+
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            $ingredientes = [];
+            while($ingrediente = $resultado->fetch_assoc()){
+                $ingredientes[] = $ingrediente;
+            }
+
+            $stmt->close();
+            $con->close();
+
+            return $ingredientes;
+
+        }
+
+        public static function obtenerSelectedIngredientes($id){
+            $con = DataBase::connect();
+
+            $stmt = $con->prepare("SELECT * FROM PRODUCTO_INGREDIENTE WHERE producto_id = ?");
+            $stmt->bind_param("i", $id);
+
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            $ingredientes = [];
+            while($ingrediente = $resultado->fetch_assoc()){
+                $ingredientes[] = $ingrediente;
+            }
+
+            $stmt->close();
+            $con->close();
+
+            return $ingredientes;
+        }
+
+        public static function crearIngrediente($nombre, $descripcion, $precio, $categoria){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("INSERT INTO INGREDIENTES (nombre, descripcion, precio_unidad, categoria) VALUES (?,?,?,?)");
+            $stmt->bind_param("ssds", $nombre, $descripcion, $precio, $categoria);
+
+            if( $stmt->execute() ){
+                return true;
+            }else{
+                return false;
+            }
+
+        }
+
+        public static function obtenerCategoriasIngredientes(){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("SELECT DISTINCT categoria FROM INGREDIENTES");
+
+            if($stmt->execute()){
+                $resultado = $stmt->get_result();
+
+                $categorias = [];
+                while($categoria = $resultado->fetch_assoc()){
+                    $categorias[] = $categoria;
+                }
+
+                return $categorias;
+            }else{
+                return false;
+            }
+        }
+
+        public static function obtenerIngredientes($categoria){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("SELECT * FROM INGREDIENTES WHERE categoria = ?");
+            $stmt->bind_param("s", $categoria);
+
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            $ingredientes = [];
+            while($ingrediente = $resultado->fetch_assoc()){
+                $ingredientes[] = $ingrediente;
+            }
+
+            $stmt->close();
+            $con->close();
+
+            return $ingredientes;
+
+        }
+
+        public static function obtenerIngrediente($id){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("SELECT * FROM INGREDIENTES WHERE ID = ?");
+            $stmt->bind_param("i",$id);
+
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            $ingrediente = $resultado->fetch_assoc();
+
+            $stmt->close();
+            $con->close();
+
+            return $ingrediente;
+
+        }
+
+        public static function editarIngrediente($id, $nombre, $descripcion, $precio, $categoria){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("UPDATE INGREDIENTES SET nombre = ?, descripcion = ?, precio_unidad = ?, categoria = ? WHERE ID = ?");
+            $stmt->bind_param("ssdsi", $nombre, $descripcion, $precio, $categoria, $id);
+
+            if( $stmt->execute() ){
+                return true;
+            }else{
+                return false;
+            }
+
+        }
+
+        public static function eliminarIngrediente($id){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("DELETE FROM INGREDIENTES WHERE ID = ?");
+            $stmt->bind_param("i",  $id);
+
+            if( $stmt->execute() ){
+                return true;
+            }else{
+                return false;
+            }
+
+        }
+
     }
 
 ?>

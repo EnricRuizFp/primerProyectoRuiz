@@ -12,8 +12,6 @@ async function fetchUsuarios(){
 
     const datosPeticion = await respuesta.json();
 
-    console.log(datosPeticion);
-
     const contenedorDatosUsuarios = document.querySelector('#contenedorDatosUsuarios');
     contenedorDatosUsuarios.innerHTML = '';
 
@@ -174,8 +172,6 @@ document.querySelector('#formularioCrearUsuario').addEventListener('submit', asy
         fecha_vencimiento: document.querySelector('#añadir_fecha_vencimiento').value,
         cvv: document.querySelector('#añadir_cvv').value
     };
-
-    console.log(datos);
 
     const respuesta = await fetch(`?controller=api&action=crearUsuario`, {
         method: 'POST',

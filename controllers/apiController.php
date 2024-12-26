@@ -3,7 +3,7 @@
 class apiController{
 
     /**
-     * PEDIDOS // PRODUCTOS
+     * PEDIDOS // PRODUCTOS // INGREDIENTES
      */
     function obtenerAllPedidos(){
         header("Access-Control-Allow-Origin: *");
@@ -36,7 +36,7 @@ class apiController{
         }
     }
 
-    function obtenerProductos(){
+    function obtenerAllProductos(){
         header("Access-Control-Allow-Origin: *");
         header("Content-Type: application/json; charset=UTF-8");
         header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
@@ -92,6 +92,7 @@ class apiController{
         $oferta_id = $data['oferta_id'] ?? null;
         $direccion = $data['direccion'] ?? null;
         $fecha = $data['fecha'] ?? null;
+        $estado = $data['estado'] ?? null;
         $productos = $data['productos'] ?? null;
 
         if($cliente_id && $direccion && $fecha && $productos){
@@ -100,7 +101,7 @@ class apiController{
 
             if($validacionCliente){
                 include_once "models/PedidoDAO.php";
-                $validacion = PedidoDAO::editarPedido($cliente_id, $oferta_id, $direccion, $fecha, $productos);
+                $validacion = PedidoDAO::editarPedido($pedido_id, $cliente_id, $oferta_id, $direccion, $fecha, $estado, $productos);
                 echo json_encode($validacion);
             }else{
                 echo json_encode(["error" => "Cliente no existe."]);
@@ -125,6 +126,7 @@ class apiController{
         $fecha_fin = $data['fecha_fin'] ?? null;
         $precio_ini = $data['precio_ini'] ?? null;
         $precio_fin = $data['precio_fin'] ?? null;
+        $orden = $data['orden'] ?? null;
 
         if($cliente_id){
             // Filtrar por cliente
@@ -133,12 +135,12 @@ class apiController{
 
         }else if($fecha_ini && $fecha_fin){
             // Filtrar por fecha
-            $pedidos = PedidoDAO::obtenerPedidosPorFechas($fecha_ini, $fecha_fin);
+            $pedidos = PedidoDAO::obtenerPedidosPorFechas($fecha_ini, $fecha_fin, $orden);
             echo json_encode($pedidos);
 
         }else if($precio_ini && $precio_fin){
             // Filtrar por fecha
-            $pedidos = PedidoDAO::obtenerPedidosPorPrecio($precio_ini, $precio_fin);
+            $pedidos = PedidoDAO::obtenerPedidosPorPrecio($precio_ini, $precio_fin, $orden);
             echo json_encode($pedidos);
 
         }else{
@@ -166,6 +168,373 @@ class apiController{
         }else{
             // Datos mal proporcionados
             echo json_encode(['error'=> 'Datos mal proporcionados.']);
+        }
+    }
+
+    function eliminarPedido(){
+
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json; charset=UTF-8");
+        header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+
+        // Obtener el ID del JSON
+        $data = json_decode(file_get_contents("php://input"), true);
+        $pedido_id = $data['id'] ?? null;
+
+        // Si hay un ID, eliminar ese pedido
+        if($pedido_id){
+            // Filtrar por fecha
+            $validacion = PedidoDAO::eliminarPedido($pedido_id);
+            echo json_encode($validacion);
+
+        }else{
+            // Datos mal proporcionados
+            echo json_encode(['error'=> 'ID no proporcionado.']);
+        }
+
+    }
+
+    function obtenerIngredientesProducto(){
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json; charset=UTF-8");
+        header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+
+        // Obtener el ID del JSON
+        $data = json_decode(file_get_contents("php://input"), true);
+        $producto_id = $data['id'] ?? null;
+
+        include_once "models/IngredienteDAO.php";
+        include_once "models/Ingrediente.php";
+        $ingredientes = IngredienteDAO::getIngredientesDefault($producto_id);
+
+        // Obtener nombres de ingredientes
+        $nombresIngredientes = array_map(function ($ingrediente) {
+            return $ingrediente->getNombre();
+        }, $ingredientes);
+
+        // Unir los ingredientes con una coma y terminar con un punto
+        $string = implode(", ", $nombresIngredientes);
+        if (!empty($string)) {
+            $string .= "."; // Agregar el punto final solo si hay ingredientes
+        }
+
+        echo json_encode($string);
+    }
+
+    function obtenerAllIngredientes(){
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json; charset=UTF-8");
+        header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+
+        include_once "models/IngredienteDAO.php";
+        $ingredientes = IngredienteDAO::obtenerAllIngredientes();
+
+        echo json_encode($ingredientes);
+    }
+
+    function crearProducto(){
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json; charset=UTF-8");
+        header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+
+        // Obtener el ID del JSON
+        $data = json_decode(file_get_contents("php://input"), true);
+        $nombre = $data['nombre'] ?? null;
+        $descripcion = $data['descripcion'] ?? null;
+        $seccion = $data['seccion'] ?? null;
+        $ingredientes = $data['ingredientes'] ?? null;
+        $categoria = $data['categoria'] ?? null;
+        $precio = $data['precio'] ?? null;
+        $imagen = $data['imagen'] ?? null;
+
+        // Si están todos los datos:
+        if($nombre && $descripcion && $seccion && $ingredientes && $categoria && $precio && $imagen){
+
+            include_once "models/ProductoDAO.php";
+            $validacion = ProductoDAO::crearProducto($nombre, $descripcion, $seccion, $ingredientes, $categoria, $precio, $imagen);
+
+            echo json_encode($validacion);
+
+        }else{
+
+            echo json_encode(['error'=> 'Debe rellenar todos los datos.']);
+
+        }
+
+    }
+
+    function obtenerProductos(){
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json; charset=UTF-8");
+        header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+
+        // Obtener el ID del JSON
+        $data = json_decode(file_get_contents("php://input"), true);
+        $filtro = $data['filtro'] ?? null;
+
+        if($filtro){
+
+            include_once "models/ProductoDAO.php";
+            $productos = ProductoDAO::obtenerProductos($filtro);
+            echo json_encode($productos);
+
+        }else{
+            echo json_encode(["error"=> "Sin filtro"]);
+        }
+    }
+
+    function obtenerProducto(){
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json; charset=UTF-8");
+        header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+
+        // Obtener el ID del JSON
+        $data = json_decode(file_get_contents("php://input"), true);
+        $producto_id = $data['id'] ?? null;
+
+        if($producto_id){
+
+            include_once "models/ProductoDAO.php";
+            $producto = ProductoDAO::obtenerProducto($producto_id);
+            echo json_encode($producto);
+
+        }else{
+            echo json_encode(["error"=> "Sin producto."]);
+        }
+
+    }
+
+    function crearIngrediente(){
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json; charset=UTF-8");
+        header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+
+        // Obtener el ID del JSON
+        $data = json_decode(file_get_contents("php://input"), true);
+        $nombre = $data['nombre'] ?? null;
+        $descripcion = $data['descripcion'] ?? null;
+        $precio = $data['precio'] ?? null;
+        $categoria = $data['categoria'] ?? null;        
+
+        // Si están todos los datos:
+        if($nombre && $descripcion && $precio && $categoria ){
+
+            include_once "models/IngredienteDAO.php";
+            $validacion = IngredienteDAO::crearIngrediente($nombre, $descripcion, $precio, $categoria);
+
+            if($validacion){
+                echo json_encode($validacion);
+            }else{
+                echo json_encode(['error'=> 'No se ha podido crear el ingrediente.']);
+            }   
+
+        }else{
+
+            echo json_encode(['error'=> 'Debe rellenar todos los datos.']);
+
+        }
+
+    }
+
+    function obtenerCategoriasIngredientes(){
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json; charset=UTF-8");
+        header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+
+        include_once "models/IngredienteDAO.php";
+        $categorias = IngredienteDAO::obtenerCategoriasIngredientes();
+        echo json_encode($categorias);
+    }
+
+    function obtenerIngredientes(){
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json; charset=UTF-8");
+        header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+
+        // Obtener el ID del JSON
+        $data = json_decode(file_get_contents("php://input"), true);
+        $categoria = $data['filtro'] ?? null;
+
+        if($categoria){
+            include_once "models/IngredienteDAO.php";
+            $ingredientes = IngredienteDAO::obtenerIngredientes($categoria);
+            echo json_encode($ingredientes);
+        }else{
+            echo json_encode(["error"=> "Categoría no introducida."]);
+        }
+        
+
+    }
+
+    function obtenerSelectedIngredientes(){
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json; charset=UTF-8");
+        header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+
+        // Obtener el ID del JSON
+        $data = json_decode(file_get_contents("php://input"), true);
+        $id = $data['id'] ?? null;
+
+        if($id){
+            include_once "models/IngredienteDAO.php";
+            $ingredientes = IngredienteDAO::obtenerSelectedIngredientes($id);
+            echo json_encode($ingredientes);
+        }else{
+            echo json_encode(["error" => "ID no proporcionado."]);
+        }
+
+    }
+
+    function editarProducto(){
+
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json; charset=UTF-8");
+        header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+
+        // Obtener el ID del JSON
+        $data = json_decode(file_get_contents("php://input"), true);
+        $id = $data['id'] ?? null;
+        $nombre = $data['nombre'] ?? null;
+        $descripcion = $data['descripcion'] ?? null;
+        $seccion = $data['seccion'] ?? null;
+        $ingredientes = $data['ingredientes'] ?? null;
+        $categoria = $data['categoria'] ?? null;
+        $precio = $data['precio'] ?? null;
+        $imagen = $data['imagen'] ?? null;
+
+        // Si están todos los datos:
+        if($id && $nombre && $descripcion && $seccion && $ingredientes && $categoria && $precio && $imagen){
+
+            include_once "models/ProductoDAO.php";
+            $validacion = ProductoDAO::editarProducto($id, $nombre, $descripcion, $seccion, $ingredientes, $categoria, $precio, $imagen);
+
+            echo json_encode($validacion);
+
+        }else{
+
+            echo json_encode(['error'=> 'Debe rellenar todos los datos.']);
+
+        }
+
+    }
+
+    function eliminarProducto(){
+
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json; charset=UTF-8");
+        header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+
+        // Obtener el ID del JSON
+        $data = json_decode(file_get_contents("php://input"), true);
+        $producto_id = $data['id'] ?? null;
+
+        // Si hay un ID, eliminar ese pedido
+        if($producto_id){
+            // Filtrar por fecha
+            $validacion = ProductoDAO::eliminarProducto($producto_id);
+            echo json_encode($validacion);
+
+        }else{
+            // Datos mal proporcionados
+            echo json_encode(['error'=> 'ID no proporcionado.']);
+        }
+
+    }
+
+    function obtenerIngrediente(){
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json; charset=UTF-8");
+        header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+
+        // Obtener el ID del JSON
+        $data = json_decode(file_get_contents("php://input"), true);
+        $id = $data['id'] ?? null;
+
+        if($id){
+
+            include_once "models/IngredienteDAO.php";
+            $ingrediente = IngredienteDAO::obtenerIngrediente($id);
+            echo json_encode($ingrediente);
+
+        }else{
+            echo json_encode(["error"=> "Sin ingrediente."]);
+        }
+
+
+    }
+
+    function editarIngrediente(){
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json; charset=UTF-8");
+        header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+
+        // Obtener el ID del JSON
+        $data = json_decode(file_get_contents("php://input"), true);
+        $id = $data["id"] ?? null;
+        $nombre = $data['nombre'] ?? null;
+        $descripcion = $data['descripcion'] ?? null;
+        $precio = $data['precio'] ?? null;
+        $categoria = $data['categoria'] ?? null;        
+
+        // Si están todos los datos:
+        if($id && $nombre && $descripcion && $precio && $categoria ){
+
+            include_once "models/IngredienteDAO.php";
+            $validacion = IngredienteDAO::editarIngrediente($id, $nombre, $descripcion, $precio, $categoria);
+
+            if($validacion){
+                echo json_encode($validacion);
+            }else{
+                echo json_encode(['error'=> 'No se ha podido actualizar el ingrediente.']);
+            }   
+
+        }else{
+
+            echo json_encode(['error'=> 'Debe rellenar todos los datos.']);
+
+        }
+    }
+
+    function eliminarIngrediente(){
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json; charset=UTF-8");
+        header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+
+        // Obtener el ID del JSON
+        $data = json_decode(file_get_contents("php://input"), true);
+        $id = $data["id"] ?? null;
+
+        // Si están todos los datos:
+        if($id){
+
+            include_once "models/IngredienteDAO.php";
+            $validacion = IngredienteDAO::eliminarIngrediente($id);
+
+            if($validacion){
+                echo json_encode($validacion);
+            }else{
+                echo json_encode(['error'=> 'No se ha podido eliminar el ingrediente.']);
+            }   
+
+        }else{
+
+            echo json_encode(['error'=> 'No se ha rellenado el dato necesario.']);
+
         }
     }
 
@@ -323,6 +692,165 @@ class apiController{
         echo json_encode(true);
 
     }
+
+
+    /**
+     * OFERTAS
+     */
+    function obtenerAllOfertas(){
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json; charset=UTF-8");
+        header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+
+        include_once "models/OfertaDAO.php";
+        $ofertas = OfertaDAO::obtenerAllOfertas();
+
+        echo json_encode($ofertas);
+    }
+
+    function crearOferta(){
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json; charset=UTF-8");
+        header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+
+        // Obtener el ID del JSON
+        $data = json_decode(file_get_contents("php://input"), true);
+        $nombre = $data['nombre'] ?? null;
+        $descripcion = $data['descripcion'] ?? null;
+        $descuento = $data['descuento'] ?? null;
+        $tipo = $data['tipo'] ?? null;
+        $fecha_inicio = $data['fecha_inicio'] ?? null;
+        $fecha_fin = $data['fecha_fin'] ?? null;        
+
+        // Si están todos los datos:
+        if($nombre && $descripcion && $descuento && $tipo && $fecha_inicio && $fecha_fin ){
+
+            include_once "models/OfertaDAO.php";
+            $validacion = OfertaDAO::crearOferta($nombre, $descripcion, $descuento, $tipo, $fecha_inicio, $fecha_fin);
+
+            if($validacion){
+                echo json_encode($validacion);
+            }else{
+                echo json_encode(['error'=> 'No se ha podido crear el ingrediente.']);
+            }   
+
+        }else{
+
+            echo json_encode(['error'=> 'Debe rellenar todos los datos.']);
+
+        }
+    }
+
+    function obtenerOferta(){
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json; charset=UTF-8");
+        header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+
+        // Obtener el ID del JSON
+        $data = json_decode(file_get_contents("php://input"), true);
+        $id = $data['id'] ?? null;
+
+        if($id){
+
+            include_once "models/OfertaDAO.php";
+            $oferta = OfertaDAO::obtenerOferta($id);
+            echo json_encode($oferta);
+
+        }else{
+            echo json_encode(["error"=> "Sin oferta."]);
+        }
+    }
+
+    function editarOferta(){
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json; charset=UTF-8");
+        header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+
+        // Obtener el ID del JSON
+        $data = json_decode(file_get_contents("php://input"), true);
+        $id = $data['id'] ?? null;
+        $nombre = $data['nombre'] ?? null;
+        $descripcion = $data['descripcion'] ?? null;
+        $descuento = $data['descuento'] ?? null;
+        $tipo = $data['tipo'] ?? null;
+        $fecha_inicio = $data['fecha_inicio'] ?? null;
+        $fecha_fin = $data['fecha_fin'] ?? null;
+
+        if($id && $nombre && $descripcion && $descuento && $tipo && $fecha_inicio && $fecha_fin){
+
+            include_once "models/OfertaDAO.php";
+            $validacion = OfertaDAO::editarOferta($id, $nombre, $descripcion, $descuento, $tipo, $fecha_inicio, $fecha_fin);
+            echo json_encode($validacion);
+
+        }else{
+            echo json_encode(["error"=> "No se ha podido actualizar la oferta."]);
+        }
+    }
+
+    function obtenerTiposOfertas(){
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json; charset=UTF-8");
+        header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+
+        include_once "models/OfertasDAO.php";
+        $tipos = OfertaDAO::obtenerTiposOfertas();
+        echo json_encode($tipos);
+
+    }
+
+    function obtenerOfertas(){
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json; charset=UTF-8");
+        header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+
+        // Obtener el ID del JSON
+        $data = json_decode(file_get_contents("php://input"), true);
+        $tipo = $data['filtro'] ?? null;
+
+        if($tipo){
+            include_once "models/OfertaDAO.php";
+            $ofertas = OfertaDAO::obtenerOfertas($tipo);
+            echo json_encode($ofertas);
+        }else{
+            echo json_encode(["error"=> "Tipo no introducido."]);
+        }
+    }
+
+    function eliminarOferta(){
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json; charset=UTF-8");
+        header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+
+        // Obtener el ID del JSON
+        $data = json_decode(file_get_contents("php://input"), true);
+        $id = $data["id"] ?? null;
+
+        // Si están todos los datos:
+        if($id){
+
+            include_once "models/OfertaDAO.php";
+            $validacion = OfertaDAO::eliminarOferta($id);
+
+            if($validacion){
+                echo json_encode($validacion);
+            }else{
+                echo json_encode(['error'=> 'No se ha podido eliminar la oferta.']);
+            }   
+
+        }else{
+
+            echo json_encode(['error'=> 'No se ha llenado el dato necesario.']);
+
+        }
+    }
+    
 
 }
 

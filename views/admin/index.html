@@ -138,11 +138,11 @@
                     </div>
 
                     <!-- Modal Editar pedido -->
-                    <div class="modal fade" id="modalEditarPedido" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal fade" id="modalEditarPedido" tabindex="-1" role="dialog">
                         <div class="modal-dialog modal-dialog-centered" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Crear pedido</h5>
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Editar pedido</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
 
@@ -170,6 +170,17 @@
                                         <div class="mb-3">
                                             <label for="editar_direccion" class="form-label">Dirección</label>
                                             <input type="number" id="editar_direccion" name="editar_direccion" class="form-control">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="selectEstado" class="form-label">Estado del pedido</label>
+                                            <select id="selectEstado" class="form-select">
+                                                <option value="pendiente">Pendiente</option>
+                                                <option value="preparando">En preparación</option>
+                                                <option value="repartiendo">En reparto</option>
+                                                <option value="entregado">Entregado</option>
+                                                <option value="denegado">Denegado</option>
+                                            </select>
                                         </div>
 
                                         <h7>Añadir productos</h7>
@@ -299,11 +310,20 @@
                                         <!-- Select de fechas -->
                                         <div class="mb-3">
                                             <label for="filtrar_fecha_inicio" class="form-label">Fecha de inicio</label>
-                                            <input type="date" id="filtrar_fecha_inicio" name="filtrar_fecha_inicio">
+                                            <input type="date" id="filtrar_fecha_inicio" name="filtrar_fecha_inicio" class="form-control">
                                         </div>
                                         <div class="mb-3">
                                             <label for="filtrar_fecha_fin" class="form-label">Fecha de fin</label>
-                                            <input type="date" id="filtrar_fecha_fin" name="filtrar_fecha_fin">
+                                            <input type="date" id="filtrar_fecha_fin" name="filtrar_fecha_fin" class="form-control">
+                                        </div>
+
+                                        <!-- Select de orden -->
+                                        <div class="mb-3">
+                                            <label for="orden_filtro_fecha" class="form-label">Fecha de fin</label>
+                                            <select id="orden_filtro_fecha" name="orden_filtro_fecha" class="form-select">
+                                                <option value="DESC">Descendiente</option>
+                                                <option value="ASC">Ascendiente</option>
+                                            </select>
                                         </div>
 
                                     </div>
@@ -318,7 +338,7 @@
                     </div>
 
                     <!-- Modal Filtrar Por Precio -->
-                    <div class="modal fade" id="modalFiltroPrecio" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal fade" id="modalFiltroPrecio" tabindex="-1" role="dialog">
                         <div class="modal-dialog modal-dialog-centered" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -333,11 +353,20 @@
                                         <!-- Select de fechas -->
                                         <div class="mb-3">
                                             <label for="filtrar_precio_inicio" class="form-label">Precio de inicio</label>
-                                            <input type="number" id="filtrar_precio_inicio" name="filtrar_precio_inicio">
+                                            <input type="number" id="filtrar_precio_inicio" name="filtrar_precio_inicio" class="form-control">
                                         </div>
                                         <div class="mb-3">
                                             <label for="filtrar_precio_fin" class="form-label">Precio de fin</label>
-                                            <input type="number" id="filtrar_precio_fin" name="filtrar_precio_fin">
+                                            <input type="number" id="filtrar_precio_fin" name="filtrar_precio_fin" class="form-control">
+                                        </div>
+
+                                        <!-- Select de orden -->
+                                        <div class="mb-3">
+                                            <label for="orden_filtro_precio" class="form-label">Fecha de fin</label>
+                                            <select id="orden_filtro_precio" name="orden_filtro_precio" class="form-select">
+                                                <option value="DESC">Descendiente</option>
+                                                <option value="ASC">Ascendiente</option>
+                                            </select>
                                         </div>
 
                                     </div>
@@ -569,17 +598,538 @@
 
                 <!-- CONTENEDOR PRODUCTOS -->
                 <div id="contenedorProductos" class="container-fluid">
-                    <h4>Sin funcionalidad</h4>
+
+                    <button type="button" class="btn btn-primary botonAñadir" onclick="crearProducto()">
+                        Crear Producto
+                    </button>
+
+                    <button type="button" class="btn btn-primary botonAñadir" data-bs-toggle="modal" data-bs-target="#modalFiltroSeccion">
+                        Filtrar por sección
+                    </button>
+
+                    <!-- Modal Crear Producto -->
+                    <div class="modal fade" id="modalCrearProducto" tabindex="-1" role="dialog">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Crear producto</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+
+                                <!-- Formulario dentro del modal -->
+                                <form id="formularioCrearProducto" method="POST" enctype="multipart/form-data">
+                                    <div class="modal-body">
+
+                                        <div class="mb-3">
+                                            <label for="añadir_nombre" class="form-label">Nombre</label>
+                                            <input type="text" id="añadir_nombre" name="añadir_nombre" class="form-control">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="añadir_descripcion" class="form-label">Descripción</label>
+                                            <input type="text" id="añadir_descripcion" name="añadir_descripcion" class="form-control">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="añadir_seccion" class="form-label">Sección</label>
+                                            <select name="añadir_seccion" id="añadir_seccion" class="form-select">
+                                                <option value="pizzas">Pizzas</option>
+                                                <option value="bebidas">Bebidas</option>
+                                                <option value="postres">Postres</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="añadir_ingredientes" class="form-label">Ingredientes</label>
+                                            <select name="añadir_ingredientes[]" id="añadir_ingredientes" class="form-select" multiple>
+                                            </select>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="añadir_categoria" class="form-label">Categoría</label>
+                                            <input type="text" id="añadir_categoria" name="añadir_categoria" class="form-control">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="añadir_precio" class="form-label">Precio</label>
+                                            <input type="number" id="añadir_precio" step="0.01" name="añadir_precio" class="form-control">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="añadir_imagen" class="form-label">Imagen</label>
+                                            <input type="text" id="añadir_imagen" name="añadir_imagen" class="form-control" placeholder="escribe la ruta en la que has pegado la imagen">
+                                        </div>
+
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                        <input type="submit" name="crearProducto" id="crearProducto" class="btn btn-success" value="Crear">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal Filtrar por Sección -->
+                    <div class="modal fade" id="modalFiltroSeccion" tabindex="-1" role="dialog">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Filtrar productos</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+
+                                <!-- Formulario dentro del modal -->
+                                <form id="formularioFiltroProductos" method="POST" enctype="multipart/form-data">
+                                    <div class="modal-body">
+
+                                        <div class="mb-3">
+                                            <label for="filtrar_seccion" class="form-label">Sección</label>
+                                            <select name="filtrar_seccion" id="filtrar_seccion" class="form-select">
+                                                <option value="pizzas">Pizzas</option>
+                                                <option value="bebidas">Bebidas</option>
+                                                <option value="postres">Postres</option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                        <input type="submit" name="filtrarProductos" id="filtrarProductos" class="btn btn-success" value="Filtrar">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal Editar Producto -->
+                    <div class="modal fade" id="modalEditarProducto" tabindex="-1" role="dialog">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Editar producto</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+
+                                <!-- Formulario dentro del modal -->
+                                <form id="formularioEditarProducto" method="POST" enctype="multipart/form-data">
+                                    <div class="modal-body">
+
+                                        <input type="text" id="editar_producto_id" name="editar_producto_id" class="form-control" hidden>
+
+                                        <div class="mb-3">
+                                            <label for="editar_nombre" class="form-label">Nombre</label>
+                                            <input type="text" id="editar_nombre" name="editar_nombre" class="form-control">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="editar_descripcion" class="form-label">Descripción</label>
+                                            <input type="text" id="editar_descripcion" name="editar_descripcion" class="form-control">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="editar_seccion" class="form-label">Sección</label>
+                                            <select name="editar_seccion" id="editar_seccion" class="form-select">
+                                                <option value="pizzas">Pizzas</option>
+                                                <option value="bebidas">Bebidas</option>
+                                                <option value="postres">Postres</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="editar_ingredientes" class="form-label">Ingredientes</label>
+                                            <select name="editar_ingredientes[]" id="editar_ingredientes" class="form-select" multiple>
+                                            </select>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="editar_categoria" class="form-label">Categoría</label>
+                                            <input type="text" id="editar_categoria" name="editar_categoria" class="form-control">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="editar_precio" class="form-label">Precio</label>
+                                            <input type="number" id="editar_precio" step="0.01" name="editar_precio" class="form-control">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="editar_imagen" class="form-label">Imagen</label>
+                                            <input type="text" id="editar_imagen" name="editar_imagen" class="form-control" placeholder="escribe la ruta en la que has pegado la imagen">
+                                        </div>
+
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                        <input type="submit" name="editarProducto" id="editarProducto" class="btn btn-success" value="Editar">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TABLA DE PRODUCTOS -->
+                    <div id="tablaProductos">
+
+                        <div class="tituloTable row">
+                            <div class="col-1">
+                                <p class="h4">ID</p>
+                            </div>
+                            <div class="col-6">
+                                <p class="h4">Información</p>
+                            </div>
+                            <div class="col-1">
+                                <p class="h4">Precio</p>
+                            </div>
+                            <div class="col-2">
+                                <p class="h4">Imagen</p>
+                            </div>
+                            <div class="col-2">
+                                <p class="h4">Acciones</p>
+                            </div>
+                        </div>
+    
+                        <div id="contenedorDatosProductos"></div>
+
+                    </div>
+                    
                 </div>
 
                 <!-- CONTENEDOR INGREDIENTES -->
                 <div id="contenedorIngredientes" class="container-fluid">
-                    <h4>Sin funcionalidad</h4>
+                    <button type="button" class="btn btn-primary botonAñadir" data-bs-toggle="modal" data-bs-target="#modalCrearIngrediente">
+                        Crear Producto
+                    </button>
+
+                    <button type="button" class="btn btn-primary botonAñadir" onclick="filtrarPorCategoria()">
+                        Filtrar por categoría
+                    </button>
+
+                    <!-- Modal Crear Ingrediente -->
+                    <div class="modal fade" id="modalCrearIngrediente" tabindex="-1" role="dialog">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Crear ingrediente</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+
+                                <!-- Formulario dentro del modal -->
+                                <form id="formularioCrearIngrediente" method="POST" enctype="multipart/form-data">
+                                    <div class="modal-body">
+
+                                        <div class="mb-3">
+                                            <label for="añadir_nombre_ingrediente" class="form-label">Nombre</label>
+                                            <input type="text" id="añadir_nombre_ingrediente" name="añadir_nombre_ingrediente" class="form-control">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="añadir_descripcion_ingrediente" class="form-label">Descripción</label>
+                                            <input type="text" id="añadir_descripcion_ingrediente" name="añadir_descripcion_ingrediente" class="form-control">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="añadir_precio_ingrediente" class="form-label">Precio la unidad</label>
+                                            <input type="number" id="añadir_precio_ingrediente" name="añadir_precio_ingrediente" class="form-control" step="0.01">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="añadir_categoria_ingrediente" class="form-label">Categoría</label>
+                                            <input type="text" id="añadir_categoria_ingrediente"  name="añadir_categoria_ingrediente" class="form-control">
+                                        </div>
+
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                        <input type="submit" name="crearIngrediente" id="crearIngrediente" class="btn btn-success" value="Crear">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal Editar Ingrediente -->
+                    <div class="modal fade" id="modalEditarIngrediente" tabindex="-1" role="dialog">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Editar ingrediente</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+
+                                <!-- Formulario dentro del modal -->
+                                <form id="formularioEditarIngrediente" method="POST" enctype="multipart/form-data">
+                                    <div class="modal-body">
+
+                                        <input type="text" id="editar_ingrediente_id" name="editar_ingrediente_id" hidden>
+
+                                        <div class="mb-3">
+                                            <label for="editar_nombre_ingrediente" class="form-label">Nombre</label>
+                                            <input type="text" id="editar_nombre_ingrediente" name="editar_nombre_ingrediente" class="form-control">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="editar_descripcion_ingrediente" class="form-label">Descripción</label>
+                                            <input type="text" id="editar_descripcion_ingrediente" name="editar_descripcion_ingrediente" class="form-control">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="editar_precio_ingrediente" class="form-label">Precio la unidad</label>
+                                            <input type="number" id="editar_precio_ingrediente" name="editar_precio_ingrediente" class="form-control" step="0.01">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="editar_categoria_ingrediente" class="form-label">Categoría</label>
+                                            <input type="text" id="editar_categoria_ingrediente"  name="editar_categoria_ingrediente" class="form-control">
+                                        </div>
+
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                        <input type="submit" name="editarIngrediente" id="editarIngrediente" class="btn btn-success" value="Editar">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal Filtro Ingrediente -->
+                    <div class="modal fade" id="modalFiltroIngredientes" tabindex="-1" role="dialog">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Filtrar ingrediente</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+
+                                <!-- Formulario dentro del modal -->
+                                <form id="formularioFiltroIngredientes" method="POST" enctype="multipart/form-data">
+                                    <div class="modal-body">
+
+                                        <div class="mb-3">
+                                            <label for="filtrar_ingredientes" class="form-label">Categorías</label>
+                                            <select name="filtrar_ingredientes" id="filtrar_ingredientes" class="form-select">
+                                            </select>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                        <input type="submit" name="filtrarIngredientes" id="filtrarIngredientes" class="btn btn-success" value="Crear">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TABLA DE INGREDIENTES -->
+                    <div id="tablaIngredientes">
+
+                        <div class="tituloTable row">
+                            <div class="col-1">
+                                <p class="h4">ID</p>
+                            </div>
+                            <div class="col-8">
+                                <p class="h4">Información</p>
+                            </div>
+                            <div class="col-1">
+                                <p class="h4">Precio</p>
+                            </div>
+                            <div class="col-2">
+                                <p class="h4">Acciones</p>
+                            </div>
+                        </div>
+    
+                        <div id="contenedorDatosIngredientes"></div>
+
+                    </div>
                 </div>
 
                 <!-- CONTENEDOR OFERTAS -->
                 <div id="contenedorOfertas" class="container-fluid">
-                    <h4>Sin funcionalidad</h4>
+                    <button type="button" class="btn btn-primary botonAñadir" data-bs-toggle="modal" data-bs-target="#modalCrearOferta">
+                        Crear Oferta
+                    </button>
+
+                    <button type="button" class="btn btn-primary botonAñadir" onclick="filtrarPorTipo()">
+                        Filtrar por categoría
+                    </button>
+
+                    <!-- Modal Crear Ingrediente -->
+                    <div class="modal fade" id="modalCrearOferta" tabindex="-1" role="dialog">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Crear oferta</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+
+                                <!-- Formulario dentro del modal -->
+                                <form id="formularioCrearOferta" method="POST" enctype="multipart/form-data">
+                                    <div class="modal-body">
+
+                                        <div class="mb-3">
+                                            <label for="añadir_nombre_oferta" class="form-label">Nombre</label>
+                                            <input type="text" id="añadir_nombre_oferta" name="añadir_nombre_oferta" class="form-control">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="añadir_descripcion_oferta" class="form-label">Descripción</label>
+                                            <input type="text" id="añadir_descripcion_oferta" name="añadir_descripcion_oferta" class="form-control">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="añadir_descuento_oferta" class="form-label">Descuento</label>
+                                            <input type="number" id="añadir_descuento_oferta" name="añadir_descuento_oferta" class="form-control">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="añadir_tipo_oferta" class="form-label">Tipo de descuento</label>
+                                            <select name="añadir_tipo_oferta" id="añadir_tipo_oferta" class="form-select">
+                                                <option value="%">Porcentaje</option>
+                                                <option value="€">Euros</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="añadir_fecha_inicio_oferta" class="form-label">Fecha de inicio</label>
+                                            <input type="date" id="añadir_fecha_inicio_oferta"  name="añadir_fecha_inicio_oferta" class="form-control">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="añadir_fecha_final_oferta" class="form-label">Fecha de fin</label>
+                                            <input type="date" id="añadir_fecha_final_oferta"  name="añadir_fecha_final_oferta" class="form-control">
+                                        </div>
+
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                        <input type="submit" name="crearOferta" id="crearOferta" class="btn btn-success" value="Crear">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal Editar Oferta -->
+                    <div class="modal fade" id="modalEditarOferta" tabindex="-1" role="dialog">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Editar oferta</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+
+                                <!-- Formulario dentro del modal -->
+                                <form id="formularioEditarOferta" method="POST" enctype="multipart/form-data">
+                                    <div class="modal-body">
+
+                                        <input type="text" id="editar_id_oferta" name="editar_ingrediente_id" hidden>
+
+                                        <div class="mb-3">
+                                            <label for="editar_nombre_oferta" class="form-label">Nombre</label>
+                                            <input type="text" id="editar_nombre_oferta" name="editar_nombre_oferta" class="form-control">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="editar_descripcion_oferta" class="form-label">Descripción</label>
+                                            <input type="text" id="editar_descripcion_oferta" name="editar_descripcion_oferta" class="form-control">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="editar_descuento_oferta" class="form-label">Descuento</label>
+                                            <input type="number" id="editar_descuento_oferta" name="editar_descuento_oferta" class="form-control">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="editar_tipo_oferta" class="form-label">Tipo de descuento</label>
+                                            <select name="editar_tipo_oferta" id="editar_tipo_oferta" class="form-select">
+                                            </select>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="editar_fecha_inicio_oferta" class="form-label">Fecha de inicio</label>
+                                            <input type="date" id="editar_fecha_inicio_oferta"  name="editar_fecha_inicio_oferta" class="form-control">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="editar_fecha_final_oferta" class="form-label">Fecha de fin</label>
+                                            <input type="date" id="editar_fecha_final_oferta"  name="editar_fecha_final_oferta" class="form-control">
+                                        </div>
+
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                        <input type="submit" name="editarOferta" id="editarOferta" class="btn btn-success" value="Editar">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal Filtro Ingrediente -->
+                    <div class="modal fade" id="modalFiltroOfertas" tabindex="-1" role="dialog">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Crear producto</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+
+                                <!-- Formulario dentro del modal -->
+                                <form id="formularioFiltroOfertas" method="POST" enctype="multipart/form-data">
+                                    <div class="modal-body">
+
+                                        <div class="mb-3">
+                                            <label for="filtrar_ofertas" class="form-label">Categorías</label>
+                                            <select name="filtrar_ofertas" id="filtrar_ofertas" class="form-select">
+                                                <option value="%">Prcentaje</option>
+                                                <option value="€">Euros</option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                        <input type="submit" name="filtrarOfertas" id="filtrarOfertas" class="btn btn-success" value="Filtrar">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TABLA DE OFERTAS -->
+                    <div id="tablaOfertas">
+
+                        <div class="tituloTable row">
+                            <div class="col-1">
+                                <p class="h4">ID</p>
+                            </div>
+                            <div class="col-5">
+                                <p class="h4">Información</p>
+                            </div>
+                            <div class="col-2">
+                                <p class="h4">Descuento</p>
+                            </div>
+                            <div class="col-2">
+                                <p class="h4">Fechas</p>
+                            </div>
+                            <div class="col-2">
+                                <p class="h4">Acciones</p>
+                            </div>
+                        </div>
+    
+                        <div id="contenedorDatosOfertas"></div>
+
+                    </div>
                 </div>
 
             </div>
@@ -592,11 +1142,9 @@
     <!-- Scripts -->
     <script src="views/admin/pedidos.js"></script>
     <script src="views/admin/usuarios.js"></script>
-    <!--
     <script src="views/admin/productos.js"></script>
     <script src="views/admin/ingredientes.js"></script>
     <script src="views/admin/ofertas.js"></script>
-    -->
 
     <!-- Script de la página -->
     <script>
