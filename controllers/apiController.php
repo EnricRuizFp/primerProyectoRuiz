@@ -850,7 +850,82 @@ class apiController{
 
         }
     }
-    
+
+    /**
+     * DATOS ADMIN
+     */
+    function obtenerDatosPedidos(){
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json; charset=UTF-8");
+        header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+
+        include_once "models/PedidoDAO.php";
+
+        $respuesta = [
+            "cantidadPedidos" => PedidoDAO::obtenerCantidadPedidos(),
+            "precioTotalPedidos" => PedidoDAO::obtenerPrecioTotalPedidos(),
+            "totalDescuentos" => PedidoDAO::obtenerCantidadDescuentos(),
+            "mejorUsuario" => PedidoDAO::obtenerMejorUsuario()
+        ];
+
+        echo json_encode($respuesta);
+
+    }
+
+    function obtenerDatosUsuarios(){
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json; charset=UTF-8");
+        header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+
+        include_once "models/UsuarioDAO.php";
+
+        $respuesta = [
+            "cantidadUsuarios" => UsuarioDAO::obtenerCantidadUsuarios(),
+            "usuariosSinTarjeta" => UsuarioDAO::obtenerUsuariosSinTarjeta(),
+            "usuariosConPerfilCompleto" => UsuarioDAO::obtenerUsuariosPerfilCompleto()
+        ];
+
+        echo json_encode($respuesta);
+
+    }
+
+    function obtenerDatosProductos(){
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json; charset=UTF-8");
+        header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+
+        include_once "models/ProductoDAO.php";
+
+        $respuesta = [
+            "cantidadProductos" => ProductoDAO::obtenerCantidadProductos(),
+            "promedioPrecioPizzas" => ProductoDAO::obtenerPromedioPrecioPizzas(),
+            "promedioPrecioBebidas" => ProductoDAO::obtenerPromedioPrecioBebidas(),
+            "promedioPrecioPostres" => ProductoDAO::obtenerPromedioPrecioPostres()
+        ];
+
+        echo json_encode($respuesta);
+    }
+
+    function obtenerDatosIngredientes(){
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json; charset=UTF-8");
+        header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+
+        include_once "models/IngredienteDAO.php";
+
+        $respuesta = [
+            "cantidadIngredientes" => IngredienteDAO::obtenerCantidadIngredientes(),
+            "promedioPrecioIngrediente" => IngredienteDAO::obtenerPromedioPrecioIngredientes(),
+            "ingredienteMasCaro" => IngredienteDAO::obtenerIngredienteMasCaro(),
+            "ingredienteMasBarato" => IngredienteDAO::obtenerIngredienteMasBarato()
+        ];
+
+        echo json_encode($respuesta);
+    }
 
 }
 

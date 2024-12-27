@@ -11,14 +11,15 @@
 }
 
 #seccionEnvio{
-    background-color: aquamarine;
+    padding-left: 50px;
+    padding-top: 50px;
 }
 
 /* -- Formulario de selección de una dirección -- */
 .form-select{
     background: none;
-    border: none;
-    outline: none;
+    border: none !important;
+    outline: none !important;
     overflow: hidden;
 }
 .form-select option:checked {
@@ -48,4 +49,9 @@
 #contenedorSeccionResumen{
     background-color: #F9F5EF;
     padding: 30px;
+}
+
+/* -- Contenedor datos Invalidos -- */
+#datosInvalidos{
+    margin-top: 40px;
 }

@@ -1,27 +1,27 @@
 /* -- GENERAL -- */
 #contenedorGeneral{
-    height: 1500px;
-    padding-top: 50px;
+    margin-top: 90px !important;
 }
 
-#contenedorContenido{
-    display: flex;
+a{
+    color: black !important;
+    text-decoration: none !important;
+}
+
+.linkMigasPan:hover{
+    text-decoration: underline !important;
+    text-decoration-color: #df2d00 !important;
+    text-decoration-thickness: 2px !important;
 }
 
 /* -- CONTENEDOR IZQUIERDO -- */
 #contenedorIzquierdo{
-    width: 50%;
-
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 /* -- CONTENEDOR DERECHO -- */
-#contenedorDerecho{
-    width: 50%;
-}
-
 #contenedorDetalles{
     width: 70%;
     margin-top: 100px;
@@ -29,6 +29,12 @@
     background-color: #F9F5EF;
     padding: 35px;
 }
+@media (max-width: 1200px){
+    #contenedorDetalles{
+        width: 90%;
+    }
+}
+
 
 /* -- CONTENIDO -- */
 #tituloDetalles{
@@ -58,26 +64,6 @@
     background-color: white;
 }
 
-/* -- Contenedor ingredientes -- */
-#contenedorModificarIngredientes {
-    height: 0; /* Colapsado */
-    overflow: hidden; /* Oculta el contenido durante la transición */
-    display: none; /* Inicialmente oculto */
-
-    padding-top: 15px;
-}
-
-/* Configuración básica de las transiciones */
-#ingredientesDefault, #contenedorModificarIngredientes {
-    transition: height 0.5s ease-in-out;
-}
-
-#contenedorIngredientesComplementarios{
-    padding-top: 15px;
-    position: relative; /* Asegura un flujo correcto */
-    background-color: #F9F5EF; /* Fondo sólido que bloquea contenido detrás */
-}
-
 /* -- Texto Información del default -- */
 #iconoInformacionIngredientesDefault {
     margin-left: 6px;
@@ -87,7 +73,7 @@
     top: -3px;
 }
 #iconoInformacionIngredientesDefault::after {
-    content: "Ingredientes que contiene la pizza por defecto.\A Puedes añadir más en el botón inferior";
+    content: "Ingredientes que contiene el producto por defecto.";
     position: absolute;
     top: 50%; /* Alinea verticalmente al centro */
     left: 100%; /* Posiciona el texto a la derecha del ícono */
@@ -110,27 +96,77 @@
     transition: opacity 0.3s;
 }
 
-/* -- Contenedor ingrediente personalizado -- */
-#contenedorIngredientes{
-    display: flex;
-    flex-wrap: wrap;
-    gap:2px;
-    height: 300px;
-}
-.contenedorIngrediente{
-    width: 33%;
-}
-
 /* -- BOTONES INFERIORES -- */
-#contenedorInferior{
+#contenedorPrecio, #contenedorInferior{
     padding-top: 30px;
 }
 
-.botonAñadirAlCarrito{
-    width: 30%;
+/* -- SECCION PRODUCTOS SIMILARES -- */
+#contenedorSeccionProductosSimilares{
+    margin-top: 50px;
 }
 
-#botonHacerMenu{
-    width: 60%;
-    margin-left: 15px;
+#contenidoSeccionProductosSimilares{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    margin-top: 30px;
+    margin-bottom: 60px;
+}
+
+.contenedorPizzasSeccionProductosSimilares{
+    width: 20%;
+    height: auto;
+    border-top: 2px solid #FF4713;
+    border-bottom: 2px solid #FF4713;
+    border-left: 1px solid #FF4713;
+    border-right: 1px solid #FF4713;
+    padding: 25px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+}
+
+.separadorImagenSeccionProductosSimilares{
+    height: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Ocultar último contenedor y ensanchar*/
+@media (max-width: 1600px){
+    .contenedorPizzasSeccionProductosSimilares:nth-child(n+5) { 
+        display: none;
+    }
+    .contenedorPizzasSeccionProductosSimilares {
+        width: 25%;
+    }
+
+}
+@media (max-width: 1300px){
+    .contenedorPizzasSeccionProductosSimilares:nth-child(n+4) { 
+        display: none;
+    }
+    .contenedorPizzasSeccionProductosSimilares {
+        width: 33.33%;
+    } 
+}
+@media (max-width: 900px){
+    .contenedorPizzasSeccionProductosSimilares:nth-child(n+3) { 
+        display: none;
+    }
+    .contenedorPizzasSeccionProductosSimilares {
+        width: 100%;
+    } 
+}
+
+#contenedorSeccionProductosSimilares hr {
+    border: 0px;
+    background-color: #FF4713 !important;
+    opacity: 100%;
+    height: 2px;
 }

@@ -19,6 +19,12 @@
     padding-right: 100px;
     padding-bottom: 50px;
 }
+@media (max-width: 1000px) {
+    #contenedorLogin {
+        padding-left: 40px;
+        padding-right: 40px;
+    }   
+}
 
 /* -- Contenedor Usuario / Contraseña -- */
 #contenedorUsuario, #contenedorContraseña{
@@ -26,7 +32,7 @@
 }
 #usuario, #contraseña{
     background-color: #D9D9D9;
-    width: 500px;
+    width: 80%;
     border: 0px;
     height: 40px;
     padding-left: 20px;
@@ -37,8 +43,8 @@
 #botonIniciarSesion{
     background-color: #FF4713;
     padding-top: 7px;
-    padding-left: 120px;
-    padding-right: 120px;
+    padding-left: 7%;
+    padding-right: 7%;
     display: inline-flex;
     height: 40px;
     color: white !important;
@@ -50,8 +56,8 @@
 #botonIniciarSesion:hover{
     background-color: #000000;
     padding-top: 7px;
-    padding-left: 120px;
-    padding-right: 120px;
+    padding-left: 7%;
+    padding-right: 7%;
     display: inline-flex;
     height: 40px;
     color: white !important;
@@ -71,4 +77,16 @@
 }
 #usuarioInexistente a{
     color: #FF4713;
+}
+
+
+#contenedorBotones{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.botones{
+    text-decoration: none;
 }

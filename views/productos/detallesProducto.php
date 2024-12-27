@@ -22,15 +22,22 @@
         <?php include_once "views/others/navbar.php"; ?>
     </div>
 
-    <div id="contenedorGeneral">
-        <div id="contenedorContenido">
+    <div id="contenedorGeneral" class="container-fluid">
+        <div id="contenedorContenido" class="row">
 
-            <div id="contenedorIzquierdo">
+            <div class="migasDePan col-12">
+                <p class="p5 bold no-margin"><a href="?controller=general" class="linkMigasPan">Inicio</a> > <a href="?controller=general&action=productos" class="linkMigasPan">Productos</a> > <a href="?controller=general&action=<?php echo ucfirst($producto->getSeccion()); ?>" class="linkMigasPan"><?php echo ucfirst($producto->getSeccion()); ?></a> > <?php echo ucfirst($producto->getNombre()); ?></p>
+            </div>
+            <div id="barraMigasDePan">
+                <hr>
+            </div>
+
+            <div id="contenedorIzquierdo" class="col-12 col-xl-6">
                 <div id="contenedorImagen">
                     <img src="<?php echo $producto->getImagen() ?>" alt="Imagen del producto." width="500px">
                 </div>
             </div>
-            <div id="contenedorDerecho">
+            <div id="contenedorDerecho" class="col-12 col-xl-6">
                 <div id="contenedorDetalles">
                     <div id="contenidoDetalles">
                         <div id="tituloDetalles">
@@ -76,27 +83,12 @@
                             </p>
                         </div>
 
-                        <div id="contenedorIngredientesComplementarios">
-                            <button class="botonModificarIngredientesPrimario">
-                                <p class="p4 bold">Modificar ingredientes</p>
-                            </button>
+                        <div id="contenedorPrecio">
 
-                            <div id="contenedorModificarIngredientes">
-                                <p class="p2 bold">Ingredientes actuales</p>
+                            <p class="p2 bold">Precio</p>
 
-                                <div id="contenedorIngredientes">
-
-                                    <?php
-                                        foreach($ingredientes as $ingrediente){
-                                            ?>
-                                            <div class="contenedorIngrediente">
-                                                <?= $ingrediente->getNombre(); ?>
-                                            </div>
-                                            <?php
-                                        }
-                                    ?>
-                                </div>
-                            </div>
+                            <p class="p3"><?php echo $producto->getPrecio(); ?> €</p>
+                            
                         </div>
 
                         <div id="contenedorInferior">
@@ -109,14 +101,57 @@
                                 </div>
                             </a>
 
-                            <a href="?controller=carrito&action=destroy">
-                                <div id="botonHacerMenu">
-                                    <p class="p4 bold">Hacer menú</p>
-                                </div>
-                            </a>
-
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div id="contenedorSeccionProductosSimilares" class="col-12">
+
+                <div id="tituloSeccionProductosSimilares">
+                    <h5>Productos similares</h5>
+                </div>
+
+                <div id="contenidoSeccionProductosSimilares">
+
+                <?php
+
+                foreach($productosSimilares as $productoSimilar){
+
+                    ?>
+                    
+                    <div class="contenedorPizzasSeccionProductosSimilares">
+                        <div class="separadorImagenSeccionProductosSimilares">
+                            <img src="<?= $productoSimilar->getImagen()?>" width="80%"> <!-- Imagen producto -->
+                        </div>
+                        <div class="separadorContenidoSeccionProductosSimilares">
+
+                            <div class="lineaDivisoraContenidoSeccionProductosSimilares">
+                                <hr>
+                            </div>
+                            <div class="tituloContenidoSeccionProductosSimilares">
+                                <h7 class="naranja"><?= $productoSimilar->getNombre()?></h7>
+                            </div>
+                            <div class="textoContenidoSeccionProductosSimilares">
+                                <p class="p5 bold"><?= $productoSimilar->getDescripcion()?></p>
+                            </div>
+                            <div class="precioContenidoSeccionProductosSimilares">
+                                <p class="p2 bold"><?= $productoSimilar->getPrecio()?> €</p>
+                            </div>
+
+                            <a href="?controller=producto&action=producto&value=<?= $productoSimilar->getId()?>">
+                                <div class="botonPedirAhoraPrimario">
+                                    <p class="p4 bold">Pedir ahora</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <?php
+                }
+
+                ?>
+
                 </div>
             </div>
 
@@ -131,62 +166,19 @@
 
     <!-- Script visibilidad Ingredientes -->
     <script>
-        // Selecciona los elementos
-        const ingredientesDefault = document.getElementById('ingredientesDefault');
-        const contenedorModificarIngredientes = document.getElementById('contenedorModificarIngredientes');
-        const botonModificar = document.querySelector('.botonModificarIngredientesPrimario');
 
-        // Variable para rastrear el estado (true = mostrando inferior, false = mostrando superior)
-        let mostrandoInferior = false;
+        const tipoProducto = '<?= $producto->getSeccion() ?>';
 
-        // Añade el evento al botón
-        botonModificar.addEventListener('click', () => {
-            if (mostrandoInferior) {
-                // Volver a mostrar el contenedor superior
-                contenedorModificarIngredientes.style.height = `${contenedorModificarIngredientes.scrollHeight}px`; // Fija altura actual
-                requestAnimationFrame(() => {
-                    contenedorModificarIngredientes.style.transition = 'height 0.9s ease-in-out';
-                    contenedorModificarIngredientes.style.height = '0';
-                });
-                contenedorModificarIngredientes.addEventListener('transitionend', () => {
-                    contenedorModificarIngredientes.style.display = 'none'; // Oculta completamente
-                }, { once: true });
+        console.log(tipoProducto);
 
-                ingredientesDefault.style.display = 'block'; // Asegura visibilidad inicial
-                ingredientesDefault.style.height = '0'; // Inicializa colapsado
-                requestAnimationFrame(() => {
-                    ingredientesDefault.style.transition = 'height 0.5s ease-in-out';
-                    ingredientesDefault.style.height = `${ingredientesDefault.scrollHeight}px`;
-                });
+        const contenedorIngredientes = document.getElementById('ingredientesDefault');
 
-                // Cambia el texto del botón cuando vuelve a mostrar el div de ingredientesDefault
-                botonModificar.querySelector('p').textContent = 'Modificar ingredientes';
+        if(tipoProducto == 'bebidas'){
+            contenedorIngredientes.style.display = 'none';
+        }else{
+            contenedorIngredientes.style.display = 'block';
+        }
 
-                mostrandoInferior = false; // Actualiza el estado
-            } else {
-                // Ocultar el contenedor superior y mostrar el inferior
-                ingredientesDefault.style.height = `${ingredientesDefault.scrollHeight}px`; // Fija altura inicial
-                requestAnimationFrame(() => {
-                    ingredientesDefault.style.transition = 'height 0.5s ease-in-out';
-                    ingredientesDefault.style.height = '0';
-                });
-                ingredientesDefault.addEventListener('transitionend', () => {
-                    ingredientesDefault.style.display = 'none'; // Oculta completamente
-                }, { once: true });
-
-                contenedorModificarIngredientes.style.display = 'block'; // Asegura visibilidad inicial
-                contenedorModificarIngredientes.style.height = '0'; // Inicializa colapsado
-                requestAnimationFrame(() => {
-                    contenedorModificarIngredientes.style.transition = 'height 0.5s ease-in-out';
-                    contenedorModificarIngredientes.style.height = `${contenedorModificarIngredientes.scrollHeight}px`;
-                });
-
-                // Cambia el texto del botón cuando se oculta el div de ingredientesDefault
-                botonModificar.querySelector('p').textContent = 'Volver a por defecto';
-
-                mostrandoInferior = true; // Actualiza el estado
-            }
-        });
     </script>
 
     

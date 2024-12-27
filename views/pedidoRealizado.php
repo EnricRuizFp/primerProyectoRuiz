@@ -33,23 +33,26 @@
             ?>
 
             <div class="contenedorGeneral row container-fluid">
-                <div class="contenidoGeneral col-6 mx-auto row">
+                <div class="contenidoGeneral col-md-10 col-lg-6 mx-auto row">
                     <div class="contenidoInformacion col-8 mx-auto">
                         <h5>Gracias por tu compra!</h5>
                         <p>Tus productos se enviarán tan pronto como nos sea posible.</p>
                         <p>Puedes acceder a tus pedidos des de tu cuenta.</p>
 
-                        <a href="?controller=producto">
-                            <div class="botonPedirAhoraPrimario">
-                                <p class="p4 bold">Seguir comprando</p>
-                            </div>
-                        </a>
-
-                        <a href="?controller=usuario">
-                            <div class="botonPedirAhoraPrimario">
-                                <p class="p4 bold">Ver mis pedidos</p>
-                            </div>
-                        </a>
+                        <div id="contenedorBotones">
+                            <a class="botones" href="?controller=producto">
+                                <div class="botonPedirAhoraPrimario">
+                                    <p class="p4 bold">Seguir comprando</p>
+                                </div>
+                            </a>
+                            <a class="botones" href="?controller=usuario">
+                                <div class="botonPedirAhoraPrimario">
+                                    <p class="p4 bold">Ver mis pedidos</p>
+                                </div>
+                            </a>
+                        </div>
+                        
+                        
                     </div>
                 </div>
             </div>
@@ -60,9 +63,9 @@
 
             ?>
 
-            <div class="contenedorGeneral">
-                <div class="contenidoGeneral">
-                    <div class="contenidoInformacion">
+            <div class="contenedorGeneral row container-fluid">
+                <div class="contenidoGeneral col-md-12 col-lg-6 mx-auto row">
+                    <div class="contenidoInformacion col-8 mx-auto">
                         <h5>El pedido no se ha podido completar.</h5>
                         <p>Por favor, vuelve a realizar el proceso de compra.</p>
                         <p>Si sigue sin poder comprar, pongase en contacto con nosotros mediante el teléfono de contacto o haciendo <a href="?controller=general&action=contacto">clic aquí</a>.</p>
@@ -86,8 +89,6 @@
 
     <!-- FOOTER -->
     <?php include_once "views/others/footer.php"; ?>
-
-    <a href="?controller=general&action=admin">ADMIN</a>
 
     <!-- Bootstrap Bundle with Popper (JS) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>

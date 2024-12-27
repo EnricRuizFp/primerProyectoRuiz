@@ -35,9 +35,29 @@
 
             <div id="contenedorPrincipal" class="col-10">
 
-                <div id="contenedorDefault">
+                <div id="contenedorDefault" class="container-fluid">
                     <p class="p3">Ha accedido al panel de administrador.</p>
                     <p class="p4">Seleccione una de las opciones de la izquierda.</p>
+
+                    <div id="datosTotales" class="row">
+                        <h5>Totales</h5>
+
+                        <div class="col-6">
+                            <div id="datosPedidos" class="contenedorDatosTotales"></div>
+                        </div>
+                        <div class="col-6">
+                            <div id="datosUsuarios" class="contenedorDatosTotales"></div>
+                        </div>
+                        <div class="col-6">
+                            <div id="datosProductos" class="contenedorDatosTotales"></div>
+                        </div>
+                        <div class="col-6">
+                            <div id="datosIngredientes" class="contenedorDatosTotales"></div>
+                        </div>
+                        
+
+                    </div>
+
                 </div>
 
                 <!-- CONTENEDOR PEDIDOS -->
@@ -1149,6 +1169,75 @@
     <!-- Script de la página -->
     <script>
 
+        async function cargarDatosAdmin(){
+
+            // Datos de pedidos
+            const respuestaPedidos = await fetch(`?controller=api&action=obtenerDatosPedidos`, 
+                {method: 'POST', headers: {'Content-Type': 'application/json'}}
+            );
+            const datosPedidos = await respuestaPedidos.json();
+
+            const contenedorPedidos = document.querySelector('#datosPedidos');
+            contenedorPedidos.innerHTML = `
+                <h7>Pedidos</h7>
+                    <br><br>
+                <p><b>Cantidad de pedidos realizados:</b> ${datosPedidos.cantidadPedidos}</p>
+                <p><b>Precio total de los productos comprados:</b> ${datosPedidos.precioTotalPedidos} €</p>
+                <p><b>Total de dinero descontado:</b> ${datosPedidos.totalDescuentos} €</p>
+            `;
+
+            // Datos de Usuarios
+            const respuestaUsuarios = await fetch(`?controller=api&action=obtenerDatosUsuarios`, 
+                {method: 'POST', headers: {'Content-Type': 'application/json'}}
+            );
+            const datosUsuarios = await respuestaUsuarios.json();
+
+            const contenedorUsuarios = document.querySelector('#datosUsuarios');
+            contenedorUsuarios.innerHTML = `
+                <h7>Usuarios</h7>
+                    <br><br>
+                <p><b>Usuarios registrados:</b> ${datosUsuarios.cantidadUsuarios}</p>
+                <p><b>Usuarios con perfil completo:</b> ${datosUsuarios.usuariosConPerfilCompleto}</p>
+                <p><b>Usuarios sin tarjeta disponible:</b> ${datosUsuarios.usuariosSinTarjeta}</p>
+                    <br>
+                <p><b>Usuario más fiel:</b> ${datosPedidos.mejorUsuario.mejorUsuario}</p>
+                <p><b>Cantidad de dinero gastado:</b> ${datosPedidos.mejorUsuario.dineroGastado} €</p>
+            `;
+
+            // Datos de Productos
+            const respuestaProductos = await fetch(`?controller=api&action=obtenerDatosProductos`, 
+                {method: 'POST', headers: {'Content-Type': 'application/json'}}
+            );
+            const datosProductos = await respuestaProductos.json();
+
+            const contenedorProductos = document.querySelector('#datosProductos');
+            contenedorProductos.innerHTML = `
+                <h7>Productos</h7>
+                    <br><br>
+                <p><b>Cantidad de productos disponibles:</b> ${datosProductos.cantidadProductos}</p>
+                <p><b>Promedio de precio de pizzas:</b> ${datosProductos.promedioPrecioPizzas} €</p>
+                <p><b>Promedio de precio de bebidas:</b> ${datosProductos.promedioPrecioBebidas} €</p>
+                <p><b>Promedio de precio de postres:</b> ${datosProductos.promedioPrecioPostres} €</p>
+            `;
+
+            // Datos de Ingredientes
+            const respuestaIngredientes = await fetch(`?controller=api&action=obtenerDatosIngredientes`, 
+                {method: 'POST', headers: {'Content-Type': 'application/json'}}
+            );
+            const datosIngredientes = await respuestaIngredientes.json();
+
+            const contenedorIngredientes = document.querySelector('#datosIngredientes');
+            contenedorIngredientes.innerHTML = `
+                <h7>Ingredientes</h7>
+                    <br><br>
+                <p><b>Cantidad de ingredientes:</b> ${datosIngredientes.cantidadIngredientes}</p>
+                <p><b>Promedio de los ingredientes:</b> ${datosIngredientes.promedioPrecioIngrediente} €</p>
+                <p><b>Ingrediente más caro:</b> ${datosIngredientes.ingredienteMasCaro}</p>
+                <p><b>Ingrediente más barato:</b> ${datosIngredientes.ingredienteMasBarato}</p>
+            `;
+
+        }
+
         const contenedorDefault = document.getElementById('contenedorDefault');
         const contenedorPedidos = document.getElementById('contenedorPedidos');
         const contenedorUsuarios = document.getElementById('contenedorUsuarios');
@@ -1165,6 +1254,9 @@
             contenedorProductos.style.display = 'none';
             contenedorIngredientes.style.display = 'none';
             contenedorOfertas.style.display = 'none';
+
+            cargarDatosAdmin();
+
         });
         
         // Botones laterales

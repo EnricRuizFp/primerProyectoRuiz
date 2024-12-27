@@ -248,6 +248,82 @@
 
         }
 
+        /**
+         * PANTALLA ADMIN
+         */
+        public static function obtenerCantidadIngredientes(){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("SELECT COUNT(*) AS cantidadIngredientes FROM INGREDIENTES");
+
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            $result = $resultado->fetch_assoc();
+            $cantidadIngredientes = $result['cantidadIngredientes'];
+
+            $stmt->close();
+            $con->close();
+
+            return $cantidadIngredientes;
+        
+        }
+
+        public static function obtenerPromedioPrecioIngredientes(){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("SELECT ROUND(AVG(precio_unidad), 2) AS promedioPrecio FROM INGREDIENTES");
+
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            $result = $resultado->fetch_assoc();
+            $promedioPrecio = $result['promedioPrecio'];
+
+            $stmt->close();
+            $con->close();
+
+            return $promedioPrecio;
+
+        }
+
+        public static function obtenerIngredienteMasCaro(){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("SELECT nombre AS ingrediente FROM INGREDIENTES WHERE precio_unidad = (SELECT MAX(precio_unidad) FROM INGREDIENTES)");
+
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            $result = $resultado->fetch_assoc();
+            $ingrediente = $result['ingrediente'];
+
+            $stmt->close();
+            $con->close();
+
+            return $ingrediente;
+
+        }
+
+        public static function obtenerIngredienteMasBarato(){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("SELECT nombre AS ingrediente FROM INGREDIENTES WHERE precio_unidad = (SELECT MIN(precio_unidad) FROM INGREDIENTES)");
+
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            $result = $resultado->fetch_assoc();
+            $ingrediente = $result['ingrediente'];
+
+            $stmt->close();
+            $con->close();
+
+            return $ingrediente;
+
+        }
+
+
     }
 
 ?>

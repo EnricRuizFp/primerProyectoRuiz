@@ -4,11 +4,11 @@
 
         protected $ID;
         protected $nombre;
-        protected $producto_ingrediente_id;
         protected $descripcion;
         protected $categoria;
         protected $precio;
         protected $imagen;
+        protected $seccion;
 
         public function __construct(){
 
@@ -26,9 +26,6 @@
         public function getNombre(){
             return $this->nombre;
         }
-        public function getProductoIngredienteId(){
-            return $this->producto_ingrediente_id;
-        }
         public function getDescripcion(){
             return $this->descripcion;
         }
@@ -41,6 +38,9 @@
         public function getImagen(){
             return $this->imagen;
         }
+        public function getSeccion(){
+            return $this->seccion;
+        }
 
         /**
          * SETTERS
@@ -50,9 +50,6 @@
         }
         public function setNombre($nombre){
             $this->nombre = $nombre;
-        }
-        public function setProductoIngredienteId($producto_ingrediente_id){
-            $this->producto_ingrediente_id = $producto_ingrediente_id;
         }
         public function setDescripcion($descripcion){
             $this->descripcion = $descripcion;
@@ -65,6 +62,9 @@
         }
         public function setImagen($imagen){
             $this->imagen = $imagen;
+        }
+        public function setSeccion($seccion){
+            $this->seccion = $seccion;
         }
 
         /**

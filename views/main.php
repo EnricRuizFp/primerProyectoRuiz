@@ -263,8 +263,6 @@
     <!-- FOOTER -->
     <?php include_once "views/others/footer.php"; ?>
 
-    <a href="?controller=general&action=admin">ADMIN</a>
-
     <!-- Bootstrap Bundle with Popper (JS) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 

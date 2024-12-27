@@ -496,6 +496,83 @@
 
         }
 
+        /**
+         * PANTALLA ADMIN
+         */
+        public static function obtenerCantidadPedidos(){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("SELECT count(*) AS cantidad FROM PEDIDO");
+
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            $result = $resultado->fetch_assoc();
+            $cantidadPedidos = $result['cantidad'];
+
+            $stmt->close();
+            $con->close();
+
+            return $cantidadPedidos;
+        }
+
+        public static function obtenerPrecioTotalPedidos(){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("SELECT SUM(precio_final) as precio_total FROM PEDIDO");
+
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            $result = $resultado->fetch_assoc();
+            $precioTotalPedidos = $result['precio_total'];
+
+            $stmt->close();
+            $con->close();
+
+            return $precioTotalPedidos;
+
+        }
+
+        public static function obtenerCantidadDescuentos(){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("SELECT SUM(descuento) AS totalDescuentos FROM PEDIDO");
+
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            $result = $resultado->fetch_assoc();
+            $totalDescuentos = $result['totalDescuentos'];
+
+            $stmt->close();
+            $con->close();
+
+            return $totalDescuentos;
+
+        }
+
+        public static function obtenerMejorUsuario(){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("SELECT cliente_id, SUM(precio_final) AS totalGastado FROM PEDIDO GROUP BY cliente_id ORDER BY totalGastado DESC LIMIT 1;");
+
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            $result = $resultado->fetch_assoc();
+            $mejorUsuario = [
+                "mejorUsuario" => $result['cliente_id'],
+                "dineroGastado" => $result['totalGastado']
+            ];
+
+            $stmt->close();
+            $con->close();
+
+            return $mejorUsuario;
+
+        }
+
     }
 
 ?>

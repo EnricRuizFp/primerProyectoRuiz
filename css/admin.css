@@ -21,6 +21,15 @@
     margin-top: 10px;
 }
 
+#datosTotales{
+    margin-top: 50px;
+}
+.contenedorDatosTotales{
+    margin: 5px;
+    padding: 15px;
+    background-color: aliceblue;
+}
+
 #funcionSinImplementar{
     display: none;
 }

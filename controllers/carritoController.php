@@ -177,8 +177,8 @@
 
         public function calcularPrecioConDescuento($precioProductos, $ofertaSeleccionada){
 
-            $tipoOferta = OfertaDAO::getTipoOferta(OfertaDAO::getOfertaId($ofertaSeleccionada));
-            $cantidadOferta = OfertaDAO::getCantidadOferta(OfertaDAO::getOfertaId($ofertaSeleccionada));
+            $tipoOferta = OfertaDAO::getTipoOferta($ofertaSeleccionada);
+            $cantidadOferta = OfertaDAO::getCantidadOferta($ofertaSeleccionada);
 
             if($tipoOferta == "%"){
                 $precioTotal = $precioProductos - round($precioProductos * ($cantidadOferta / 100), 2); 
@@ -248,7 +248,6 @@
             // Si no hay sesión iniciada, lleva a la página de inicio sesión
             session_write_close();
             include_once "views/comprar.php";
-            exit(); 
 
         }
 
@@ -293,7 +292,6 @@
 
             session_write_close();
             include_once "views/comprar.php";
-            exit(); 
 
         }
 
@@ -319,32 +317,6 @@
             $fechaPedido = date("Y-m-d H:i:s");
 
             $direccion = $_SESSION['direccionActual'];
-
-            /*
-            // DATOS A INTRODUCIR:
-            echo "PEDIDO:<br>";
-            echo "cliente: ".$usuarioActual."<br>";
-            echo "oferta_id: ".$oferta_id."<br>";
-            echo "precio: ".$precioProductos."<br>";
-            echo "descuento: ".$descuento."<br>";
-            echo "precio final: ".$precioFinal."<br>";
-            echo "estado: ".$estadoPedido."<br>";
-            echo "fecha: ".$fechaPedido."<br><br>";
-
-            echo "PRODUCTOS:<br>";
-            foreach($productosCarrito as $productoCarrito){
-
-                echo "producto_id: ".$productoCarrito['producto']->getId();
-                echo "<br>";
-                echo "cantidad: ".$productoCarrito['cantidad'];
-                echo "<br>";
-                echo "precioTotal: ".$productoCarrito['producto']->getPrecio()*$productoCarrito['cantidad'];
-                echo "<br>";
-                echo "precio: ".$productoCarrito['producto']->getPrecio();
-                echo "<br><br>";
-
-            }
-            */
             
             $validacion = pedidoController::generarPedido($usuarioActual,$oferta_id,$precioProductos,$descuento,$precioFinal,$estadoPedido,$fechaPedido, $productosCarrito, $direccion);
 

@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 ?>
 
 <!DOCTYPE html>
@@ -35,7 +36,7 @@ session_start();
 
     <div id="seccionPrincipal" class="container-fluid">
         <div class="row">
-            <div id="contenedorLogin" class="col-5 mx-auto">
+            <div id="contenedorLogin" class="col-10 col-sm-10 col-md-10 col-lg-8 col-xl-6 mx-auto">
 
                 <div id="contenedorTitulo">
                     <h4>Iniciar sesión</h4>
@@ -48,16 +49,19 @@ session_start();
                     <h7>Has iniciado sesión!</h7>
                     <p class="p4">Ya puedes empezar a comprar!</p>
 
-                    <a href="?controller=general&action=productos">
-                        <div class="botonPedirAhoraPrimario">
-                            <p class="p4 bold">Empezar a pedir</p>
-                        </div>
-                    </a>
-                    <a href="?controller=usuario">
-                        <div class="botonPedirAhoraPrimario">
-                            <p class="p4 bold">Mi cuenta</p>
-                        </div>
-                    </a>
+                    <div id="contenedorBotones">
+                        <a class="botones" href="?controller=general&action=productos">
+                            <div class="botonPedirAhoraPrimario">
+                                <p class="p4 bold">Empezar a pedir</p>
+                            </div>
+                        </a>
+                        <a class="botones" href="?controller=usuario">
+                            <div class="botonPedirAhoraPrimario">
+                                <p class="p4 bold">Mi cuenta</p>
+                            </div>
+                        </a>
+                    </div>
+                    
                 </div>
 
                 <div id="contraseñaIncorrecta">
@@ -65,7 +69,7 @@ session_start();
                 </div>
 
                 <div id="usuarioInexistente">
-                    <p class="p1 red">El usuario no existe!</p>
+                    <p class="p4 bold red">El usuario no existe!</p>
                 </div>
 
                 <!-- Contenedor Formulario de Inicio de Sesión -->
@@ -101,12 +105,8 @@ session_start();
         </div>
     </div>
 
-    
-
     <!-- FOOTER -->
     <?php include_once "views/others/footer.php"; ?>
-
-    <a href="?controller=general&action=admin">ADMIN</a>
 
     <!-- Bootstrap Bundle with Popper (JS) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
@@ -114,61 +114,61 @@ session_start();
     <!-- SCRIPT para visibilidad de contenedores -->
     <script>
 
-        // Obtener el dato de sesión
-        const sesionActual = <?php echo $_SESSION['usuarioActual']; ?>;
-        const resultadoLogin = <?php echo isset($_SESSION['resultadoLogin']) ? "'".$_SESSION['resultadoLogin']."'" : "''"; ?>;
+        // Obtener los valores de PHP y convertirlos a JavaScript
+        const sesionActual = <?= json_encode(isset($_SESSION['usuarioActual']) ? $_SESSION['usuarioActual'] : null); ?>;
+        const resultadoLogin = <?= json_encode(isset($_SESSION['resultadoLogin']) ? $_SESSION['resultadoLogin'] : null); ?>;
+
+        // Función que alterna la visibilidad de los contenedores
+        function toggleVisibility(elements, visibility) {
+            elements.forEach(element => {
+                document.getElementById(element).style.display = visibility;
+            });
+        }
 
         document.addEventListener("DOMContentLoaded", () => {
-            const contenedorTitulo = document.getElementById('contenedorTitulo');
-            const contenedorIniciarSesion = document.getElementById('formularioLogin');
+            const contenedorTitulo = 'contenedorTitulo';
+            const contenedorIniciarSesion = 'formularioLogin';
+            const contenedorSesionIniciada = 'sesionIniciada';
+            const contenedorContraseñaIncorrecta = 'contraseñaIncorrecta';
+            const contenedorUsuarioInexistente = 'usuarioInexistente';
 
-            const contenedorSesionIniciada = document.getElementById('sesionIniciada');
-            const contenedorContraseñaIncorrecta = document.getElementById('contraseñaIncorrecta');
-            const contenedorUsuarioInexistente = document.getElementById('usuarioInexistente');
-
+            // Si la sesión está activa, mostrar el contenido adecuado
             if (sesionActual != null) {
-                // Comprueba si hay un usuario en sesión
-                contenedorTitulo.style.display = 'none';
-                contenedorIniciarSesion.style.display = 'none';
-                contenedorSesionIniciada.style.display = 'block';
-                contenedorContraseñaIncorrecta.style.display = 'none';
-                contenedorUsuarioInexistente.style.display = 'none';
+                toggleVisibility([contenedorTitulo, contenedorIniciarSesion], 'none');
+                toggleVisibility([contenedorSesionIniciada], 'block');
+                toggleVisibility([contenedorContraseñaIncorrecta, contenedorUsuarioInexistente], 'none');
             } else {
-                // Mostrar / ocultar contenedores según el resultado de login
+
+                // Si la sesión no está activa, gestionar los casos según el resultado del login
                 switch (resultadoLogin) {
                     case "userCorrect":
-                        contenedorTitulo.style.display = 'none';
-                        contenedorIniciarSesion.style.display = 'none';
-                        contenedorSesionIniciada.style.display = 'block';
-                        contenedorContraseñaIncorrecta.style.display = 'none';
-                        contenedorUsuarioInexistente.style.display = 'none';
+                        toggleVisibility([contenedorTitulo, contenedorIniciarSesion], 'none');
+                        toggleVisibility([contenedorSesionIniciada], 'block');
+                        toggleVisibility([contenedorContraseñaIncorrecta, contenedorUsuarioInexistente], 'none');
                         break;
 
                     case "wrongPassword":
-                        contenedorIniciarSesion.style.display = 'block';
-                        contenedorSesionIniciada.style.display = 'none';
-                        contenedorContraseñaIncorrecta.style.display = 'block';
-                        contenedorUsuarioInexistente.style.display = 'none';
+                        toggleVisibility([contenedorIniciarSesion], 'block');
+                        toggleVisibility([contenedorSesionIniciada], 'none');
+                        toggleVisibility([contenedorContraseñaIncorrecta], 'block');
+                        toggleVisibility([contenedorUsuarioInexistente], 'none');
                         break;
 
                     case "wrongUser":
-                        contenedorIniciarSesion.style.display = 'block';
-                        contenedorSesionIniciada.style.display = 'none';
-                        contenedorContraseñaIncorrecta.style.display = 'none';
-                        contenedorUsuarioInexistente.style.display = 'block';
+                        toggleVisibility([contenedorIniciarSesion], 'block');
+                        toggleVisibility([contenedorSesionIniciada], 'none');
+                        toggleVisibility([contenedorContraseñaIncorrecta], 'none');
+                        toggleVisibility([contenedorUsuarioInexistente], 'block');
                         break;
 
                     default:
-                        contenedorIniciarSesion.style.display = 'block';
-                        contenedorSesionIniciada.style.display = 'none';
-                        contenedorContraseñaIncorrecta.style.display = 'none';
-                        contenedorUsuarioInexistente.style.display = 'none';
+                        toggleVisibility([contenedorIniciarSesion], 'block');
+                        toggleVisibility([contenedorSesionIniciada], 'none');
+                        toggleVisibility([contenedorContraseñaIncorrecta, contenedorUsuarioInexistente], 'none');
                         break;
                 }
             }
         });
-
-
     </script>
 
 </body>

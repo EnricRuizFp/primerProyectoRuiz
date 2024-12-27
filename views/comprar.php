@@ -40,7 +40,7 @@ session_start();
         <div id="contenidoPagina" class="row">
 
             <!-- SECCIÓN ENVÍO -->
-            <div id="seccionEnvio" class="col-7">
+            <div id="seccionEnvio" class="col-sm-12 col-lg-7">
                 <div id="contenedorTitulo">
                     <div id="tituloEnvio">
                         <h6>Envío</h6>
@@ -104,7 +104,7 @@ session_start();
             </div>
 
             <!-- SECCION RESUMEN -->
-            <div id="seccionResumen" class="col-5">
+            <div id="seccionResumen" class="col-sm-12 col-lg-5">
                 <div id="contenedorSeccionResumen">
 
                     <div id="contenedorCesta">
@@ -194,11 +194,11 @@ session_start();
                         </div>
 
                         <div id="datosInvalidos">
-                            <p>Para poder pagar, primero rellena todos los datos.</p>
+                            <p>Para poder pagar, primero rellena todos los datos.*</p>
                         </div>
 
                         <a id="botonPagar" href="?controller=carrito&action=comprar">
-                            <div class="botonPedirAhoraPrimario">
+                            <div id="botonPagarAhoraSecundario">
                                 <p class="p4 bold">Pagar ahora</p>
                             </div>
                         </a>
@@ -209,7 +209,6 @@ session_start();
             </div>
             
         </div>
-        
 
     </div>
 
@@ -222,112 +221,90 @@ session_start();
     <script>
 
         // Variables externas
-        const sesionActual = <?= isset($_SESSION['usuarioActual']) ? $_SESSION['usuarioActual'] : 'null'; ?>;
-        const cantidadDirecciones = <?= isset($cantidadDirecciones) ? $cantidadDirecciones : 'null'; ?>;
-        const direccionActual = <?= isset($_SESSION['direccionActual']) ? $_SESSION['direccionActual'] : 'null'; ?>;
-        const datosBancariosValidos = <?= isset($datosBancariosValidos) ? $datosBancariosValidos : 'null'; ?>;
-
-        const valorDescuento = <?= isset($descuentoAplicado) ? $descuentoAplicado : 'null'; ?>;
+        const sesionActual = <?= json_encode($_SESSION['usuarioActual'] ?? null); ?>;
+        const cantidadDirecciones = <?= json_encode($cantidadDirecciones ?? null); ?>;
+        const direccionActual = <?= json_encode($_SESSION['direccionActual'] ?? null); ?>;
+        const datosBancariosValidos = <?= json_encode((bool)($datosBancariosValidos ?? false)); ?>;
+        const valorDescuento = <?= json_encode($descuentoAplicado ?? 0); ?>;
 
         document.addEventListener('DOMContentLoaded', () => {
 
-            /* ----- DEFINICIÓN DE LOS ELEMENTOS ----- */
-
-            // Contenedor direcciones
+            /* ----- DEFINICIÓN DE LOS ELEMENTOS DE LA PANTALLA  ----- */
             const contenedorTitulo = document.getElementById('contenedorTitulo');
             const contenedorSinSesion = document.getElementById('sinSesion');
             const contenedorSinDatosBancarios = document.getElementById('sinDatosBancarios');
-            const contenedorsinDirecciones = document.getElementById('sinDirecciones');
+            const contenedorSinDirecciones = document.getElementById('sinDirecciones');
             const contenedorFormularioDirecciones = document.getElementById('listadoDirecciones');
             const contenedorDireccionSeleccionada = document.getElementById('direccionSeleccionada');
-
-            // Boton enviar direccion
             const botonEnviarFormulario = document.getElementById('botonMostrarPerfil');
-
-            // Contenedor Descuento
             const contenedorDescuento = document.getElementById('contenedorDescuento');
-
-            // Validación datos
             const contenedorDatosInvalidos = document.getElementById('datosInvalidos');
-            const botonPagar = document.getElementById('botonPagar')
+            const botonPagar = document.getElementById('botonPagar');
 
+            /* ----- FUNCION VISIBILIDAD ----- */
+            const toggleVisibility = (element, isVisible) => {
+                if (element) {
+                    element.style.display = isVisible ? 'block' : 'none';
+                }
+            };
 
-            /* -- FUNCIONES -- */
-
-            if(sesionActual != null){
-
+            /* ----- FUNCION PRINCIPAL ----- */
+            if (sesionActual !== null) {
                 // Sesión iniciada
-                contenedorSinSesion.style.display = 'none';
+                toggleVisibility(contenedorSinSesion, false);
 
-                if(datosBancariosValidos){
-
+                if (datosBancariosValidos) {
                     // Datos bancarios válidos
-                    contenedorSinDatosBancarios.style.display = 'none';
+                    toggleVisibility(contenedorSinDatosBancarios, false);
 
-                    if(cantidadDirecciones > 0){
-
+                    if (cantidadDirecciones > 0) {
                         // Al menos una dirección
-                        contenedorsinDirecciones.style.display = 'none';
+                        toggleVisibility(contenedorSinDirecciones, false);
 
-                        if(direccionActual){
-
-                            // Dirección ya añadida
-                            contenedorTitulo.style.display = 'none';
-                            contenedorFormularioDirecciones.style.display = 'none';
-                            contenedorDireccionSeleccionada.style.display = 'block';
-
-                            contenedorDatosInvalidos.style.display = 'none';
-                            botonPagar.style.display = 'block';
-                        }else{
-
-                            //Dirección por añadir
-                            contenedorTitulo.style.display = 'block';
-                            contenedorFormularioDirecciones.style.display = 'block';
-                            contenedorDireccionSeleccionada.style.display = 'none';
-
-                            contenedorDatosInvalidos.style.display = 'block';
-                            botonPagar.style.display = 'none';
+                        if (direccionActual) {
+                            // Dirección seleccionada
+                            toggleVisibility(contenedorTitulo, false);
+                            toggleVisibility(contenedorFormularioDirecciones, false);
+                            toggleVisibility(contenedorDireccionSeleccionada, true);
+                            toggleVisibility(contenedorDatosInvalidos, false);
+                            toggleVisibility(botonPagar, true);
+                        } else {
+                            // Dirección no seleccionada
+                            toggleVisibility(contenedorTitulo, true);
+                            toggleVisibility(contenedorFormularioDirecciones, true);
+                            toggleVisibility(contenedorDireccionSeleccionada, false);
+                            toggleVisibility(contenedorDatosInvalidos, true);
+                            toggleVisibility(botonPagar, false);
                         }
-
-                    }else{
-
+                    } else {
                         // Usuario sin direcciones
-                        contenedorsinDirecciones.style.display = 'block';
-                        contenedorFormularioDirecciones.style.display = 'none';
-                        contenedorDireccionSeleccionada.style.display = 'none';
-                    } 
-
-                }else{
-
+                        toggleVisibility(contenedorSinDirecciones, true);
+                        toggleVisibility(contenedorFormularioDirecciones, false);
+                        toggleVisibility(contenedorDireccionSeleccionada, false);
+                    }
+                } else {
                     // Usuario sin datos bancarios
-                    contenedorSinDatosBancarios.style.display = 'block';
-                    contenedorsinDirecciones.style.display = 'none';
-                    contenedorFormularioDirecciones.style.display = 'none';
-                    contenedorDireccionSeleccionada.style.display = 'none';
-
-                }                               
-                
-
-            }else{
-
+                    toggleVisibility(contenedorSinDatosBancarios, true);
+                    toggleVisibility(contenedorSinDirecciones, false);
+                    toggleVisibility(contenedorFormularioDirecciones, false);
+                    toggleVisibility(contenedorDireccionSeleccionada, false);
+                }
+            } else {
                 // No se ha iniciado sesión
-                contenedorSinSesion.style.display = 'block';
-                contenedorSinDatosBancarios.style.display = 'none';
-                contenedorsinDirecciones.style.display = 'none';
-                contenedorFormularioDirecciones.style.display = 'none';
-                contenedorDireccionSeleccionada.style.display = 'none';
-
+                toggleVisibility(contenedorSinSesion, true);
+                toggleVisibility(contenedorTitulo, false);
+                toggleVisibility(contenedorSinDatosBancarios, false);
+                toggleVisibility(contenedorSinDirecciones, false);
+                toggleVisibility(contenedorFormularioDirecciones, false);
+                toggleVisibility(contenedorDireccionSeleccionada, false);
+                toggleVisibility(botonPagar, false);
             }
 
-            if(valorDescuento == 0){
-                contenedorDescuento.style.display = 'none';
-            }else{
-                contenedorDescuento.style.display = 'block';
-            }
-
+            // Mostrar u ocultar contenedor de descuento
+            toggleVisibility(contenedorDescuento, valorDescuento !== 0);
         });
-
     </script>
+
 
 </body>
 </html>

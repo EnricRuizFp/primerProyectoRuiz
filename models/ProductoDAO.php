@@ -413,6 +413,81 @@
 
         }
 
+        /**
+         * PANTALLA ADMIN
+         */
+        public static function obtenerCantidadProductos(){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("SELECT COUNT(*) AS cantidadProductos FROM PRODUCTOS");
+
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            $result = $resultado->fetch_assoc();
+            $cantidadProductos = $result['cantidadProductos'];
+
+            $stmt->close();
+            $con->close();
+
+            return $cantidadProductos;
+
+        }
+
+        public static function obtenerPromedioPrecioPizzas(){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("SELECT ROUND(AVG(precio), 2) AS promedioPrecio FROM PRODUCTOS WHERE seccion = 'pizzas'");
+
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            $result = $resultado->fetch_assoc();
+            $promedioPrecio = $result['promedioPrecio'];
+
+            $stmt->close();
+            $con->close();
+
+            return $promedioPrecio;
+
+        }
+
+        public static function obtenerPromedioPrecioBebidas(){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("SELECT ROUND(AVG(precio), 2) AS promedioPrecio FROM PRODUCTOS WHERE seccion = 'bebidas'");
+
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            $result = $resultado->fetch_assoc();
+            $promedioPrecio = $result['promedioPrecio'];
+
+            $stmt->close();
+            $con->close();
+
+            return $promedioPrecio;
+
+        }
+
+        public static function obtenerPromedioPrecioPostres(){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("SELECT ROUND(AVG(precio), 2) AS promedioPrecio FROM PRODUCTOS WHERE seccion = 'postres'");
+
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            $result = $resultado->fetch_assoc();
+            $promedioPrecio = $result['promedioPrecio'];
+
+            $stmt->close();
+            $con->close();
+
+            return $promedioPrecio;
+
+        }
+
     }
 
 ?>

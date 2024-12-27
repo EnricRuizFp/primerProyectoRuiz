@@ -39,6 +39,7 @@
             session_start();
 
             unset($_SESSION['usuarioActual']);
+            unset($_SESSION['resultadoLogin']);
 
             session_write_close();
             header("Location: ?controller=general");
@@ -83,9 +84,8 @@
                 $_SESSION['resultadoLogin'] = "wrongUser";
             }
 
-            session_write_close();  // Asegurar que la sesión se guarda correctamente
-            header("Location: ?controller=usuario&action=login");  // Redirigir
-            exit();  // Detener la ejecución del script después de la redirección
+            session_write_close();
+            header("Location: ?controller=usuario&action=login");
             
         }
 

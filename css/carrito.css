@@ -19,6 +19,20 @@
     padding: 30px;
     position: relative;
 }
+#contenedorProductosPequeño{
+    display: none;
+}
+
+@media (max-width: 1000px){
+    #contenedorProductos {
+        display: none;
+    }
+    #contenedorProductosPequeño{
+        display: block;
+        padding: 30px;
+        position: relative;
+    } 
+}
 
 #carritoSinArticulos {
     position: absolute;
@@ -30,7 +44,7 @@ body hr {
     border: 0px;
     background-color: #FF4713 !important;
     opacity: 100%;
-    height: 2px;
+    height: 1px;
 }
 
 .producto {

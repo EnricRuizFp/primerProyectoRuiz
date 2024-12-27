@@ -267,8 +267,11 @@
                                 <div class="col-3">
                                     <p class="p5 bold">Fecha de caducidad</p>
                                 </div>
-                                <div class="col-9">
+                                <div class="col-8">
                                     <p class="p5"><?= $usuario->getFechaVencimiento() ?></p>
+                                </div>
+                                <div class="col-1">
+                                    <button id="añadirDatosBancarios" type="button"><p class="p5 naranja bold">Añadir</p></button>
                                 </div>
 
                                 <div class="col-3">
@@ -393,8 +396,6 @@
     <!-- FOOTER -->
     <?php include_once "views/others/footer.php"; ?>
 
-    <a href="?controller=general&action=admin">ADMIN</a>
-
     <!-- Bootstrap Bundle with Popper (JS) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
@@ -403,126 +404,131 @@
 
         document.addEventListener('DOMContentLoaded', () => {
 
-            /* ----- DEFINICIÓN DE LOS ELEMENTOS ----- */
-
-            /* -- BARRA LATERAL -- */
-            const seccionAdmin = document.getElementById('seccionAdmin');
-            const botonAdmin = document.getElementById('botonAdmin');
-
-            const botonMostrarPerfil = document.getElementById('botonMostrarPerfil');
-            const botonMostrarPedidos = document.getElementById('botonMostrarMisPedidos');
-            const botonMostrarAtencionCliente = document.getElementById('botonMostrarAtencionCliente');
-
-            const contenedorPerfil = document.getElementById('contenedorPerfil');
-            const contenedorMisPedidos = document.getElementById('contenedorMisPedidos');
-            const contenedorAtencionCliente = document.getElementById('contenedorAtencionCliente');
-
-            /* -- CONTENIDO PRINCIPAL -- */
-
-            // Contenedor perfil
-            const contenedorDatos = document.getElementById('contenedorDatos');
-            const contenedorEditarDatos = document.getElementById('contenedorEditarDatos');
-            const formularioEditarDatos = document.getElementById('formularioEditarDatos');
-
-            const botonEditarDatos = document.getElementById('botonEditarDatos');
-            const botonGuardarEditarDatos = document.getElementById('guardarEditarDatos');
-            const botonDescartarEditarDatos = document.getElementById('descartarEditarDatos');
-
-            // Contenedor direcciones
-            const contenedorDirecciones = document.getElementById('contenedorDirecciones');
-            const contenedorAñadirDirecciones = document.getElementById('contenedorAñadirDirecciones');
-            const formularioAñadirDirecciones = document.getElementById('formularioAñadirDirecciones');
-
-            const botonAñadirDirecciones = document.getElementById('añadirDireccion');
-            const botonDescartarAñadirDireccion = document.getElementById('descartarAñadirDireccion');
-            const botonGuardarAñadirDireccion = document.getElementById('guardarAñadirDireccion');
-
-            // Contenedor Tarjeta Bancaria
-            const contenedorDatosBancarios = document.getElementById('contenedorDatosBancarios');
-            const contenedorEditarDatosBancarios = document.getElementById('contenedorEditarDatosBancarios');
-            const formularioEditarDatosBancarios = document.getElementById('formularioEditarDatosBancarios');
-
-            const botonDesbloquearDatosBancarios = document.getElementById('desbloquearDatosBancarios');
-            const botonEditarDatosBancarios = document.getElementById('editarDatosBancarios');
-            const botonDescartarEditarDatosBancarios = document.getElementById('descartarEditarDatosBancarios')
-            const botonGuardarEditarDatosBancarios = document.getElementById('guardarEditarDatosBancarios');
-
-            
-
-
-            /* ----- FUNCIONES DE LOS ELEMENTOS ----- */
-
-            /* -- BARRA LATERAL -- */
-            botonMostrarPerfil.addEventListener('click', () => {
-                contenedorPerfil.style.display = 'block';
-                contenedorMisPedidos.style.display = 'none';
-                contenedorAtencionCliente.style.display = 'none';
+        // Función para alternar la visibilidad
+        function toggleVisibility(elements, visibility) {
+            elements.forEach(element => {
+                element.style.display = visibility;
             });
-            botonMostrarPedidos.addEventListener('click', () => {
-                contenedorPerfil.style.display = 'none';
-                contenedorMisPedidos.style.display = 'block';
-                contenedorAtencionCliente.style.display = 'none';
-            });
-            botonMostrarAtencionCliente.addEventListener('click', () => {
-                contenedorPerfil.style.display = 'none';
-                contenedorMisPedidos.style.display = 'none';
-                contenedorAtencionCliente.style.display = 'block';
-            });
+        }
 
-            /* -- CONTENIDO PRINCIPAL -- */
+        /* ----- DEFINICIÓN DE LOS ELEMENTOS ----- */
 
-            // Contenedor perfil
-            botonEditarDatos.addEventListener('click', () => {
-                contenedorDatos.style.display = 'none';
-                contenedorEditarDatos.style.display = 'block';
-            });
-            botonGuardarEditarDatos.addEventListener('click', () => {
-                formularioEditarDatos.submit();
-                contenedorDatos.style.display = 'block';
-                contenedorEditarDatos.style.display = 'none';
-            });
-            botonDescartarEditarDatos.addEventListener('click', () => {
-                contenedorDatos.style.display = 'block';
-                contenedorEditarDatos.style.display = 'none';
-            });
+        /* -- BARRA LATERAL -- */
+        const botonMostrarPerfil = 'botonMostrarPerfil';
+        const botonMostrarPedidos = 'botonMostrarMisPedidos';
+        const botonMostrarAtencionCliente = 'botonMostrarAtencionCliente';
 
-            // Contenedor direcciones
-            botonAñadirDirecciones.addEventListener('click', () => {
-                contenedorDirecciones.style.display = 'none';
-                contenedorAñadirDirecciones.style.display = 'block';
-            });
-            botonDescartarAñadirDireccion.addEventListener('click', () => {
-                contenedorDirecciones.style.display = 'block';
-                contenedorAñadirDirecciones.style.display = 'none';
-            });
-            botonGuardarAñadirDireccion.addEventListener('click', () => {
-                formularioAñadirDirecciones.submit();
-                contenedorDirecciones.style.display = 'block';
-                contenedorAñadirDirecciones.style.display = 'none';
-            });
+        const contenedorPerfil = 'contenedorPerfil';
+        const contenedorMisPedidos = 'contenedorMisPedidos';
+        const contenedorAtencionCliente = 'contenedorAtencionCliente';
 
-            // Contenedor datos bancarios
-            botonDesbloquearDatosBancarios.addEventListener('click', () => {
-                botonDesbloquearDatosBancarios.style.display = 'none';
-                contenedorDatosBancarios.style.display = 'block';
-            });
-            botonEditarDatosBancarios.addEventListener('click', () => {
-                contenedorDatosBancarios.style.display = 'none';
-                contenedorEditarDatosBancarios.style.display = 'block';
-            });
-            botonGuardarEditarDatosBancarios.addEventListener('click', () => {
-                formularioEditarDatosBancarios.submit();
-                contenedorDatosBancarios.style.display = 'block';
-                contenedorEditarDatosBancarios.style.display = 'none';
-            });
-            botonDescartarEditarDatosBancarios.addEventListener('click', () => {
-                contenedorDatosBancarios.style.display = 'block';
-                contenedorEditarDatosBancarios.style.display = 'none';
-            });
+        /* -- CONTENIDO PRINCIPAL -- */
 
+        // Contenedor perfil
+        const contenedorDatos = 'contenedorDatos';
+        const contenedorEditarDatos = 'contenedorEditarDatos';
+        const formularioEditarDatos = 'formularioEditarDatos';
 
+        const botonEditarDatos = 'botonEditarDatos';
+        const botonGuardarEditarDatos = 'guardarEditarDatos';
+        const botonDescartarEditarDatos = 'descartarEditarDatos';
+
+        // Contenedor direcciones
+        const contenedorDirecciones = 'contenedorDirecciones';
+        const contenedorAñadirDirecciones = 'contenedorAñadirDirecciones';
+        const formularioAñadirDirecciones = 'formularioAñadirDirecciones';
+
+        const botonAñadirDirecciones = 'añadirDireccion';
+        const botonDescartarAñadirDireccion = 'descartarAñadirDireccion';
+        const botonGuardarAñadirDireccion = 'guardarAñadirDireccion';
+
+        // Contenedor Tarjeta Bancaria
+        const contenedorDatosBancarios = 'contenedorDatosBancarios';
+        const contenedorEditarDatosBancarios = 'contenedorEditarDatosBancarios';
+        const formularioEditarDatosBancarios = 'formularioEditarDatosBancarios';
+
+        const botonDesbloquearDatosBancarios = 'desbloquearDatosBancarios';
+        const botonEditarDatosBancarios = 'editarDatosBancarios';
+        const botonDescartarEditarDatosBancarios = 'descartarEditarDatosBancarios';
+        const botonGuardarEditarDatosBancarios = 'guardarEditarDatosBancarios';
+
+        /* ----- FUNCIONES DE LOS ELEMENTOS ----- */
+
+        /* -- BARRA LATERAL -- */
+        document.getElementById(botonMostrarPerfil).addEventListener('click', () => {
+            toggleVisibility([document.getElementById(contenedorPerfil)], 'block');
+            toggleVisibility([document.getElementById(contenedorMisPedidos), document.getElementById(contenedorAtencionCliente)], 'none');
         });
 
+        document.getElementById(botonMostrarPedidos).addEventListener('click', () => {
+            toggleVisibility([document.getElementById(contenedorMisPedidos)], 'block');
+            toggleVisibility([document.getElementById(contenedorPerfil), document.getElementById(contenedorAtencionCliente)], 'none');
+        });
+
+        document.getElementById(botonMostrarAtencionCliente).addEventListener('click', () => {
+            toggleVisibility([document.getElementById(contenedorAtencionCliente)], 'block');
+            toggleVisibility([document.getElementById(contenedorPerfil), document.getElementById(contenedorMisPedidos)], 'none');
+        });
+
+        /* -- CONTENIDO PRINCIPAL -- */
+
+        // Contenedor perfil
+        document.getElementById(botonEditarDatos).addEventListener('click', () => {
+            toggleVisibility([document.getElementById(contenedorDatos)], 'none');
+            toggleVisibility([document.getElementById(contenedorEditarDatos)], 'block');
+        });
+
+        document.getElementById(botonGuardarEditarDatos).addEventListener('click', () => {
+            document.getElementById(formularioEditarDatos).submit();
+            toggleVisibility([document.getElementById(contenedorDatos)], 'block');
+            toggleVisibility([document.getElementById(contenedorEditarDatos)], 'none');
+        });
+
+        document.getElementById(botonDescartarEditarDatos).addEventListener('click', () => {
+            toggleVisibility([document.getElementById(contenedorDatos)], 'block');
+            toggleVisibility([document.getElementById(contenedorEditarDatos)], 'none');
+        });
+
+        // Contenedor direcciones
+        document.getElementById(botonAñadirDirecciones).addEventListener('click', () => {
+            toggleVisibility([document.getElementById(contenedorDirecciones)], 'none');
+            toggleVisibility([document.getElementById(contenedorAñadirDirecciones)], 'block');
+        });
+
+        document.getElementById(botonDescartarAñadirDireccion).addEventListener('click', () => {
+            toggleVisibility([document.getElementById(contenedorDirecciones)], 'block');
+            toggleVisibility([document.getElementById(contenedorAñadirDirecciones)], 'none');
+        });
+
+        document.getElementById(botonGuardarAñadirDireccion).addEventListener('click', () => {
+            document.getElementById(formularioAñadirDirecciones).submit();
+            toggleVisibility([document.getElementById(contenedorDirecciones)], 'block');
+            toggleVisibility([document.getElementById(contenedorAñadirDirecciones)], 'none');
+        });
+
+        // Contenedor datos bancarios
+        document.getElementById(botonDesbloquearDatosBancarios).addEventListener('click', () => {
+            toggleVisibility([document.getElementById(botonDesbloquearDatosBancarios)], 'none');
+            toggleVisibility([document.getElementById(contenedorDatosBancarios)], 'block');
+        });
+
+        document.getElementById(botonEditarDatosBancarios).addEventListener('click', () => {
+            toggleVisibility([document.getElementById(contenedorDatosBancarios)], 'none');
+            toggleVisibility([document.getElementById(contenedorEditarDatosBancarios)], 'block');
+        });
+
+        document.getElementById(botonGuardarEditarDatosBancarios).addEventListener('click', () => {
+            document.getElementById(formularioEditarDatosBancarios).submit();
+            toggleVisibility([document.getElementById(contenedorDatosBancarios)], 'block');
+            toggleVisibility([document.getElementById(contenedorEditarDatosBancarios)], 'none');
+        });
+
+        document.getElementById(botonDescartarEditarDatosBancarios).addEventListener('click', () => {
+            toggleVisibility([document.getElementById(contenedorDatosBancarios)], 'block');
+            toggleVisibility([document.getElementById(contenedorEditarDatosBancarios)], 'none');
+        });
+
+        });
     </script>
 
 </body>

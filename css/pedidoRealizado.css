@@ -16,3 +16,14 @@
 .contenidoInformacion a{
     color: #FF4723;
 }
+
+#contenedorBotones{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.botones{
+    text-decoration: none;
+}

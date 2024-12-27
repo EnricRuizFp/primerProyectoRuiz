@@ -35,7 +35,7 @@ session_start();
 
     <div id="seccionPrincipal" class="container-fluid">
         <div class="row">
-            <div id="contenedorRegister" class="col-5 mx-auto">
+            <div id="contenedorRegister" class="col-10 col-sm-10 col-md-10 col-lg-8 col-xl-6 mx-auto">
 
                 <div id="informacionSuperior">
                     <h4>Crear cuenta</h4>
@@ -129,69 +129,63 @@ session_start();
     <!-- FOOTER -->
     <?php include_once "views/others/footer.php"; ?>
 
-    <a href="?controller=general&action=admin">ADMIN</a>
-
     <!-- Bootstrap Bundle with Popper (JS) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
     <!-- JavaScript visibilidad resultado del registro -->
     <script>
-        
         // Obtener el dato de sesión
         const resultadoRegister = <?php echo isset($_SESSION['resultadoRegister']) ? "'".$_SESSION['resultadoRegister']."'" : "''"; ?>;
 
-        console.log('Resultado del registro:', resultadoRegister);
-
         document.addEventListener("DOMContentLoaded", () => {
 
-            const contenedorInformacionSuperior = document.getElementById('informacionSuperior');
-            const contenedorRegistro = document.getElementById('datosUsuario');
+            // Función para alternar la visibilidad
+            function toggleVisibility(elements, visibility) {
+                elements.forEach(element => {
+                    document.getElementById(element).style.display = visibility;
+                });
+            }
 
-            const contenedorContraseñaInvalida = document.getElementById('contraseñaInvalida');
-            const contenedorUsuarioRepetido = document.getElementById('usuarioRepetido');
-            const contenedorUsuarioCreado = document.getElementById('usuarioCreado');
+            const contenedorInformacionSuperior = 'informacionSuperior';
+            const contenedorRegistro = 'datosUsuario';
+            const contenedorContraseñaInvalida = 'contraseñaInvalida';
+            const contenedorUsuarioRepetido = 'usuarioRepetido';
+            const contenedorUsuarioCreado = 'usuarioCreado';
 
-            // Mostrar / ocultar el DIV
+            // Mostrar / ocultar el DIV según el resultado del registro
             switch(resultadoRegister){
 
                 case "invalidPasswords":
-                    contenedorContraseñaInvalida.style.display = 'block';
-                    contenedorUsuarioRepetido.style.display = 'none';
-                    contenedorUsuarioCreado.style.display = 'none';
+                    toggleVisibility([contenedorContraseñaInvalida], 'block');
+                    toggleVisibility([contenedorUsuarioRepetido, contenedorUsuarioCreado], 'none');
+                    toggleVisibility([contenedorInformacionSuperior, contenedorRegistro], 'block');
                     break;
                 
                 case "invalidCardDate":
-                    contenedorContraseñaInvalida.style.display = 'none';
-                    contenedorUsuarioRepetido.style.display = 'none';
-                    contenedorUsuarioCreado.style.display = 'none';
+                    toggleVisibility([contenedorContraseñaInvalida], 'none');
+                    toggleVisibility([contenedorUsuarioRepetido, contenedorUsuarioCreado], 'none');
+                    toggleVisibility([contenedorInformacionSuperior, contenedorRegistro], 'block');
                     break;
                 
                 case "userExists":
-                    contenedorContraseñaInvalida.style.display = 'none';
-                    contenedorUsuarioRepetido.style.display = 'block';
-                    contenedorUsuarioCreado.style.display = 'none';
+                    toggleVisibility([contenedorUsuarioRepetido], 'block');
+                    toggleVisibility([contenedorContraseñaInvalida, contenedorUsuarioCreado], 'none');
+                    toggleVisibility([contenedorInformacionSuperior, contenedorRegistro], 'block');
                     break;
 
                 case "userCreated":
-                    contenedorContraseñaInvalida.style.display = 'none';
-                    contenedorUsuarioRepetido.style.display = 'none';
-                    contenedorUsuarioCreado.style.display = 'block';
-
-                    contenedorInformacionSuperior.style.display = 'none';
-                    contenedorRegistro.style.display = 'none';
+                    toggleVisibility([contenedorUsuarioCreado], 'block');
+                    toggleVisibility([contenedorContraseñaInvalida, contenedorUsuarioRepetido], 'none');
+                    toggleVisibility([contenedorInformacionSuperior, contenedorRegistro], 'none');
                     break;
                 
                 default:
-                    contenedorContraseñaInvalida.style.display = 'none';
-                    contenedorUsuarioRepetido.style.display = 'none';
-                    contenedorUsuarioCreado.style.display = 'none';
+                    toggleVisibility([contenedorContraseñaInvalida, contenedorUsuarioRepetido, contenedorUsuarioCreado], 'none');
+                    toggleVisibility([contenedorInformacionSuperior, contenedorRegistro], 'block');
                     break;
 
             }
-
-
         })
-
     </script>
 
 </body>

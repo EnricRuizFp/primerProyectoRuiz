@@ -25,11 +25,8 @@
 
     </div>
 
-    <?php //echo "<br><br><br><br><br><br><br><br>FILTRO CAT: ".$_SESSION['filtroCat']."<br>FILTRO PRECIO: ".$_SESSION['filtroPre']; ?>
-
-
     <div class="migasDePan">
-        <p class="p4 bold">Inicio > Productos > Pizzas</p>
+        <p class="p5 bold"><a href="?controller=general" class="linkMigasPan">Inicio</a> > <a href="?controller=general&action=productos" class="linkMigasPan">Productos</a> > Pizzas</p>
     </div>
 
     <div class="contenedorPrincipal container-fluid">
@@ -39,10 +36,30 @@
                     <div class="contenedorFiltroGategorias">
                         <h7>Categorías</h7>
                         <div class="contenidoFiltroCategorias">
-                            <a href="?controller=producto&action=filtroCatPi&value=especialidades"><p class="p4 <?= (isset($_SESSION['filtroCat']) && $_SESSION['filtroCat'] == 'especialidades') ? 'bold' : '' ?>">Especialidades</p></a>
-                            <a href="?controller=producto&action=filtroCatPi&value=clasicas"><p class="p4 <?= (isset($_SESSION['filtroCat']) && $_SESSION['filtroCat'] == 'clasicas') ? 'bold' : '' ?>">Clásicas</p></a>
-                            <a href="?controller=producto&action=filtroCatPi&value=picantes"><p class="p4 <?= (isset($_SESSION['filtroCat']) && $_SESSION['filtroCat'] == 'picantes') ? 'bold' : '' ?>">Picantes</p></a>
-                            <a href="?controller=producto&action=filtroCatPi&value=vegetarianas"><p class="p4 <?= (isset($_SESSION['filtroCat']) && $_SESSION['filtroCat'] == 'vegetarianas') ? 'bold' : '' ?>">Vegetarianas</p></a>
+                            <a href="?controller=producto&action=filtroCatPi&value=especialidades">
+                                <div class="filtroVista">
+                                    <input type="checkbox" id="checkCategoriaPizzas" <?= (isset($_SESSION['filtroCat']) && $_SESSION['filtroCat'] == 'especialidades') ? 'checked' : '' ?>>
+                                    <p class="p4 <?= (isset($_SESSION['filtroCat']) && $_SESSION['filtroCat'] == 'especialidades') ? 'bold' : '' ?>">Especialidades</p>
+                                </div>    
+                            </a>
+                            <a href="?controller=producto&action=filtroCatPi&value=clasicas">
+                                <div class="filtroVista">
+                                    <input type="checkbox" id="checkCategoriaPizzas" <?= (isset($_SESSION['filtroCat']) && $_SESSION['filtroCat'] == 'clasicas') ? 'checked' : '' ?>>
+                                    <p class="p4 <?= (isset($_SESSION['filtroCat']) && $_SESSION['filtroCat'] == 'clasicas') ? 'bold' : '' ?>">Clásicas</p>
+                                </div> 
+                            </a>
+                            <a href="?controller=producto&action=filtroCatPi&value=picantes">
+                                <div class="filtroVista">
+                                    <input type="checkbox" id="checkCategoriaPizzas" <?= (isset($_SESSION['filtroCat']) && $_SESSION['filtroCat'] == 'picantes') ? 'checked' : '' ?>>
+                                    <p class="p4 <?= (isset($_SESSION['filtroCat']) && $_SESSION['filtroCat'] == 'picantes') ? 'bold' : '' ?>">Picantes</p>
+                                </div>    
+                            </a>
+                            <a href="?controller=producto&action=filtroCatPi&value=vegetarianas">
+                                <div class="filtroVista">
+                                    <input type="checkbox" id="checkCategoriaPizzas" <?= (isset($_SESSION['filtroCat']) && $_SESSION['filtroCat'] == 'vegetarianas') ? 'checked' : '' ?>>
+                                    <p class="p4 <?= (isset($_SESSION['filtroCat']) && $_SESSION['filtroCat'] == 'vegetarianas') ? 'bold' : '' ?>">Vegetarianas</p>
+                                </div>    
+                            </a>
                         </div>
                     </div>
 
@@ -51,13 +68,23 @@
                     <div class="contenedorFiltroPrecios">
                         <h7>Precio</h7>
                         <div class="contenidoFiltroPrecios">
-                            <a href="?controller=producto&action=filtroPrePi&value=menos"><p class="p4 <?= (isset($_SESSION['filtroPre']) && $_SESSION['filtroPre'] == 'menos') ? 'bold' : '' ?>">Hasta 15€</p></a>
-                            <a href="?controller=producto&action=filtroPrePi&value=mas"><p class="p4 <?= (isset($_SESSION['filtroPre']) && $_SESSION['filtroPre'] == 'mas') ? 'bold' : '' ?>">Más de 15€</p></a>
+                            <a href="?controller=producto&action=filtroPrePi&value=menos">
+                                <div class="filtroVista">
+                                    <input type="checkbox" id="checkCategoriaPizzas" <?= (isset($_SESSION['filtroPre']) && $_SESSION['filtroPre'] == 'menos') ? 'checked' : '' ?>>
+                                    <p class="p4 <?= (isset($_SESSION['filtroPre']) && $_SESSION['filtroPre'] == 'menos') ? 'bold' : '' ?>">Hasta 15€</p>
+                                </div>
+                            </a>
+                            <a href="?controller=producto&action=filtroPrePi&value=mas">
+                                <div class="filtroVista">
+                                    <input type="checkbox" id="checkCategoriaPizzas" <?= (isset($_SESSION['filtroPre']) && $_SESSION['filtroPre'] == 'mas') ? 'checked' : '' ?>>
+                                    <p class="p4 <?= (isset($_SESSION['filtroPre']) && $_SESSION['filtroPre'] == 'mas') ? 'bold' : '' ?>">Más de 15€</p>
+                                </div>
+                            </a>
                         </div>
                     </div>
 
                     <div class="contenedorEliminarFiltros <?php echo (isset($_SESSION['filtroCat']) || isset($_SESSION['filtroPre'])) ? 'mostrarContenedorEliminarFiltros' : ''; ?>">
-                        <a href="?controller=producto&action=eliminarFiltrosPi"><p class="p4 bold">Eliminar filtros</p></a>
+                        <a href="?controller=producto&action=eliminarFiltrosPi"><p class="p4 bold">Eliminar filtros   X</p></a>
                     </div>
                 </div>
 
@@ -94,17 +121,17 @@
                                         <hr>
                                     </div>
                                     <div class="tituloContenido">
-                                        <h7 class="naranja"><?= $producto->getNombre()?></h7>
+                                        <h7 class="naranja"><?= ucfirst($producto->getNombre())?></h7>
                                     </div>
                                     <div class="textoContenido">
-                                        <p class="p5 bold"><?= $producto->getDescripcion()?></p>
+                                        <p class="p5 bold"><?= ucfirst($producto->getDescripcion())?></p>
                                     </div>
                                     <div class="precioContenido">
                                         <p class="p2 bold"><?= $producto->getPrecio()?> €</p>
                                     </div>
 
                                     <a href="?controller=producto&action=producto&value=<?= $producto->getId()?>">
-                                        <div class="botonPedirAhoraPrimario alignRight">
+                                        <div class="botonPedirAhoraPrimario">
                                             <p class="p4 bold">Pedir ahora</p>
                                             <!-- Logo flecha derecha -->
                                             <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="13px" height="13px" viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">

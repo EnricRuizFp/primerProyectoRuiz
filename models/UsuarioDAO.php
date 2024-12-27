@@ -247,6 +247,59 @@
 
         }
 
+        /**
+         * PANTALLA ADMIN
+         */
+        public static function obtenerCantidadUsuarios(){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("SELECT COUNT(*) AS cantidadUsuarios FROM USUARIOS");
+
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            $result = $resultado->fetch_assoc();
+            $cantidadUsuarios = $result['cantidadUsuarios'];
+
+            $stmt->close();
+            $con->close();
+
+            return $cantidadUsuarios;
+
+        }
+        public static function obtenerUsuariosSinTarjeta(){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("SELECT COUNT(*) AS usuariosSinTarjeta FROM USUARIOS WHERE tarjeta_bancaria IS NULL");
+        
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+        
+            $result = $resultado->fetch_assoc();
+            $usuariosSinTarjeta = $result['usuariosSinTarjeta'];
+        
+            $stmt->close();
+            $con->close();
+        
+            return $usuariosSinTarjeta;
+        }
+        public static function obtenerUsuariosPerfilCompleto(){
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("SELECT COUNT(*) AS usuariosCompletos FROM USUARIOS WHERE tarjeta_bancaria IS NOT NULL AND telefono IS NOT NULL");
+
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            $result = $resultado->fetch_assoc();
+            $usuariosCompletos = $result['usuariosCompletos'];
+
+            $stmt->close();
+            $con->close();
+
+            return $usuariosCompletos;
+        }
+
     }
 
 ?>

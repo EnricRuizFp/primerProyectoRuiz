@@ -209,6 +209,9 @@
             include_once "views/productos/postres.php";
         }
 
+        /**
+         * OTRAS FUNCIONES
+         */
         public static function getProductos($categoria){
 
             $productos = productoDAO::getProductos($categoria);
@@ -225,11 +228,14 @@
 
         }
 
+        /**
+         * ACCEDER A PÁGINA PRODUCTO
+         */
         public static function producto($id){
 
             $producto = ProductoDAO::getProducto($id);
             $ingredientesPorDefecto = IngredienteDAO::getIngredientesDefault($id);
-            $ingredientes = IngredienteDAO::getAll();
+            $productosSimilares = ProductoDAO::getProductosAleatorios(5, $producto->getSeccion());
             include_once "views/productos/detallesProducto.php";
 
         }
