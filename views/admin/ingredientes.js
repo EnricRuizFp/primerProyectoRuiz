@@ -138,6 +138,13 @@ async function editarIngrediente(id){
 
 async function eliminarIngrediente(id){
 
+    // Actualizar los logs
+    let logs = JSON.parse(sessionStorage.getItem('logs')) || [];
+    let log = {"accion": "delete", "modificado": Number(id), "table":"ingredientes", "fecha": new Date()};
+    log.fecha = log.fecha.toISOString().slice(0, 19).replace('T', ' '); // Formato de fecha correcto
+    logs.push(log);
+    sessionStorage.setItem('logs', JSON.stringify(logs));
+
     // Llamar a la API para eliminar el Ingrediente
     const respuesta = await fetch(`?controller=api&action=eliminarIngrediente`, 
         {
@@ -171,6 +178,13 @@ document.querySelector('#botonObtenerAllIngredientes').addEventListener('click',
 /* -- FORMULARIOS -- */
 document.querySelector('#formularioCrearIngrediente').addEventListener('submit', async function(e) {
     e.preventDefault();
+
+    // Actualizar los logs
+    let logs = JSON.parse(sessionStorage.getItem('logs')) || [];
+    let log = {"accion": "create", "modificado": null, "table":"ingredientes", "fecha": new Date()};
+    log.fecha = log.fecha.toISOString().slice(0, 19).replace('T', ' '); // Formato de fecha correcto
+    logs.push(log);
+    sessionStorage.setItem('logs', JSON.stringify(logs));
 
     const datos = {
         nombre: document.querySelector('#añadir_nombre_ingrediente').value,
@@ -239,6 +253,13 @@ document.querySelector('#formularioEditarIngrediente').addEventListener('submit'
         precio: document.querySelector('#editar_precio_ingrediente').value,
         categoria: document.querySelector('#editar_categoria_ingrediente').value
     };
+
+    // Actualizar los logs
+    let logs = JSON.parse(sessionStorage.getItem('logs')) || [];
+    let log = {"accion": "edit", "modificado": Number(datos.id), "table":"ingredientes", "fecha": new Date()};
+    log.fecha = log.fecha.toISOString().slice(0, 19).replace('T', ' '); // Formato de fecha correcto
+    logs.push(log);
+    sessionStorage.setItem('logs', JSON.stringify(logs));
 
     const respuesta = await fetch(`?controller=api&action=editarIngrediente`, {
         method: 'POST',

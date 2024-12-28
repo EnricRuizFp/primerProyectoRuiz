@@ -92,6 +92,13 @@ async function cambiarContraseña(id){
 
 async function eliminarUsuario(id){
 
+    // Actualizar los logs
+    let logs = JSON.parse(sessionStorage.getItem('logs')) || [];
+    let log = {"accion": "delete", "modificado": Number(id), "table":"usuarios", "fecha": new Date()};
+    log.fecha = log.fecha.toISOString().slice(0, 19).replace('T', ' '); // Formato de fecha correcto
+    logs.push(log);
+    sessionStorage.setItem('logs', JSON.stringify(logs));
+
     const datos = {
         id: id
     };
@@ -127,6 +134,7 @@ document.querySelector('#formularioEditarUsuario').addEventListener('submit', as
     e.preventDefault();
 
     const datos = {
+        id: document.querySelector('#editar_id').value,
         usuario: document.querySelector('#editar_usuario').value,
         nombre_completo: document.querySelector('#editar_nombre_completo').value,
         email: document.querySelector('#editar_email').value,
@@ -135,6 +143,13 @@ document.querySelector('#formularioEditarUsuario').addEventListener('submit', as
         fecha_vencimiento: document.querySelector('#editar_fecha_vencimiento').value,
         cvv: document.querySelector('#editar_cvv').value
     };
+
+    // Actualizar los logs
+    let logs = JSON.parse(sessionStorage.getItem('logs')) || [];
+    let log = {"accion": "edit", "modificado": Number(datos.id), "table":"usuarios", "fecha": new Date()};
+    log.fecha = log.fecha.toISOString().slice(0, 19).replace('T', ' '); // Formato de fecha correcto
+    logs.push(log);
+    sessionStorage.setItem('logs', JSON.stringify(logs));
 
     const respuesta = await fetch(`?controller=api&action=editarUsuario`, {
         method: 'POST',
@@ -161,6 +176,13 @@ document.querySelector('#formularioEditarUsuario').addEventListener('submit', as
 // Crear
 document.querySelector('#formularioCrearUsuario').addEventListener('submit', async function(e) {
     e.preventDefault();
+
+    // Actualizar los logs
+    let logs = JSON.parse(sessionStorage.getItem('logs')) || [];
+    let log = {"accion": "create", "modificado": null, "table":"usuarios", "fecha": new Date()};
+    log.fecha = log.fecha.toISOString().slice(0, 19).replace('T', ' '); // Formato de fecha correcto
+    logs.push(log);
+    sessionStorage.setItem('logs', JSON.stringify(logs));
 
     const datos = {
         usuario: document.querySelector('#añadir_usuario').value,

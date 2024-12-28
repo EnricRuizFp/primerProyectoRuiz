@@ -428,7 +428,7 @@
                                 </g>
                             </svg>
                             <h7 class="col-12 col-sm-4">Correo electrónico</h7>
-                            <p class="col-12 col-sm-7">Escribe al correo electrónico para cualquier duda o sugerencia.</p>
+                            <p class="col-12 col-sm-7">Escribe al correo electrónico para cualquier duda o sugerencia: enricruizfp@ibf.cat</p>
                         </div>
 
                         <div class="col-12 row contenedorInferior">
@@ -440,7 +440,7 @@
                                 </g>
                             </svg>
                             <h7 class="col-12 col-sm-4">Teléfono</h7>
-                            <p class="col-12 col-sm-7">Llámanos por teléfono para obtener más información o preguntar dudas.</p>
+                            <p class="col-12 col-sm-7">Llámanos por teléfono para obtener más información o preguntar dudas. Teléfono de empresa: 123456789</p>
                         </div>
 
                         <div class="col-12 row contenedorInferior">
@@ -452,7 +452,7 @@
                                 </g>
                             </svg>
                             <h7 class="col-12 col-sm-4">Visítanos</h7>
-                            <p class="col-12 col-sm-7">Acércate al restaurante para consultar dudas.</p>
+                            <p class="col-12 col-sm-7">Acércate al restaurante para consultar dudas. Ubicación: Calle mayor 23, Barcelona.</p>
                         </div>
 
                     </div>

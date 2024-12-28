@@ -85,6 +85,24 @@
 
         }
 
+        public function nutricionYcalidad(){
+
+            include_once "views/nutricionYcalidad.php";
+
+        }
+
+        public function corporativo(){
+
+            include_once "views/corporativo.php";
+
+        }
+
+        public function avisoLegal(){
+
+            include_once "views/avisoLegal.php";
+
+        }
+
     }
 
 ?>

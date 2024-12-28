@@ -364,6 +364,13 @@ function removeProduct(index) {
 
 async function eliminarPedido(id){
 
+    // Actualizar los logs
+    let logs = JSON.parse(sessionStorage.getItem('logs')) || [];
+    let log = {"accion": "delete", "modificado": Number(id), "table":"pedidos", "fecha": new Date()};
+    log.fecha = log.fecha.toISOString().slice(0, 19).replace('T', ' '); // Formato de fecha correcto
+    logs.push(log);
+    sessionStorage.setItem('logs', JSON.stringify(logs));
+
     // Llamar a la API para eliminar el pedido
     const respuesta = await fetch(`?controller=api&action=eliminarPedido`, 
         {
@@ -375,8 +382,6 @@ async function eliminarPedido(id){
         }
     );
     const resultado = await respuesta.json();
-
-    console.log(resultado);
 
     fetchPedidos();
 
@@ -435,6 +440,13 @@ document.querySelector('#botonObtenerAllPedidos').addEventListener('click', func
 document.querySelector('#formularioCrearPedido').addEventListener('submit', async function(e) {
     e.preventDefault();
 
+    // Actualizar los logs
+    let logs = JSON.parse(sessionStorage.getItem('logs')) || [];
+    let log = {"accion": "create", "modificado": null, "table":"pedidos", "fecha": new Date()};
+    log.fecha = log.fecha.toISOString().slice(0, 19).replace('T', ' '); // Formato de fecha correcto
+    logs.push(log);
+    sessionStorage.setItem('logs', JSON.stringify(logs));
+
     const datos = {
         cliente_id: document.querySelector('#añadir_cliente_id').value,
         oferta_id: document.querySelector('#añadir_oferta_id').value,
@@ -478,7 +490,12 @@ document.querySelector('#formularioEditarPedido').addEventListener('submit', asy
         productos: selectedProductsEdit
     };
 
-    console.log(datos);
+    // Actualizar los logs
+    let logs = JSON.parse(sessionStorage.getItem('logs')) || [];
+    let log = {"accion": "edit", "modificado": Number(datos.pedido_id), "table":"pedidos", "fecha": new Date()};
+    log.fecha = log.fecha.toISOString().slice(0, 19).replace('T', ' '); // Formato de fecha correcto
+    logs.push(log);
+    sessionStorage.setItem('logs', JSON.stringify(logs));
 
     const respuesta = await fetch(`?controller=api&action=editarPedido`, {
         method: 'POST',
@@ -488,8 +505,6 @@ document.querySelector('#formularioEditarPedido').addEventListener('submit', asy
         body: JSON.stringify(datos)
     });
     const resultado = await respuesta.json();
-
-    console.log(resultado);
 
     if(resultado.error){
         alert(resultado.error);
@@ -536,8 +551,6 @@ document.querySelector('#formularioFiltroFecha').addEventListener('submit', asyn
         orden: document.querySelector('#orden_filtro_fecha').value
     };
 
-    console.log(datos);
-
     const respuesta = await fetch(`?controller=api&action=obtenerPedidos`, {
         method: 'POST',
         headers: {
@@ -546,8 +559,6 @@ document.querySelector('#formularioFiltroFecha').addEventListener('submit', asyn
         body: JSON.stringify(datos)
     });
     const resultado = await respuesta.json();
-
-    console.log(resultado);
 
     if(resultado.error){
         alert(resultado.error);

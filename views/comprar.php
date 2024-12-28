@@ -281,6 +281,7 @@ session_start();
                         toggleVisibility(contenedorSinDirecciones, true);
                         toggleVisibility(contenedorFormularioDirecciones, false);
                         toggleVisibility(contenedorDireccionSeleccionada, false);
+                        toggleVisibility(botonPagar, false);
                     }
                 } else {
                     // Usuario sin datos bancarios
@@ -288,6 +289,7 @@ session_start();
                     toggleVisibility(contenedorSinDirecciones, false);
                     toggleVisibility(contenedorFormularioDirecciones, false);
                     toggleVisibility(contenedorDireccionSeleccionada, false);
+                    toggleVisibility(botonPagar, false);
                 }
             } else {
                 // No se ha iniciado sesión

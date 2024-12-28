@@ -16,38 +16,30 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `PEDIDO`
+-- Table structure for table `LOGS_DB`
 --
 
-DROP TABLE IF EXISTS `PEDIDO`;
+DROP TABLE IF EXISTS `LOGS_DB`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `PEDIDO` (
+CREATE TABLE `LOGS_DB` (
   `ID` int NOT NULL AUTO_INCREMENT,
-  `cliente_id` int DEFAULT NULL,
-  `oferta_id` int DEFAULT NULL,
-  `descuento` decimal(5,2) DEFAULT NULL,
-  `precio_final` decimal(6,2) DEFAULT NULL,
-  `estado_pedido` varchar(25) DEFAULT NULL,
-  `fecha` date DEFAULT NULL,
-  `precio` decimal(6,2) DEFAULT NULL,
-  `direccion` int DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  KEY `cliente_id` (`cliente_id`),
-  KEY `oferta_id` (`oferta_id`),
-  CONSTRAINT `PEDIDO_ibfk_1` FOREIGN KEY (`cliente_id`) REFERENCES `USUARIOS` (`ID`) ON DELETE CASCADE,
-  CONSTRAINT `PEDIDO_ibfk_2` FOREIGN KEY (`oferta_id`) REFERENCES `OFERTAS` (`ID`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `accion` varchar(50) DEFAULT NULL,
+  `modificado` int DEFAULT NULL,
+  `tabla` varchar(50) DEFAULT NULL,
+  `fecha` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `PEDIDO`
+-- Dumping data for table `LOGS_DB`
 --
 
-LOCK TABLES `PEDIDO` WRITE;
-/*!40000 ALTER TABLE `PEDIDO` DISABLE KEYS */;
-INSERT INTO `PEDIDO` VALUES (8,3,5,1.20,6.80,'repartiendo','2024-12-12',8.00,3),(13,8,5,8.55,48.45,'entregado','2024-12-14',57.00,3),(14,8,10,15.00,77.95,'pedido','2024-12-15',92.95,NULL),(32,NULL,NULL,15.99,NULL,'pedido','2024-12-27',15.99,NULL),(33,8,NULL,17.99,NULL,'pedido','2024-12-27',17.99,10),(35,10,10,5.00,15.00,'pendiente','2024-12-28',20.00,12);
-/*!40000 ALTER TABLE `PEDIDO` ENABLE KEYS */;
+LOCK TABLES `LOGS_DB` WRITE;
+/*!40000 ALTER TABLE `LOGS_DB` DISABLE KEYS */;
+INSERT INTO `LOGS_DB` VALUES (77,'create',NULL,'ofertas','2024-12-28 22:43:52'),(78,'delete',13,'ofertas','2024-12-28 22:44:17');
+/*!40000 ALTER TABLE `LOGS_DB` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -59,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-28 23:46:27
+-- Dump completed on 2024-12-28 23:46:26

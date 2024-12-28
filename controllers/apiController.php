@@ -927,6 +927,43 @@ class apiController{
         echo json_encode($respuesta);
     }
 
+    /**
+     * LOGS
+     */
+    function obtenerLogs(){
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json; charset=UTF-8");
+        header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+
+        // Obtiene todos los datos de la tabla logs
+        include_once "models/LogDAO.php";
+        $logs = LogDAO::getAll();
+        echo json_encode($logs);
+    }
+
+    function guardarLogs(){
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json; charset=UTF-8");
+        header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+
+        // Obtener LOGS del JSON
+        $data = json_decode(file_get_contents("php://input"), true);
+
+        // Si hay datos, los guarda
+        if($data){
+
+            include_once "models/LogDAO.php";
+            $validacion = LogDAO::guardarLogs($data);
+            echo json_encode($validacion);
+
+        }else{
+            echo json_encode(['error'=> 'No es un array.']);
+        }
+
+    }
+
 }
 
 ?>

@@ -68,3 +68,11 @@
 .botonEditar:active, .botonEliminar:active{
     background-color: aquamarine;
 }
+
+/* -- LOGS -- */
+#guardarLogs{
+    display: none;
+}
+#tituloLogs{
+    margin-top: 50px;
+}

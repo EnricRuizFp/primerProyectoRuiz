@@ -97,8 +97,6 @@ async function editarOferta(id){
     );
     const oferta = await respuesta.json();
 
-    console.log(oferta);
-
     // Rellenar los campos del modal
     document.querySelector('#editar_id_oferta').value = oferta.ID;
     document.querySelector('#editar_nombre_oferta').value = oferta.nombre;
@@ -136,6 +134,13 @@ async function editarOferta(id){
 }
 
 async function eliminarOferta(id){
+
+    // Actualizar los logs
+    let logs = JSON.parse(sessionStorage.getItem('logs')) || [];
+    let log = {"accion": "delete", "modificado": Number(id), "table":"ofertas", "fecha": new Date()};
+    log.fecha = log.fecha.toISOString().slice(0, 19).replace('T', ' '); // Formato de fecha correcto
+    logs.push(log);
+    sessionStorage.setItem('logs', JSON.stringify(logs));
 
     // Llamar a la API para eliminar el Ingrediente
     const respuesta = await fetch(`?controller=api&action=eliminarOferta`, 
@@ -176,6 +181,13 @@ document.querySelector('#botonObtenerAllOfertas').addEventListener('click', func
 /* -- FORMULARIOS -- */
 document.querySelector('#formularioCrearOferta').addEventListener('submit', async function(e) {
     e.preventDefault();
+
+    // Actualizar los logs
+    let logs = JSON.parse(sessionStorage.getItem('logs')) || [];
+    let log = {"accion": "create", "modificado": null, "table":"ofertas", "fecha": new Date()};
+    log.fecha = log.fecha.toISOString().slice(0, 19).replace('T', ' '); // Formato de fecha correcto
+    logs.push(log);
+    sessionStorage.setItem('logs', JSON.stringify(logs));
 
     const datos = {
         nombre: document.querySelector('#añadir_nombre_oferta').value,
@@ -220,6 +232,13 @@ document.querySelector('#formularioEditarOferta').addEventListener('submit', asy
         fecha_inicio: document.querySelector('#editar_fecha_inicio_oferta').value,
         fecha_fin: document.querySelector('#editar_fecha_final_oferta').value
     };
+
+    // Actualizar los logs
+    let logs = JSON.parse(sessionStorage.getItem('logs')) || [];
+    let log = {"accion": "edit", "modificado": Number(datos.id), "table":"ofertas", "fecha": new Date()};
+    log.fecha = log.fecha.toISOString().slice(0, 19).replace('T', ' '); // Formato de fecha correcto
+    logs.push(log);
+    sessionStorage.setItem('logs', JSON.stringify(logs));
 
     const respuesta = await fetch(`?controller=api&action=editarOferta`, {
         method: 'POST',

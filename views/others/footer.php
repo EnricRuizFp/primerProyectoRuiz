@@ -23,16 +23,16 @@
 
                 <div class="col-12 col-sm-6 col-lg-3 row">
                     <div class="tituloColumnaSuperiorSeccionIzquierdaFooter col-12">
-                        <a href="?controller=general&action=nutricion"><h7 class="naranja">NUTRICIÓN Y CALIDAD</h7></a>
+                        <a href="?controller=general&action=nutricionYcalidad"><h7 class="naranja">NUTRICIÓN Y CALIDAD</h7></a>
                     </div>
                     <div class="subtitulosColumnaSuperiorSeccionIzquierdaFooter col-12">
-                        <a href="?controller=general&action=calidad"><p class="p4 blanco">Calidad y alimentación</p></a>
+                        <a href="?controller=general&action=nutricionYcalidad#calidad"><p class="p4 blanco">Calidad y alimentación</p></a>
                     </div>
                     <div class="subtitulosColumnaSuperiorSeccionIzquierdaFooter col-12">
-                        <a href="?controller=general&action=masas"><p class="p4 blanco">Nuestras masas y alimentos</p></a>
+                        <a href="?controller=general&action=nutricionYcalidad#masas"><p class="p4 blanco">Nuestras masas y alimentos</p></a>
                     </div>
                     <div class="subtitulosColumnaSuperiorSeccionIzquierdaFooter col-12">
-                        <a href="?controller=general&action=sinGluten"><p class="p4 blanco">Pizzas sin gluten</p></a>
+                        <a href="?controller=general&action=nutricionYcalidad#sinGluten"><p class="p4 blanco">Pizzas sin gluten</p></a>
                     </div>
                 </div>
 
@@ -41,10 +41,10 @@
                         <a href="?controller=general&action=corporativo"><h7 class="naranja">CORPORATIVO</h7></a>
                     </div>
                     <div class="subtitulosColumnaSuperiorSeccionIzquierdaFooter col-12">
-                        <a href="?controller=general&action=aboutUs"><p class="p4 blanco">Acerca de La Buenizzima</p></a>
+                        <a href="?controller=general&action=corporativo#acercaDeLaBuenizzima"><p class="p4 blanco">Acerca de La Buenizzima</p></a>
                     </div>
                     <div class="subtitulosColumnaSuperiorSeccionIzquierdaFooter col-12">
-                        <a href="?controller=general&action=workWithUs"><p class="p4 blanco">Trabaja con nosotros</p></a>
+                        <a href="?controller=general&action=corporativo#trabajaConNosotros"><p class="p4 blanco">Trabaja con nosotros</p></a>
                     </div>
                 </div>
 
@@ -53,10 +53,10 @@
                         <a href="?controller=general&action=avisoLegal"><h7 class="naranja">AVISO LEGAL</h7></a>
                     </div>
                     <div class="subtitulosColumnaSuperiorSeccionIzquierdaFooter col-12">
-                        <a href="?controller=general&action=privacyPolicy"><p class="p4 blanco">Política de privacidad</p></a>
+                        <a href="?controller=general&action=avisoLegal#politicaDePrivacidad"><p class="p4 blanco">Política de privacidad</p></a>
                     </div>
                     <div class="subtitulosColumnaSuperiorSeccionIzquierdaFooter col-12">
-                        <a href="?controller=general&action=cookiePilicy"><p class="p4 blanco">Política de cookies</p></a>
+                        <a href="?controller=general&action=avisoLegal#politicaDeCookies"><p class="p4 blanco">Política de cookies</p></a>
                     </div>
                 </div>
             </div>

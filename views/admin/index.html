@@ -22,7 +22,7 @@
         <div class="row">
 
             <div id="tituloAdmin" class="col-12">
-                <h2>PANEL DE ADMINISTRADOR</h2>
+                <h2>PANEL DE ADMINISTRADOR <a class="p5" href="?controller=admin">reload</a></h2>
             </div>
 
             <div id="lateralPanel" class="col-2">
@@ -31,6 +31,13 @@
                 <button id="botonObtenerAllProductos" class="botonesLaterales" type="button">PRODUCTOS</button>
                 <button id="botonObtenerAllIngredientes" class="botonesLaterales" type="button">INGREDIENTES</button>
                 <button id="botonObtenerAllOfertas" class="botonesLaterales" type="button">OFERTAS</button>
+                    <br><br><br><br><br><br>
+                
+                <div id="guardarLogs">
+                    <button id="botonGuardarAllLogs" class="botonesLaterales">Guardar logs</button>
+                    <p>Se han guardado los cambios que has realizado en local. Puedes subir los logs al servidor pulsando el botón.</p>
+                </div>
+                
             </div>
 
             <div id="contenedorPrincipal" class="col-10">
@@ -53,6 +60,20 @@
                         </div>
                         <div class="col-6">
                             <div id="datosIngredientes" class="contenedorDatosTotales"></div>
+                        </div>
+
+                        <h5 id="tituloLogs">LOGS</h5>
+                        
+                        <div class="col-12 container-fluid" class="contenedorDatosTotales">
+
+                            <div class="row">
+                                <div class="col-3"><p class="p3">Acción</p></div>
+                                <div class="col-3"><p class="p3">ID (si aplica)</p></div>
+                                <div class="col-3"><p class="p3">TABLA</p></div>
+                                <div class="col-3"><p class="p3">FECHA</p></div>
+                            </div>
+
+                            <div id="datosLogs"></div>
                         </div>
                         
 
@@ -820,7 +841,7 @@
                 <!-- CONTENEDOR INGREDIENTES -->
                 <div id="contenedorIngredientes" class="container-fluid">
                     <button type="button" class="btn btn-primary botonAñadir" data-bs-toggle="modal" data-bs-target="#modalCrearIngrediente">
-                        Crear Producto
+                        Crear Ingrediente
                     </button>
 
                     <button type="button" class="btn btn-primary botonAñadir" onclick="filtrarPorCategoria()">
@@ -1238,12 +1259,88 @@
 
         }
 
+        async function cargarDatosLogs(){
+
+            // Obtener los logs de la sesión
+            const respuestaLogs = await fetch(`?controller=api&action=obtenerLogs`, 
+                {method: 'POST', headers: {'Content-Type': 'application/json'}}
+            );
+            const datosLogs = await respuestaLogs.json();
+
+            // Asignar nombre al contenedor de los datosLogs
+            const contenedorLogs = document.querySelector('#datosLogs');
+            contenedorLogs.innerHTML = ``;
+
+            // Mostrar el resultado por pantalla
+            if(datosLogs.length === 0){
+                console.log("Sin logs en la DB");
+                contenedorLogs.innerHTML = "No hay logs para mostrar.";
+            }else{
+
+                console.log("Hay LOGS en DB:");
+                console.log(datosLogs);
+
+                datosLogs.forEach(log => {
+
+                    if(log.modificado == null){
+                        log.modificado = "-";
+                    }
+
+                    const row = document.createElement('div');
+                    row.classList.add('datosTable', 'row');
+
+                    row.innerHTML += `
+                        <div class="col-3">
+                            <p>${log.accion}</p>
+                        </div>
+                        <div class="col-3">
+                            <p>${log.modificado}</p>
+                        </div>
+                        <div class="col-3">
+                            <p>${log.tabla}</p>
+                        </div>
+                        <div class="col-3">
+                            <p>${log.fecha}</p>
+                        </div>
+                    `;
+
+                    contenedorLogs.appendChild(row);
+
+                });
+
+            }
+
+        }
+
+        async function guardarDatosLogs(){
+
+            // Obtener el array de logs de la sesión
+            let logs = JSON.parse(sessionStorage.getItem('logs')) || [];
+
+            // Guardar los datos en la DB
+            const respuesta = await fetch(`?controller=api&action=guardarLogs`, 
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(logs)
+                }
+            );
+            const resultado = await respuesta.json();
+
+            // Eliminar el array local de LOGS
+            sessionStorage.setItem('logs', null);
+        }
+
         const contenedorDefault = document.getElementById('contenedorDefault');
         const contenedorPedidos = document.getElementById('contenedorPedidos');
         const contenedorUsuarios = document.getElementById('contenedorUsuarios');
         const contenedorProductos = document.getElementById('contenedorProductos');
         const contenedorIngredientes = document.getElementById('contenedorIngredientes');
         const contenedorOfertas = document.getElementById('contenedorOfertas');
+
+        const botonLogs = document.getElementById('guardarLogs');
 
         // Carga por defecto de la página
         document.addEventListener("DOMContentLoaded", () => {
@@ -1256,6 +1353,14 @@
             contenedorOfertas.style.display = 'none';
 
             cargarDatosAdmin();
+            cargarDatosLogs();
+
+            let logs = JSON.parse(sessionStorage.getItem('logs')) || [];
+            if(logs.length === 0){
+                botonLogs.style.display = 'none';
+            }else{
+                botonLogs.style.display = 'block';
+            }
 
         });
         
@@ -1300,6 +1405,14 @@
             contenedorIngredientes.style.display = 'none';
             contenedorOfertas.style.display = 'block';
         });
+
+        document.querySelector('#botonGuardarAllLogs').addEventListener('click', async function() {
+
+            await guardarDatosLogs();
+
+            location.reload();
+        })
+
 
     </script>
 

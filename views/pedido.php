@@ -44,48 +44,48 @@
 
         <div class="row container-fluid">
 
-            <div id="contenedorDetalles" class="col-9 mx-auto row">
+            <div id="contenedorDetalles" class="col-11 col-md-9 mx-auto row">
 
-                <div id="contenedorDetallesPedido" class="col-3 row">
+                <div id="contenedorDetallesPedido" class="col-12 col-lg-3 row">
 
                     <div class="col-12 tituloDetalles">
                         <h7>Detalles</h7>
                     </div>
 
-                    <div class="col-6">
+                    <div class="col-12 col-xl-6">
                         <p class="p5 bold">Identificador</p>
                     </div>
-                    <div class="col-6">
+                    <div class="col-12 col-xl-6">
                         <p class="p5"><?= $pedido->getId() ?></p>
                     </div>
-                    <div class="col-6">
+                    <div class="col-12 col-xl-6">
                         <p class="p5 bold">Fecha</p>
                     </div>
-                    <div class="col-6">
+                    <div class="col-12 col-xl-6">
                         <p class="p5"><?= $pedido->getFecha() ?></p>
                     </div>
-                    <div class="col-6">
+                    <div class="col-12 col-xl-6">
                         <p class="p5 bold">Precio inicial</p>
                     </div>
-                    <div class="col-6">
-                        <p class="p5"><?= $pedido->getPrecio() ?></p>
+                    <div class="col-12 col-xl-6">
+                        <p class="p5"><?= $pedido->getPrecio() ?> €</p>
                     </div>
-                    <div class="col-6">
+                    <div class="col-12 col-xl-6">
                         <p class="p5 bold">Descuento</p>
                     </div>
-                    <div class="col-6">
-                        <p class="p5"><?= $pedido->getDescuento() ?></p>
+                    <div class="col-12 col-xl-6">
+                        <p class="p5"><?= $pedido->getDescuento() ?> €</p>
                     </div>
-                    <div class="col-6">
+                    <div class="col-12 col-xl-6">
                         <p class="p5 bold">Precio final</p>
                     </div>
-                    <div class="col-6">
-                        <p class="p5"><?= $pedido->getPrecioFinal() ?></p>
+                    <div class="col-12 col-xl-6">
+                        <p class="p5"><?= $pedido->getPrecioFinal() ?> €</p>
                     </div>
 
                 </div>
 
-                <div id="contenedorDetallesProductos" class="col-9 row">
+                <div id="contenedorDetallesProductos" class=" col-12 col-lg-9 row">
 
                     <div class="col-12 tituloDetalles">
                         <h7>Productos</h7>
@@ -138,10 +138,10 @@
 
                         </div>
                         <div class="col-2">
-                            <p class="p5"><?= $producto->getPrecio()?></p>
+                            <p class="p5"><?= $producto->getPrecio()?> €</p>
                         </div>
                         <div class="col-1">
-                            <p class="p5"><?= $pedidoProducto['precio']?></p>
+                            <p class="p5"><?= $pedidoProducto['precio']?> €</p>
                         </div>
 
                         <?php
@@ -156,7 +156,79 @@
                     <div class="col-3 row">
 
                         <div class="col-9">
-                            <p class="p5 bold">Total:</p>
+                            <p class="p5 bold">Total productos:</p>
+                        </div>
+                        <div class="col-3">
+                            <?= $pedido->getPrecioFinal() ?>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div id="contenedorDetallesProductosPequeño" class=" col-12 col-lg-9 row">
+
+                    <div class="col-12 tituloDetalles">
+                        <h7>Productos</h7>
+                    </div>
+
+                    <?php
+
+                    foreach($pedidoProductos as $pedidoProducto){
+
+                        $producto = ProductoDAO::getProducto($pedidoProducto['producto_id']);
+                        $ingredientes = IngredienteDAO::getIngredientesDefault($producto->getId());
+
+                        ?>
+
+                        <hr>
+
+                        <div class="col-12">
+                            <p class="p5"><?= ucfirst($producto->getNombre())?></p>
+                        </div>
+                        <div class="col-12">
+
+                            <p><b>Ingredientes:</b>
+                            
+                            <?php
+
+                            $total = count($ingredientes); // Total de ingredientes
+                            foreach ($ingredientes as $index => $ingrediente) {
+                                echo ucfirst($ingrediente->getNombre());
+                                
+                                // Comprueba si es el último índice
+                                if ($index === $total - 1) {
+                                    echo ".";
+                                } else {
+                                    echo ", ";
+                                }
+                            }
+
+                            ?>
+
+                            </p>
+
+                        </div>
+                        <div class="col-12">
+                            <p class="p5"><b>Precio unidad: </b><?= $producto->getPrecio()?> €</p>
+                        </div>
+                        <div class="col-12">
+                            <p class="p5"><b>Precio total: </b><?= $pedidoProducto['precio']?> €</p>
+                        </div>
+
+                        <?php
+
+                    }
+
+                    ?>
+
+                    <hr>
+
+                    <div class="col-9"></div>
+                    <div class="col-3 row">
+
+                        <div class="col-9">
+                            <p class="p5 bold">Total productos:</p>
                         </div>
                         <div class="col-3">
                             <?= $pedido->getPrecioFinal() ?>
@@ -170,30 +242,31 @@
 
                     <h7 class="col-12 tituloDetalles">Entrega</h7>
 
-                    <div class="col-3">
+                    <div class="col-12 col-sm-4 col-md-2">
                         <p class="p5 bold">Dirección de entrega</p>
                     </div>
-                    <div class="col-3">
-                        <p class="p5 bold">Código postal</p>
-                    </div>
-                    <div class="col-3">
-                        <p class="p5 bold">Ciudad</p>
-                    </div>
-                    <div class="col-3">
-                        <p class="p5 bold">Estado de la entrega</p>
-                    </div>
-
-                    <div class="col-3">
+                    <div class="col-12 col-sm-8 col-md-4">
                         <p class="p5"><?= $direccion->getCalle() ?></p>
                     </div>
-                    <div class="col-3">
+
+                    <div class="col-12 col-sm-4 col-md-2">
+                        <p class="p5 bold">Código postal</p>
+                    </div>
+                    <div class="col-12 col-sm-8 col-md-4">
                         <p class="p5"><?= $direccion->getCodigoPostal() ?></p>
                     </div>
-                    <div class="col-3">
+
+                    <div class="col-12 col-sm-4 col-md-2">
+                        <p class="p5 bold">Ciudad</p>
+                    </div>
+                    <div class="col-12 col-sm-8 col-md-4">
                         <p class="p5"><?= $direccion->getCiudad() ?></p>
                     </div>
 
-                    <div id="detalleEstado" class="col-3">
+                    <div class="col-12 col-sm-4 col-md-2">
+                        <p class="p5 bold">Estado de la entrega</p>
+                    </div>
+                    <div id="detalleEstado" class="col-12 col-sm-8 col-md-4">
                         <p 
                             class="p5 estado"
                             style="<?php if($pedido->getEstado() == 'pedido'){?> color: red <?php }else if($pedido->getEstado() == 'en reparto'){?> color: orange <?php }else{?> color: green <?php } ?>" 

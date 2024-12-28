@@ -56,8 +56,6 @@ async function fetchProductos() {
 
 async function fetchProductosFiltrados(productos){
 
-    console.log("A");
-
     const contenedorDatosProductos = document.querySelector('#contenedorDatosProductos');
     contenedorDatosProductos.innerHTML = '';
 
@@ -150,8 +148,6 @@ async function editarProducto(id){
     );
     const producto = await respuestaProducto.json();
 
-    console.log(producto);
-
     // Llamar a la api para obtener los datos de los ingredientes
     const respuestaIngredientes = await fetch(`?controller=api&action=obtenerAllIngredientes`, 
         {
@@ -162,8 +158,6 @@ async function editarProducto(id){
         }
     );
     const ingredientes = await respuestaIngredientes.json();
-
-    console.log(ingredientes);
 
     // Llamar a la api para obtener los ingredientes seleccionados
     const respuestaIngredientesSeleccionados = await fetch(`?controller=api&action=obtenerSelectedIngredientes`, 
@@ -176,8 +170,6 @@ async function editarProducto(id){
         }
     );
     const ingredientesSeleccionados = await respuestaIngredientesSeleccionados.json();
-
-    console.log(ingredientesSeleccionados);
 
     // Obtener el select del DOM
     const ingredientSelect = document.getElementById('editar_ingredientes');
@@ -214,6 +206,13 @@ async function editarProducto(id){
 
 async function eliminarProducto(id){
 
+    // Actualizar los logs
+    let logs = JSON.parse(sessionStorage.getItem('logs')) || [];
+    let log = {"accion": "delete", "modificado": Number(id), "table":"productos", "fecha": new Date()};
+    log.fecha = log.fecha.toISOString().slice(0, 19).replace('T', ' '); // Formato de fecha correcto
+    logs.push(log);
+    sessionStorage.setItem('logs', JSON.stringify(logs));
+
     // Llamar a la API para eliminar el pedido
     const respuesta = await fetch(`?controller=api&action=eliminarProducto`, 
         {
@@ -225,8 +224,6 @@ async function eliminarProducto(id){
         }
     );
     const resultado = await respuesta.json();
-
-    console.log(resultado);
 
     fetchProductos();
 
@@ -242,6 +239,13 @@ document.querySelector('#botonObtenerAllProductos').addEventListener('click', fu
 document.querySelector('#formularioCrearProducto').addEventListener('submit', async function(e) {
     e.preventDefault();
 
+    // Actualizar los logs
+    let logs = JSON.parse(sessionStorage.getItem('logs')) || [];
+    let log = {"accion": "create", "modificado": null, "table":"productos", "fecha": new Date()};
+    log.fecha = log.fecha.toISOString().slice(0, 19).replace('T', ' '); // Formato de fecha correcto
+    logs.push(log);
+    sessionStorage.setItem('logs', JSON.stringify(logs));
+
     // Obtener los datos del select múltiple de ingrefientes
     const ingredientesSeleccionados = Array.from(document.querySelector('#añadir_ingredientes').selectedOptions)
         .map(option => option.value);
@@ -255,9 +259,6 @@ document.querySelector('#formularioCrearProducto').addEventListener('submit', as
         precio: document.querySelector('#añadir_precio').value,
         imagen: document.querySelector('#añadir_imagen').value,
     };
-
-    console.log("Datos del formulario:");
-    console.log(datos);
 
     const respuesta = await fetch(`?controller=api&action=crearProducto`, {
         method: 'POST',
@@ -287,8 +288,6 @@ document.querySelector('#formularioFiltroProductos').addEventListener('submit', 
     const datos = {
         filtro: document.querySelector('#filtrar_seccion').value
     };
-
-    console.log(datos);
 
     const respuesta = await fetch(`?controller=api&action=obtenerProductos`, {
         method: 'POST',
@@ -329,8 +328,12 @@ document.querySelector('#formularioEditarProducto').addEventListener('submit', a
         imagen: document.querySelector('#editar_imagen').value
     };
 
-    console.log("Datos del formulario:");
-    console.log(datos);
+    // Actualizar los logs
+    let logs = JSON.parse(sessionStorage.getItem('logs')) || [];
+    let log = {"accion": "edit", "modificado": Number(datos.id), "table":"productos", "fecha": new Date()};
+    log.fecha = log.fecha.toISOString().slice(0, 19).replace('T', ' '); // Formato de fecha correcto
+    logs.push(log);
+    sessionStorage.setItem('logs', JSON.stringify(logs));
 
     const respuesta = await fetch(`?controller=api&action=editarProducto`, {
         method: 'POST',

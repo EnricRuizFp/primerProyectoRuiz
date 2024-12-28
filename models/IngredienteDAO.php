@@ -1,6 +1,6 @@
 <?php
 
-    /* -- Inclusión del archivo de configuración de la DB */
+    /* -- Inclusión del archivo de configuración de la DB -- */
     include_once "config/dataBase.php";
     include_once "models/Ingrediente.php";
 
