@@ -120,9 +120,13 @@ h8{
     margin: 0px;
     padding: 0px;
 }
+html {
+    scroll-behavior: smooth; /* Desplazamiento suave */
+}
 
 .alignRight{
     float: right;
+    text-align: right;
 }
 
 .inline-flex{
@@ -208,40 +212,13 @@ h8{
 /* -- FOOTER -- */
 footer{
     background-color: black;
-    display: flex;
-}
-
-.seccionIzquierdaFooter{
-    width: 75%;
-    display: flex;
-    flex-direction: column;
-}
-
-.superiorSeccionIzquierdaFooter{
-    height: 70%;
-    display: flex;
-    padding: 20px;
-}
-
-.columnaSuperiorSeccionIzquierdaFooter{
-    flex: 1;
-    padding: 40px 20px;
-
-}
-
-.centralSeccionIzquierdaFooter{
-    width: 100%;
-    padding: 20px 40px;
-}
-
-.inferiorSeccionIzquierdaFooter{
-    width: 100%;
-    padding: 20px 40px;
-    color: white;
 }
 
 footer a{
     text-decoration: none !important;
+}
+footer p{
+    color: white;
 }
 
 footer hr {
@@ -251,54 +228,37 @@ footer hr {
     height: 2px;
 }
 
-.inferiorSeccionIzquierdaFooter{
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    align-items: center;
+/* -- Parte izquierda del footer -- */
+#superiorIzquierdaFooter{
+    margin-top: 30px;
+    margin-left: 30px;
 }
-
-.seccionDerechaFooter{
-    width: 25%;
+#centralIzquierdaFooter{
+    padding-left: 40px;
+    padding-right: 40px;
 }
-
-.contenidoSeccionDerechaFooter{
-    display: flex;
-    flex-direction: column;
+#inferiorIzquierdaFooter{
+    padding-left: 40px;
+    padding-right: 40px;
 }
-
-.superiorSeccionDerechaFooter{
-    width: 100%;
-    text-align: center;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-direction: column;
-    padding: 40px;
+/* -- Parte derecha del footer -- */
+#superiorSeccionDerechaFooter{
+    margin-top: 30px;
 }
-.contenedorRedesSociales{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 50%;
+#contenedorRedesSociales{
     margin-top: 10px;
 }
-
-.inferiorSeccionDerechaFooter{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    text-align: center;
+#inferiorSeccionDerechaFooter{
+    margin-top: 20px;
 }
 
-@media (max-width: 1100px) {
-    .seccionIzquierdaFooter {
-        width: 100%;
-     }
-    .seccionDerechaFooter {
+/* -- Ocultar la parte derecha al hacerse pequeño -- */
+@media (max-width: 1200px){
+    #seccionDerechaFooter{
         display: none;
-    }    
+    }
 }
+
 
 /* -- BOTONES -- */
 .botonPedirAhoraPrimario{

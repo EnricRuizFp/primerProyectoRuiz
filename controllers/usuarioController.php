@@ -15,6 +15,8 @@
             $direcciones = DireccionDAO::getDirecciones($_SESSION['usuarioActual']);
             $pedidos = PedidoDAO::getPedidosOrdenados($usuario->getId());
 
+            $validacionDatosBancarios = UsuarioDAO::validacionDatosBancarios($usuario->getId());
+
             $isAdmin = $usuario->getUsuario() == "admin";
 
             session_write_close();
@@ -193,8 +195,17 @@
             $fechaCaducidad = $_POST['fechaCaducidad'];
             $cvv = $_POST['cvv'];
 
-            // Editar los datos
-            UsuarioDAO::editarDatosBancarios($usuario, $tarjetaBancaria, $fechaCaducidad, $cvv);
+            if($usuario && $tarjetaBancaria && $fechaCaducidad && $cvv){
+
+                // Editar los datos
+                UsuarioDAO::editarDatosBancarios($usuario, $tarjetaBancaria, $fechaCaducidad, $cvv);
+                $_SESSION['datosBancariosIncorrectos'] = false;
+
+            }else{
+
+                // Volver a la página diciendo que se deben rellenar todos los datos
+                $_SESSION['datosBancariosIncorrectos'] = true;
+            }
 
             session_write_close();
             header("Location: ?controller=usuario");

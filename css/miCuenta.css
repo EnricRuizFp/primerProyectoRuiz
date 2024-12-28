@@ -15,7 +15,7 @@ header {
     font-weight: bold;
 }
 
-/* --- BOTONES LATERAL IZQUEIRDO --- */
+/* --- BOTONES LATERAL IZQUIERDO --- */
 #menuLateral{
     padding-left: 80px;
     padding-top: 80px;
@@ -44,6 +44,12 @@ header {
     padding-right: 200px;
     padding-bottom: 50px;
 }
+@media (max-width: 1200px){
+    #contenidoPrincipal{
+        padding-right: 50px;
+    }
+}
+
 .tituloDatos{
     margin-top: 50px;
 }
@@ -69,7 +75,7 @@ header {
 #formularioEditarDatos input{
     border: none;
     border-bottom: 1px solid black;
-    width: 300px;
+    width: 70%;
 }
 
 /* DIRECCIONES */
@@ -79,6 +85,14 @@ header {
 #contenedorAñadirDirecciones input{
     border: none;
     border-bottom: 1px solid black;
+}
+.columunaNumero{
+    display: block;
+}
+@media (max-width: 768px){
+    .columnaNumero{
+        display: none;
+    }
 }
 
 /* DATOS BANCARIOS */
@@ -91,16 +105,15 @@ header {
 #contenedorEditarDatosBancarios input{
     border: none;
     border-bottom: 1px solid black;
-    width: 300px;
+    width: 70%;
+}
+#formularioAñadirDatosBancarios{
+    margin-top: 20px;
 }
 
-/* -- Boton desbloquear datos bancarios -- */
-#desbloquearDatosBancarios{
-    border: none;
-    background-color: transparent;
-}
-#contenedorDatosBancarios{
-    display: none;
+/* ATENCION AL CLIENTE */
+.contenedorInferior{
+    padding-top: 60px;
 }
 
 /* Por defecto */
