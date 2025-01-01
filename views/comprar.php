@@ -26,7 +26,7 @@ session_start();
     
     <div id="barraNavegacionComprar">
         <a href="?controller=general">
-            <img src="media/images/logos/Logo_LA_BUENIZZIMA_6-removebg-preview.png" height="50px">
+            <img src="media/images/logos/Logo_LA_BUENIZZIMA_6-removebg-preview.png" height="50px" alt="Imagen del logo de la empresa La Buenizzima.">
         </a>
     </div>
 
@@ -124,7 +124,7 @@ session_start();
                                     <div class="contenedorProducto container-fluid">
                                         <div class="row">
                                             <div class="col-3">
-                                                <img src="<?= $producto->getImagen() ?>" width="100px">
+                                                <img src="<?= $producto->getImagen() ?>" width="100px" alt="Imagen del producto seleccionado.">
                                             </div>
                                             <div class="col-9">
                                                 <p class="p3 bold">Producto: <?= $producto->getNombre() ?></p>

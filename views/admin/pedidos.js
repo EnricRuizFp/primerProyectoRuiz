@@ -1,26 +1,30 @@
 /* -- FUNCIONES -- */
-async function fetchPedidos(){
-
-    const respuesta = await fetch(`?controller=api&action=obtenerAllPedidos`, 
-        {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            }
+async function fetchPedidos() {
+    const respuesta = await fetch(`?controller=api&action=obtenerAllPedidos`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
         }
-    );
-
+    });
     const datosPeticion = await respuesta.json();
 
     const contenedorDatosPedidos = document.querySelector('#contenedorDatosPedidos');
     contenedorDatosPedidos.innerHTML = '';
 
-    datosPeticion.forEach(pedido => {
+    // Obtener el texto de la moneda convertida
+    const monedaConvertida = sessionStorage.getItem('monedaConvertida') ?? '€';
 
+    // Por cada pedido encontrado:
+    for (const pedido of datosPeticion) {
+
+        // Convertir el precio final a la moneda seleccionada
+        const precioPedido = await convertirMonedas(pedido.precio_final);
+
+        // Crear y llenar la fila con los datos
         const row = document.createElement('div');
         row.classList.add('datosTable', 'row');
 
-        row.innerHTML += `
+        row.innerHTML = `
             <div class="col-1">
                 <p><b>${pedido.ID}</b></p>
             </div>
@@ -28,7 +32,7 @@ async function fetchPedidos(){
                 <button onclick='verProductosPedido(${pedido.ID})'>Ver los productos</button>
             </div>
             <div class="col-1">
-                <p>${pedido.precio_final} €</p>
+                <p>${precioPedido.toFixed(2)} ${monedaConvertida}</p>
             </div>
             <div class="col-4">
                 <p><b>Fecha:</b> ${pedido.fecha}</p>
@@ -47,21 +51,29 @@ async function fetchPedidos(){
         `;
 
         contenedorDatosPedidos.appendChild(row);
-    });
-
+    }
 }
+
 
 async function fetchPedidosFiltrados(pedidos){
 
     const contenedorDatosPedidos = document.querySelector('#contenedorDatosPedidos');
     contenedorDatosPedidos.innerHTML = '';
 
-    pedidos.forEach(pedido => {
+    // Obtener el texto de la moneda convertida
+    const monedaConvertida = sessionStorage.getItem('monedaConvertida') ?? '€';
 
+    // Por cada pedido encontrado:
+    for (const pedido of pedidos) {
+        
+        // Convertir el precio final a la moneda seleccionada
+        const precioPedido = await convertirMonedas(pedido.precio_final);
+
+        // Crear y llenar la fila con los datos
         const row = document.createElement('div');
         row.classList.add('datosTable', 'row');
 
-        row.innerHTML += `
+        row.innerHTML = `
             <div class="col-1">
                 <p><b>${pedido.ID}</b></p>
             </div>
@@ -69,7 +81,7 @@ async function fetchPedidosFiltrados(pedidos){
                 <button onclick='verProductosPedido(${pedido.ID})'>Ver los productos</button>
             </div>
             <div class="col-1">
-                <p>${pedido.precio_final} €</p>
+                <p>${precioPedido.toFixed(2)} ${monedaConvertida}</p>
             </div>
             <div class="col-4">
                 <p><b>Fecha:</b> ${pedido.fecha}</p>
@@ -88,7 +100,7 @@ async function fetchPedidosFiltrados(pedidos){
         `;
 
         contenedorDatosPedidos.appendChild(row);
-    });
+    }
 }
 
 async function verProductosPedido(id){
@@ -364,14 +376,7 @@ function removeProduct(index) {
 
 async function eliminarPedido(id){
 
-    // Actualizar los logs
-    let logs = JSON.parse(sessionStorage.getItem('logs')) || [];
-    let log = {"accion": "delete", "modificado": Number(id), "table":"pedidos", "fecha": new Date()};
-    log.fecha = log.fecha.toISOString().slice(0, 19).replace('T', ' '); // Formato de fecha correcto
-    logs.push(log);
-    sessionStorage.setItem('logs', JSON.stringify(logs));
-
-    // Llamar a la API para eliminar el pedido
+    // Eliminar el pedido
     const respuesta = await fetch(`?controller=api&action=eliminarPedido`, 
         {
         method: 'POST',
@@ -383,6 +388,23 @@ async function eliminarPedido(id){
     );
     const resultado = await respuesta.json();
 
+    // Actualizar los logs
+    const log = {
+        accion: "eliminar",
+        modificado: id,
+        tabla: "pedidos"
+    };
+    const respuestaLog = await fetch(`?controller=api&action=crearLog`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(log)
+    });
+    const resultadoLog = await respuestaLog.json();
+    console.log(resultadoLog);
+
+    // Recargar vista pedidos
     fetchPedidos();
 
 }
@@ -440,13 +462,7 @@ document.querySelector('#botonObtenerAllPedidos').addEventListener('click', func
 document.querySelector('#formularioCrearPedido').addEventListener('submit', async function(e) {
     e.preventDefault();
 
-    // Actualizar los logs
-    let logs = JSON.parse(sessionStorage.getItem('logs')) || [];
-    let log = {"accion": "create", "modificado": null, "table":"pedidos", "fecha": new Date()};
-    log.fecha = log.fecha.toISOString().slice(0, 19).replace('T', ' '); // Formato de fecha correcto
-    logs.push(log);
-    sessionStorage.setItem('logs', JSON.stringify(logs));
-
+    // Crear el pedido
     const datos = {
         cliente_id: document.querySelector('#añadir_cliente_id').value,
         oferta_id: document.querySelector('#añadir_oferta_id').value,
@@ -454,7 +470,6 @@ document.querySelector('#formularioCrearPedido').addEventListener('submit', asyn
         direccion: document.querySelector('#añadir_direccion').value,
         productos: selectedProducts
     };
-
     const respuesta = await fetch(`?controller=api&action=crearPedido`, {
         method: 'POST',
         headers: {
@@ -464,6 +479,23 @@ document.querySelector('#formularioCrearPedido').addEventListener('submit', asyn
     });
     const resultado = await respuesta.json();
 
+    // Actualizar los logs
+    const log = {
+        accion: "crear",
+        modificado: null,
+        tabla: "pedidos"
+    };
+    const respuestaLog = await fetch(`?controller=api&action=crearLog`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(log)
+    });
+    const resultadoLog = await respuestaLog.json();
+    console.log(resultadoLog);
+
+    // Devolver respuesta
     if(resultado.error){
         alert(resultado.error);
     }else{
@@ -480,6 +512,7 @@ document.querySelector('#formularioCrearPedido').addEventListener('submit', asyn
 document.querySelector('#formularioEditarPedido').addEventListener('submit', async function(e) {
     e.preventDefault();
 
+    // Editar el pedido
     const datos = {
         pedido_id: document.querySelector('#editar_pedido_id').value,
         cliente_id: document.querySelector('#editar_cliente_id').value,
@@ -489,14 +522,6 @@ document.querySelector('#formularioEditarPedido').addEventListener('submit', asy
         estado: document.querySelector('#selectEstado').value,
         productos: selectedProductsEdit
     };
-
-    // Actualizar los logs
-    let logs = JSON.parse(sessionStorage.getItem('logs')) || [];
-    let log = {"accion": "edit", "modificado": Number(datos.pedido_id), "table":"pedidos", "fecha": new Date()};
-    log.fecha = log.fecha.toISOString().slice(0, 19).replace('T', ' '); // Formato de fecha correcto
-    logs.push(log);
-    sessionStorage.setItem('logs', JSON.stringify(logs));
-
     const respuesta = await fetch(`?controller=api&action=editarPedido`, {
         method: 'POST',
         headers: {
@@ -506,6 +531,23 @@ document.querySelector('#formularioEditarPedido').addEventListener('submit', asy
     });
     const resultado = await respuesta.json();
 
+    // Actualizar los logs
+    const log = {
+        accion: "editar",
+        modificado: datos.id,
+        tabla: "pedidos"
+    };
+    const respuestaLog = await fetch(`?controller=api&action=crearLog`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(log)
+    });
+    const resultadoLog = await respuestaLog.json();
+    console.log(resultadoLog);
+
+    // Devolver respuesta
     if(resultado.error){
         alert(resultado.error);
     }else{

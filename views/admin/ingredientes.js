@@ -9,13 +9,18 @@ async function fetchIngredientes(){
             }
         }
     );
-
     const datosPeticion = await respuesta.json();
 
     const contenedorDatosIngredientes = document.querySelector('#contenedorDatosIngredientes');
     contenedorDatosIngredientes.innerHTML = '';
 
-    datosPeticion.forEach(ingrediente => {
+    // Obtener el texto de la moneda convertida
+    const monedaConvertida = sessionStorage.getItem('monedaConvertida') ?? '€';
+
+    for (const ingrediente of datosPeticion) {
+
+        // Convertir el precio del ingrediente a la moneda seleccionada
+        const precioIngrediente = await convertirMonedas(ingrediente.precio_unidad);
 
         const row = document.createElement('div');
         row.classList.add('datosTable', 'row');
@@ -30,7 +35,7 @@ async function fetchIngredientes(){
                 <p><b>Categoría:</b> ${ingrediente.categoria}</p>
             </div>
             <div class="col-1">
-                <p>${ingrediente.precio_unidad} €</p>
+                <p>${precioIngrediente.toFixed(2)} ${monedaConvertida}</p>
             </div>
             <div class="col-2">
                 <button class='botonesTabla botonEditar' onclick='editarIngrediente(${ingrediente.ID})'>Editar datos</button>
@@ -40,7 +45,7 @@ async function fetchIngredientes(){
 
         contenedorDatosIngredientes.appendChild(row);
 
-    });
+    };
 
 }
 
@@ -49,7 +54,13 @@ async function fetchIngredientesFiltrados(ingredientes){
     const contenedorDatosIngredientes = document.querySelector('#contenedorDatosIngredientes');
     contenedorDatosIngredientes.innerHTML = '';
 
-    ingredientes.forEach(ingrediente => {
+    // Obtener el texto de la moneda convertida
+    const monedaConvertida = sessionStorage.getItem('monedaConvertida') ?? '€';
+
+    for (const ingrediente of ingredientes) {
+
+        // Convertir el precio del ingrediente a la moneda seleccionada
+        const precioIngrediente = await convertirMonedas(ingrediente.precio);
 
         const row = document.createElement('div');
         row.classList.add('datosTable', 'row');
@@ -64,7 +75,7 @@ async function fetchIngredientesFiltrados(ingredientes){
                 <p><b>Categoría:</b> ${ingrediente.categoria}</p>
             </div>
             <div class="col-1">
-                <p>${ingrediente.precio_unidad}</p>
+                <p>${precioIngrediente.toFixed(2)} ${monedaConvertida}</p>
             </div>
             <div class="col-2">
                 <button class='botonesTabla botonEditar' onclick='editarIngrediente(${ingrediente.ID})'>Editar datos</button>
@@ -74,7 +85,7 @@ async function fetchIngredientesFiltrados(ingredientes){
 
         contenedorDatosIngredientes.appendChild(row);
 
-    });
+    };
 
 }
 
@@ -138,14 +149,7 @@ async function editarIngrediente(id){
 
 async function eliminarIngrediente(id){
 
-    // Actualizar los logs
-    let logs = JSON.parse(sessionStorage.getItem('logs')) || [];
-    let log = {"accion": "delete", "modificado": Number(id), "table":"ingredientes", "fecha": new Date()};
-    log.fecha = log.fecha.toISOString().slice(0, 19).replace('T', ' '); // Formato de fecha correcto
-    logs.push(log);
-    sessionStorage.setItem('logs', JSON.stringify(logs));
-
-    // Llamar a la API para eliminar el Ingrediente
+    // Eliminar el Ingrediente
     const respuesta = await fetch(`?controller=api&action=eliminarIngrediente`, 
         {
             method: 'POST',
@@ -157,11 +161,29 @@ async function eliminarIngrediente(id){
     );
     const resultado = await respuesta.json();
 
+    // Actualizar los logs
+    const log = {
+        accion: "eliminar",
+        modificado: id,
+        tabla: "ingredientes"
+    };
+    const respuestaLog = await fetch(`?controller=api&action=crearLog`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(log)
+    });
+    const resultadoLog = await respuestaLog.json();
+    console.log(resultadoLog);
+
+    // Devolver la respuesta
     if(resultado.error){
         alert(resultado.error);
     }else{
         alert("Ingrediente eliminado");
 
+        // Recargar la página
         fetchIngredientes();
     }
 
@@ -179,20 +201,13 @@ document.querySelector('#botonObtenerAllIngredientes').addEventListener('click',
 document.querySelector('#formularioCrearIngrediente').addEventListener('submit', async function(e) {
     e.preventDefault();
 
-    // Actualizar los logs
-    let logs = JSON.parse(sessionStorage.getItem('logs')) || [];
-    let log = {"accion": "create", "modificado": null, "table":"ingredientes", "fecha": new Date()};
-    log.fecha = log.fecha.toISOString().slice(0, 19).replace('T', ' '); // Formato de fecha correcto
-    logs.push(log);
-    sessionStorage.setItem('logs', JSON.stringify(logs));
-
+    // Crear ingrediente
     const datos = {
         nombre: document.querySelector('#añadir_nombre_ingrediente').value,
         descripcion: document.querySelector('#añadir_descripcion_ingrediente').value,
         precio: document.querySelector('#añadir_precio_ingrediente').value,
         categoria: document.querySelector('#añadir_categoria_ingrediente').value
     };
-
     const respuesta = await fetch(`?controller=api&action=crearIngrediente`, {
         method: 'POST',
         headers: {
@@ -202,6 +217,23 @@ document.querySelector('#formularioCrearIngrediente').addEventListener('submit',
     });
     const resultado = await respuesta.json();
 
+    // Actualizar los logs
+    const log = {
+        accion: "crear",
+        modificado: null,
+        tabla: "ingredientes"
+    };
+    const respuestaLog = await fetch(`?controller=api&action=crearLog`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(log)
+    });
+    const resultadoLog = await respuestaLog.json();
+    console.log(resultadoLog);
+
+    // Devolver repuesta
     if(resultado.error){
         alert(resultado.error);
     }else{
@@ -221,7 +253,6 @@ document.querySelector('#formularioFiltroIngredientes').addEventListener('submit
     const datos = {
         filtro: document.querySelector('#filtrar_ingredientes').value
     };
-
     const respuesta = await fetch(`?controller=api&action=obtenerIngredientes`, {
         method: 'POST',
         headers: {
@@ -246,6 +277,7 @@ document.querySelector('#formularioFiltroIngredientes').addEventListener('submit
 document.querySelector('#formularioEditarIngrediente').addEventListener('submit', async function(e) {
     e.preventDefault();
 
+    // Editar el ingrediente
     const datos = {
         id: document.querySelector('#editar_ingrediente_id').value,
         nombre: document.querySelector('#editar_nombre_ingrediente').value,
@@ -253,14 +285,6 @@ document.querySelector('#formularioEditarIngrediente').addEventListener('submit'
         precio: document.querySelector('#editar_precio_ingrediente').value,
         categoria: document.querySelector('#editar_categoria_ingrediente').value
     };
-
-    // Actualizar los logs
-    let logs = JSON.parse(sessionStorage.getItem('logs')) || [];
-    let log = {"accion": "edit", "modificado": Number(datos.id), "table":"ingredientes", "fecha": new Date()};
-    log.fecha = log.fecha.toISOString().slice(0, 19).replace('T', ' '); // Formato de fecha correcto
-    logs.push(log);
-    sessionStorage.setItem('logs', JSON.stringify(logs));
-
     const respuesta = await fetch(`?controller=api&action=editarIngrediente`, {
         method: 'POST',
         headers: {
@@ -270,6 +294,23 @@ document.querySelector('#formularioEditarIngrediente').addEventListener('submit'
     });
     const resultado = await respuesta.json();
 
+    // Actualizar los logs
+    const log = {
+        accion: "editar",
+        modificado: datos.id,
+        tabla: "ingredientes"
+    };
+    const respuestaLog = await fetch(`?controller=api&action=crearLog`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(log)
+    });
+    const resultadoLog = await respuestaLog.json();
+    console.log(resultadoLog);
+
+    // Devolver respuesta
     if(resultado.error){
         alert(resultado.error);
     }else{

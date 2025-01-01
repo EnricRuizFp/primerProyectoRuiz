@@ -9,7 +9,7 @@
 
         <!-- Logo de la marca, centrado en pantallas pequeñas -->
         <div class="navbar-brand mx-auto">
-            <a href="?cotroller=general"><img src="media/images/logos/Logo_LA_BUENIZZIMA_6-removebg-preview.png" height="70px"></a>
+            <a href="?cotroller=general"><img src="media/images/logos/Logo_LA_BUENIZZIMA_6-removebg-preview.png" height="70px" alt="Logo de la empresa La Buenizzima."></a>
         </div>
 
         <!-- Enlaces de navegación principales -->

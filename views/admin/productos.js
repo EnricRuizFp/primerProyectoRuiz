@@ -1,5 +1,6 @@
 /* -- FUNCIONES -- */
 async function fetchProductos() {
+    
     const respuesta = await fetch(`?controller=api&action=obtenerAllProductos`, {
         method: 'POST',
         headers: {
@@ -10,6 +11,9 @@ async function fetchProductos() {
 
     const contenedorDatosProductos = document.querySelector('#contenedorDatosProductos');
     contenedorDatosProductos.innerHTML = '';
+
+    // Obtener el texto de la moneda convertida
+    const monedaConvertida = sessionStorage.getItem('monedaConvertida') ?? '€';
 
     for (const producto of datosPeticion) {
 
@@ -22,6 +26,9 @@ async function fetchProductos() {
             body: JSON.stringify({ id: producto.ID })
         });
         const datosIngredientes = await respuestaIngredientes.json();
+
+        // Convertir el precio del producto a la moneda seleccionada
+        const precioProducto = await convertirMonedas(producto.precio);
 
         const row = document.createElement('div');
         row.classList.add('datosTable', 'row');
@@ -38,7 +45,7 @@ async function fetchProductos() {
                 <p><b>Categoría:</b> ${producto.categoria}</p>
             </div>
             <div class="col-1">
-                <p>${producto.precio}</p>
+                <p>${precioProducto.toFixed(2)} ${monedaConvertida}</p>
             </div>
             <div class="col-2">
                 <img src="${producto.imagen}" alt="imagen del producto" width="100%">
@@ -54,10 +61,14 @@ async function fetchProductos() {
     }
 }
 
+
 async function fetchProductosFiltrados(productos){
 
     const contenedorDatosProductos = document.querySelector('#contenedorDatosProductos');
     contenedorDatosProductos.innerHTML = '';
+
+    // Obtener el texto de la moneda convertida
+    const monedaConvertida = sessionStorage.getItem('monedaConvertida') ?? '€';
 
     for (const producto of productos) {
 
@@ -70,6 +81,9 @@ async function fetchProductosFiltrados(productos){
             body: JSON.stringify({ id: producto.ID })
         });
         const datosIngredientes = await respuestaIngredientes.json();
+        
+        // Convertir el precio del producto a la moneda seleccionada
+        const precioProducto = await convertirMonedas(producto.precio);
 
         const row = document.createElement('div');
         row.classList.add('datosTable', 'row');
@@ -86,7 +100,7 @@ async function fetchProductosFiltrados(productos){
                 <p><b>Categoría:</b> ${producto.categoria}</p>
             </div>
             <div class="col-1">
-                <p>${producto.precio}</p>
+                <p>${precioProducto.toFixed(2)} ${monedaConvertida}</p>
             </div>
             <div class="col-2">
                 <img src="${producto.imagen}" alt="imagen del producto" width="100%">
@@ -206,14 +220,7 @@ async function editarProducto(id){
 
 async function eliminarProducto(id){
 
-    // Actualizar los logs
-    let logs = JSON.parse(sessionStorage.getItem('logs')) || [];
-    let log = {"accion": "delete", "modificado": Number(id), "table":"productos", "fecha": new Date()};
-    log.fecha = log.fecha.toISOString().slice(0, 19).replace('T', ' '); // Formato de fecha correcto
-    logs.push(log);
-    sessionStorage.setItem('logs', JSON.stringify(logs));
-
-    // Llamar a la API para eliminar el pedido
+    // Eliminar el producto
     const respuesta = await fetch(`?controller=api&action=eliminarProducto`, 
         {
         method: 'POST',
@@ -225,6 +232,23 @@ async function eliminarProducto(id){
     );
     const resultado = await respuesta.json();
 
+    // Actualizar los logs
+    const log = {
+        accion: "eliminar",
+        modificado: id,
+        tabla: "productos"
+    };
+    const respuestaLog = await fetch(`?controller=api&action=crearLog`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(log)
+    });
+    const resultadoLog = await respuestaLog.json();
+    console.log(resultadoLog);
+
+    // Recargar la vista de productos
     fetchProductos();
 
 }
@@ -239,13 +263,6 @@ document.querySelector('#botonObtenerAllProductos').addEventListener('click', fu
 document.querySelector('#formularioCrearProducto').addEventListener('submit', async function(e) {
     e.preventDefault();
 
-    // Actualizar los logs
-    let logs = JSON.parse(sessionStorage.getItem('logs')) || [];
-    let log = {"accion": "create", "modificado": null, "table":"productos", "fecha": new Date()};
-    log.fecha = log.fecha.toISOString().slice(0, 19).replace('T', ' '); // Formato de fecha correcto
-    logs.push(log);
-    sessionStorage.setItem('logs', JSON.stringify(logs));
-
     // Obtener los datos del select múltiple de ingrefientes
     const ingredientesSeleccionados = Array.from(document.querySelector('#añadir_ingredientes').selectedOptions)
         .map(option => option.value);
@@ -259,7 +276,6 @@ document.querySelector('#formularioCrearProducto').addEventListener('submit', as
         precio: document.querySelector('#añadir_precio').value,
         imagen: document.querySelector('#añadir_imagen').value,
     };
-
     const respuesta = await fetch(`?controller=api&action=crearProducto`, {
         method: 'POST',
         headers: {
@@ -268,6 +284,22 @@ document.querySelector('#formularioCrearProducto').addEventListener('submit', as
         body: JSON.stringify(datos)
     });
     const resultado = await respuesta.json();
+
+    // Actualizar los logs
+    const log = {
+        accion: "crear",
+        modificado: null,
+        tabla: "productos"
+    };
+    const respuestaLog = await fetch(`?controller=api&action=crearLog`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(log)
+    });
+    const resultadoLog = await respuestaLog.json();
+    console.log(resultadoLog);
 
     if(resultado.error){
         alert(resultado.error);
@@ -327,14 +359,6 @@ document.querySelector('#formularioEditarProducto').addEventListener('submit', a
         precio: document.querySelector('#editar_precio').value,
         imagen: document.querySelector('#editar_imagen').value
     };
-
-    // Actualizar los logs
-    let logs = JSON.parse(sessionStorage.getItem('logs')) || [];
-    let log = {"accion": "edit", "modificado": Number(datos.id), "table":"productos", "fecha": new Date()};
-    log.fecha = log.fecha.toISOString().slice(0, 19).replace('T', ' '); // Formato de fecha correcto
-    logs.push(log);
-    sessionStorage.setItem('logs', JSON.stringify(logs));
-
     const respuesta = await fetch(`?controller=api&action=editarProducto`, {
         method: 'POST',
         headers: {
@@ -343,6 +367,22 @@ document.querySelector('#formularioEditarProducto').addEventListener('submit', a
         body: JSON.stringify(datos)
     });
     const resultado = await respuesta.json();
+
+    // Actualizar los logs
+    const log = {
+        accion: "editar",
+        modificado: datos.id,
+        tabla: "productos"
+    };
+    const respuestaLog = await fetch(`?controller=api&action=crearLog`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(log)
+    });
+    const resultadoLog = await respuestaLog.json();
+    console.log(resultadoLog);
 
     if(resultado.error){
         alert(resultado.error);

@@ -31,12 +31,11 @@
                 <button id="botonObtenerAllProductos" class="botonesLaterales" type="button">PRODUCTOS</button>
                 <button id="botonObtenerAllIngredientes" class="botonesLaterales" type="button">INGREDIENTES</button>
                 <button id="botonObtenerAllOfertas" class="botonesLaterales" type="button">OFERTAS</button>
-                    <br><br><br><br><br><br>
-                
-                <div id="guardarLogs">
-                    <button id="botonGuardarAllLogs" class="botonesLaterales">Guardar logs</button>
-                    <p>Se han guardado los cambios que has realizado en local. Puedes subir los logs al servidor pulsando el botón.</p>
-                </div>
+                    <br><br><br><br>
+                <p>Seleccione una divisa</p>
+                <select id="selectorDivisas">
+                    <option value="" disabled>Elige una moneda</option>
+                </select>
                 
             </div>
 
@@ -63,6 +62,7 @@
                         </div>
 
                         <h5 id="tituloLogs">LOGS</h5>
+                        <p>(Los más recientes primero)</p>
                         
                         <div class="col-12 container-fluid" class="contenedorDatosTotales">
 
@@ -522,7 +522,7 @@
                     </div>
 
                     <!-- Modal Editar Usuario -->
-                    <div class="modal fade" id="modalEditarUsuario" tabindex="-1" role="dialog" aria-labelledby="modalEditarUsuarioLabel" aria-hidden="true">
+                    <div class="modal fade" id="modalEditarUsuario" tabindex="-1" role="dialog">
                         <div class="modal-dialog modal-dialog-centered" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -1190,6 +1190,51 @@
     <!-- Script de la página -->
     <script>
 
+        // Datos del servidor Freecurrency
+        const API_URL = 'https://api.freecurrencyapi.com/v1/latest';
+        const API_KEY = 'fca_live_BFxDuIPgRfeyednKIiQhUNOwNlP3p21N7XxYxhhA';
+
+        async function cargarDatosDivisas(){
+
+            try{
+                // Obtener las monedas de la api
+                const url = `${API_URL}?apikey=${API_KEY}`;
+                const respuesta = await fetch(url);
+                const data = await respuesta.json();
+                const divisas = Object.keys(data.data);
+
+                // Obtener los datos de la página
+                const selectorDivisas = document.getElementById('selectorDivisas');
+                const monedaConvertida = sessionStorage.getItem('monedaConvertida');
+
+                // Crear el selector de divisas
+                divisas.forEach(divisa => {
+                    const opcion = document.createElement('option');
+                    opcion.value = divisa;
+                    opcion.textContent = divisa;
+                    selectorDivisas.appendChild(opcion);
+                });
+
+                // Preselección de moneda
+                if(monedaConvertida){
+                    selectorDivisas.value = monedaConvertida;
+                }
+            } catch (error){
+                alert("Demasiadas peticiones! Vuelva a probar más tarde.");
+            }
+
+        }
+
+        async function convertirMonedas(cantidad){
+
+            const valorMoneda = sessionStorage.getItem('valorMoneda') ?? 1;
+
+            console.log("Precio base: "+ cantidad +" moneda base: EUR moneda convertida: "+ valorMoneda +" precio final: "+ valorMoneda);
+
+            // Devolver el valor final
+            return cantidad * valorMoneda;
+        }
+
         async function cargarDatosAdmin(){
 
             // Datos de pedidos
@@ -1312,35 +1357,12 @@
 
         }
 
-        async function guardarDatosLogs(){
-
-            // Obtener el array de logs de la sesión
-            let logs = JSON.parse(sessionStorage.getItem('logs')) || [];
-
-            // Guardar los datos en la DB
-            const respuesta = await fetch(`?controller=api&action=guardarLogs`, 
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(logs)
-                }
-            );
-            const resultado = await respuesta.json();
-
-            // Eliminar el array local de LOGS
-            sessionStorage.setItem('logs', null);
-        }
-
         const contenedorDefault = document.getElementById('contenedorDefault');
         const contenedorPedidos = document.getElementById('contenedorPedidos');
         const contenedorUsuarios = document.getElementById('contenedorUsuarios');
         const contenedorProductos = document.getElementById('contenedorProductos');
         const contenedorIngredientes = document.getElementById('contenedorIngredientes');
         const contenedorOfertas = document.getElementById('contenedorOfertas');
-
-        const botonLogs = document.getElementById('guardarLogs');
 
         // Carga por defecto de la página
         document.addEventListener("DOMContentLoaded", () => {
@@ -1352,15 +1374,9 @@
             contenedorIngredientes.style.display = 'none';
             contenedorOfertas.style.display = 'none';
 
+            cargarDatosDivisas();
             cargarDatosAdmin();
             cargarDatosLogs();
-
-            let logs = JSON.parse(sessionStorage.getItem('logs')) || [];
-            if(logs.length === 0){
-                botonLogs.style.display = 'none';
-            }else{
-                botonLogs.style.display = 'block';
-            }
 
         });
         
@@ -1406,12 +1422,29 @@
             contenedorOfertas.style.display = 'block';
         });
 
-        document.querySelector('#botonGuardarAllLogs').addEventListener('click', async function() {
+        // Cambio de divisa con el selector
+        document.getElementById('selectorDivisas').addEventListener('change', async (event) => {
 
-            await guardarDatosLogs();
+            // Obtener la moneda a la que se quiere convertir
+            sessionStorage.setItem('monedaConvertida', event.target.value);
 
-            location.reload();
-        })
+            // Obtener el valor de conversión
+            try{
+
+                const url = `${API_URL}?apikey=${API_KEY}&base_currency=EUR`;
+                const respuesta = await fetch(url);
+                const data = await respuesta.json();
+                const valorConversion = data.data[event.target.value];
+
+                // Guardar el valor de la conversión en sessionStorage
+                sessionStorage.setItem('valorMoneda', valorConversion);
+
+            } catch (error){
+                alert("Demasiadas peticiones. Vuelva a probar más tarde");
+            }            
+
+            
+        });
 
 
     </script>

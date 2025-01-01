@@ -85,7 +85,7 @@
                             <div class="row">
                                 <div class="producto col-md-6 col-sm-12">
                                     <div class="imagenProducto">
-                                        <img src="<?= $producto->getImagen() ?>" width="120px">
+                                        <img src="<?= $producto->getImagen() ?>" width="120px" alt="Imagen del producto seleccionado.">
                                     </div>
                                     <div class="detallesProducto">
                                         <div class="tituloProducto">
@@ -199,7 +199,7 @@
                             <div class="row">
                                 <div class="producto col-12">
                                     <div class="imagenProducto">
-                                        <img src="<?= $producto->getImagen() ?>" width="120px">
+                                        <img src="<?= $producto->getImagen() ?>" width="120px" alt="Imagen del producto seleccionado.">
                                     </div>
                                     <div class="detallesProducto">
                                         <div class="tituloProducto">

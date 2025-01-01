@@ -135,14 +135,7 @@ async function editarOferta(id){
 
 async function eliminarOferta(id){
 
-    // Actualizar los logs
-    let logs = JSON.parse(sessionStorage.getItem('logs')) || [];
-    let log = {"accion": "delete", "modificado": Number(id), "table":"ofertas", "fecha": new Date()};
-    log.fecha = log.fecha.toISOString().slice(0, 19).replace('T', ' '); // Formato de fecha correcto
-    logs.push(log);
-    sessionStorage.setItem('logs', JSON.stringify(logs));
-
-    // Llamar a la API para eliminar el Ingrediente
+    // Eliminar la oferta
     const respuesta = await fetch(`?controller=api&action=eliminarOferta`, 
         {
             method: 'POST',
@@ -154,6 +147,23 @@ async function eliminarOferta(id){
     );
     const resultado = await respuesta.json();
 
+    // Actualizar los logs
+    const log = {
+        accion: "eliminar",
+        modificado: id,
+        tabla: "ofertas"
+    };
+    const respuestaLog = await fetch(`?controller=api&action=crearLog`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(log)
+    });
+    const resultadoLog = await respuestaLog.json();
+    console.log(resultadoLog);
+
+    // Devolver el resultado
     if(resultado.error){
         alert(resultado.error);
     }else{
@@ -182,13 +192,7 @@ document.querySelector('#botonObtenerAllOfertas').addEventListener('click', func
 document.querySelector('#formularioCrearOferta').addEventListener('submit', async function(e) {
     e.preventDefault();
 
-    // Actualizar los logs
-    let logs = JSON.parse(sessionStorage.getItem('logs')) || [];
-    let log = {"accion": "create", "modificado": null, "table":"ofertas", "fecha": new Date()};
-    log.fecha = log.fecha.toISOString().slice(0, 19).replace('T', ' '); // Formato de fecha correcto
-    logs.push(log);
-    sessionStorage.setItem('logs', JSON.stringify(logs));
-
+    // Crear la oferta
     const datos = {
         nombre: document.querySelector('#añadir_nombre_oferta').value,
         descripcion: document.querySelector('#añadir_descripcion_oferta').value,
@@ -197,7 +201,6 @@ document.querySelector('#formularioCrearOferta').addEventListener('submit', asyn
         fecha_inicio: document.querySelector('#añadir_fecha_inicio_oferta').value,
         fecha_fin: document.querySelector('#añadir_fecha_final_oferta').value
     };
-
     const respuesta = await fetch(`?controller=api&action=crearOferta`, {
         method: 'POST',
         headers: {
@@ -207,6 +210,23 @@ document.querySelector('#formularioCrearOferta').addEventListener('submit', asyn
     });
     const resultado = await respuesta.json();
 
+    // Actualizar los logs
+    const log = {
+        accion: "crear",
+        modificado: null,
+        tabla: "ofertas"
+    };
+    const respuestaLog = await fetch(`?controller=api&action=crearLog`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(log)
+    });
+    const resultadoLog = await respuestaLog.json();
+    console.log(resultadoLog);
+
+    // Devolver el resultado
     if(resultado.error){
         alert(resultado.error);
     }else{
@@ -223,6 +243,7 @@ document.querySelector('#formularioCrearOferta').addEventListener('submit', asyn
 document.querySelector('#formularioEditarOferta').addEventListener('submit', async function(e) {
     e.preventDefault();
 
+    // Editar la oferta
     const datos = {
         id: document.querySelector('#editar_id_oferta').value,
         nombre: document.querySelector('#editar_nombre_oferta').value,
@@ -232,14 +253,6 @@ document.querySelector('#formularioEditarOferta').addEventListener('submit', asy
         fecha_inicio: document.querySelector('#editar_fecha_inicio_oferta').value,
         fecha_fin: document.querySelector('#editar_fecha_final_oferta').value
     };
-
-    // Actualizar los logs
-    let logs = JSON.parse(sessionStorage.getItem('logs')) || [];
-    let log = {"accion": "edit", "modificado": Number(datos.id), "table":"ofertas", "fecha": new Date()};
-    log.fecha = log.fecha.toISOString().slice(0, 19).replace('T', ' '); // Formato de fecha correcto
-    logs.push(log);
-    sessionStorage.setItem('logs', JSON.stringify(logs));
-
     const respuesta = await fetch(`?controller=api&action=editarOferta`, {
         method: 'POST',
         headers: {
@@ -249,6 +262,23 @@ document.querySelector('#formularioEditarOferta').addEventListener('submit', asy
     });
     const resultado = await respuesta.json();
 
+    // Actualizar los logs
+    const log = {
+        accion: "editar",
+        modificado: datos.id,
+        tabla: "ofertas"
+    };
+    const respuestaLog = await fetch(`?controller=api&action=crearLog`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(log)
+    });
+    const resultadoLog = await respuestaLog.json();
+    console.log(resultadoLog);
+
+    // Devolver la respuesta
     if(resultado.error){
         alert(resultado.error);
     }else{

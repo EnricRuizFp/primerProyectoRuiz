@@ -27,7 +27,7 @@ session_start();
         <div id="contenedorDivisor" class="row">
             <div id="logoSuperior" class="col-12 mx-auto">
                 <a href="?controller=general">
-                    <img src="media/images/logos/Logo_LA_BUENIZZIMA-1_SF.webp" width="200px">
+                    <img src="media/images/logos/Logo_LA_BUENIZZIMA-1_SF.webp" width="200px" alt="Imagen del logo de la empresa La Buenizzima.">
                 </a>
             </div>
             <hr>

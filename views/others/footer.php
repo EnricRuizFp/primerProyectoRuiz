@@ -145,7 +145,7 @@
                 </div>
             </div>
             <div id="inferiorSeccionDerechaFooter" class="row">
-                <a href="#top" class="text-center"><img src="media/images/logos/Logo_LA_BUENIZZIMA-1_SF.webp" width="50%"></a>
+                <a href="#top" class="text-center"><img src="media/images/logos/Logo_LA_BUENIZZIMA-1_SF.webp" width="50%" alt="Imagen La Buenizzima logo."></a>
             </div>
         </div>
     </div>

@@ -1,12 +1,113 @@
-#contenedorPagina{
-    margin-top: 80px;
-    padding-left: 200px;
-    padding-right: 200px;
+/* -- GENERAL -- */
+a{
+    text-decoration: none !important;
+    color: black !important;
 }
 
-#contenidoPagina{
-    background-color: red;
-    border-radius: 10px 10px 0px 0px;
-    height: 400px;
-    margin-top: 100px;
+
+/* -- MIGAS DE PAN -- */
+.migasDePan{
+    margin-top: 90px;
+    width: 100%;
+    padding: 10px 25px;
+}
+
+/* -- Contenedores Principales -- */
+.contenedorPrincipal{
+    display: flex;
+    padding-bottom: 30px;
+}
+
+.contenedorFiltros{
+    background-color: #F9F5EF;
+    padding-top: 40px;
+}
+
+.tituloContenedor{
+    padding-left: 40px;
+}
+
+/* -- Configuración del aspecto del contenedor --*/
+.contenidoProductos{
+    margin-left: 30px;
+    padding-right: 30px;
+}
+
+@media (max-width: 1200px){
+
+    .contenidoProductos{
+        margin-left: 30px;
+        padding-right: 0px;
+    }
+
+}
+
+/* -- Contenedores generales -- */
+.contenedorProducto{
+    width: 100%;
+    border-top: 1px solid #FF4713;
+    border-bottom: 1px solid #FF4713;
+    border-left: 1px solid #FF4713;
+    border-right: 1px solid #FF4713;
+    padding: 25px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+}
+
+.separadorImagen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: 200px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.0" viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet" width="100%"><g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="%23FF4713" stroke="none"><path d="M2144 4540 c-60 -87 -112 -159 -116 -160 -4 0 -87 34 -184 75 -98 41 -179 73 -180 72 -1 -1 -29 -87 -64 -190 -62 -187 -62 -188 -89 -183 -65 13 -341 38 -355 33 -13 -5 -16 -30 -17 -154 0 -81 -4 -168 -7 -192 l-7 -45 -160 -27 c-88 -16 -174 -31 -192 -34 l-31 -6 49 -191 c27 -105 48 -192 47 -193 -2 -2 -81 -42 -176 -89 -107 -54 -172 -92 -169 -99 3 -7 48 -83 100 -171 l95 -158 -71 -66 c-40 -37 -105 -98 -145 -137 l-73 -70 146 -134 c138 -126 145 -135 132 -155 -52 -81 -189 -317 -186 -320 2 -2 82 -43 177 -90 94 -47 172 -87 172 -89 0 -1 -22 -87 -49 -190 -34 -130 -46 -189 -38 -192 7 -2 93 -18 192 -35 99 -17 182 -34 185 -36 2 -3 6 -87 8 -188 3 -101 7 -189 11 -194 5 -8 61 -5 189 9 100 12 188 19 195 16 7 -3 39 -86 71 -186 32 -99 61 -181 64 -181 4 0 86 33 182 74 132 56 178 71 187 63 6 -7 58 -80 115 -163 l104 -152 152 124 c84 68 154 124 156 124 2 0 71 -54 152 -120 82 -66 152 -120 156 -120 4 0 55 70 113 155 58 85 109 156 113 158 4 3 86 -29 182 -69 96 -41 177 -74 180 -74 3 0 32 82 65 181 33 100 66 184 72 186 7 3 95 -4 195 -16 100 -11 184 -18 187 -15 3 3 8 90 11 194 3 104 7 191 10 193 3 3 86 19 185 37 99 17 185 32 191 34 7 3 -6 70 -38 192 -26 103 -48 189 -48 191 0 2 78 42 173 89 94 47 174 88 176 90 3 3 -134 239 -186 320 -13 20 -5 29 132 155 l145 134 -67 65 c-38 36 -103 98 -146 137 l-77 71 100 167 c55 91 100 168 100 171 0 2 -78 43 -172 90 -95 47 -174 88 -176 89 -2 2 19 89 46 193 49 188 50 190 28 195 -11 3 -94 18 -183 33 -90 15 -168 31 -175 35 -10 6 -14 59 -18 193 -3 101 -8 188 -13 192 -4 4 -91 -2 -195 -13 -103 -12 -190 -18 -193 -15 -4 4 -33 89 -65 190 -31 100 -60 181 -64 180 -155 -67 -361 -150 -364 -147 -2 2 -50 72 -106 154 -57 83 -107 154 -111 159 -4 4 -75 -47 -159 -115 -138 -112 -153 -122 -172 -110 -11 7 -80 62 -154 122 -73 60 -134 109 -136 109 -2 0 -53 -72 -114 -160z"/></g></svg>');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+
+    
+
+.contenedorProducto hr{
+    border: 0px;
+    background-color: #FF4713 !important;
+    opacity: 100%;
+    height: 2px;
+}
+
+/* -- Pagina sin productos -- */
+.busquedaSinResultados{
+    margin-left: 15px;
+    width: 600px;
+}
+
+
+
+
+
+.filtroVista{
+    display: flex;
+    align-items: center;
+    height: 40px;
+}
+.filtroVista input[type="checkbox"] {
+    padding-top: 0px;
+    margin-top: 0px;
+    margin-right: 8px;
+}
+.filtroVista p{
+    margin: 0;
+    line-height: normal;
+    vertical-align: middle;
+}
+
+
+.linkMigasPan:hover{
+    text-decoration: underline !important;
+    text-decoration-color: #df2d00 !important;
+    text-decoration-thickness: 2px !important;
 }

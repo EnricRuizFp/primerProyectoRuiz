@@ -34,7 +34,7 @@
 
             <div id="contenedorIzquierdo" class="col-12 col-xl-6">
                 <div id="contenedorImagen">
-                    <img src="<?php echo $producto->getImagen() ?>" alt="Imagen del producto." width="500px">
+                    <img src="<?php echo $producto->getImagen() ?>" alt="Imagen del producto." width="500px" alt="Imagen del producto seleccionado.">
                 </div>
             </div>
             <div id="contenedorDerecho" class="col-12 col-xl-6">
@@ -122,7 +122,7 @@
                     
                     <div class="contenedorPizzasSeccionProductosSimilares">
                         <div class="separadorImagenSeccionProductosSimilares">
-                            <img src="<?= $productoSimilar->getImagen()?>" width="80%"> <!-- Imagen producto -->
+                            <img src="<?= $productoSimilar->getImagen()?>" width="80%" alt="Imagen del producto seleccionado."> <!-- Imagen producto -->
                         </div>
                         <div class="separadorContenidoSeccionProductosSimilares">
 

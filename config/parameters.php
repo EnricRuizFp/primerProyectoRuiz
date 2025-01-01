@@ -5,5 +5,4 @@
 
     // Default action
     define("default_action", "index");
-
 ?>

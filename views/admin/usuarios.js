@@ -92,17 +92,10 @@ async function cambiarContraseña(id){
 
 async function eliminarUsuario(id){
 
-    // Actualizar los logs
-    let logs = JSON.parse(sessionStorage.getItem('logs')) || [];
-    let log = {"accion": "delete", "modificado": Number(id), "table":"usuarios", "fecha": new Date()};
-    log.fecha = log.fecha.toISOString().slice(0, 19).replace('T', ' '); // Formato de fecha correcto
-    logs.push(log);
-    sessionStorage.setItem('logs', JSON.stringify(logs));
-
+    // Eliminar el usuario
     const datos = {
         id: id
     };
-
     const respuesta = await fetch(`?controller=api&action=eliminarUsuario`, {
         method: 'POST',
         headers: {
@@ -112,6 +105,23 @@ async function eliminarUsuario(id){
     });
     const resultado = await respuesta.json();
 
+    // Actualizar los logs
+    const log = {
+        accion: "eliminar",
+        modificado: id,
+        tabla: "usuarios"
+    };
+    const respuestaLog = await fetch(`?controller=api&action=crearLog`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(log)
+    });
+    const resultadoLog = await respuestaLog.json();
+    console.log(resultadoLog);
+
+    // Devolver el resultado
     if(resultado.error){
         alert(resultado.error);
     }else{
@@ -133,6 +143,7 @@ document.querySelector('#botonObtenerAllUsuarios').addEventListener('click', fun
 document.querySelector('#formularioEditarUsuario').addEventListener('submit', async function(e) {
     e.preventDefault();
 
+    // Editar el usuario
     const datos = {
         id: document.querySelector('#editar_id').value,
         usuario: document.querySelector('#editar_usuario').value,
@@ -143,14 +154,6 @@ document.querySelector('#formularioEditarUsuario').addEventListener('submit', as
         fecha_vencimiento: document.querySelector('#editar_fecha_vencimiento').value,
         cvv: document.querySelector('#editar_cvv').value
     };
-
-    // Actualizar los logs
-    let logs = JSON.parse(sessionStorage.getItem('logs')) || [];
-    let log = {"accion": "edit", "modificado": Number(datos.id), "table":"usuarios", "fecha": new Date()};
-    log.fecha = log.fecha.toISOString().slice(0, 19).replace('T', ' '); // Formato de fecha correcto
-    logs.push(log);
-    sessionStorage.setItem('logs', JSON.stringify(logs));
-
     const respuesta = await fetch(`?controller=api&action=editarUsuario`, {
         method: 'POST',
         headers: {
@@ -160,6 +163,23 @@ document.querySelector('#formularioEditarUsuario').addEventListener('submit', as
     });
     const resultado = await respuesta.json();
 
+    // Actualizar los logs
+    const log = {
+        accion: "editar",
+        modificado: datos.id,
+        tabla: "usuarios"
+    };
+    const respuestaLog = await fetch(`?controller=api&action=crearLog`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(log)
+    });
+    const resultadoLog = await respuestaLog.json();
+    console.log(resultadoLog);
+
+    // Devolver el resultado
     if(resultado.error){
         alert(resultado.error);
     }else{
@@ -177,13 +197,7 @@ document.querySelector('#formularioEditarUsuario').addEventListener('submit', as
 document.querySelector('#formularioCrearUsuario').addEventListener('submit', async function(e) {
     e.preventDefault();
 
-    // Actualizar los logs
-    let logs = JSON.parse(sessionStorage.getItem('logs')) || [];
-    let log = {"accion": "create", "modificado": null, "table":"usuarios", "fecha": new Date()};
-    log.fecha = log.fecha.toISOString().slice(0, 19).replace('T', ' '); // Formato de fecha correcto
-    logs.push(log);
-    sessionStorage.setItem('logs', JSON.stringify(logs));
-
+    // Crear el usuario
     const datos = {
         usuario: document.querySelector('#añadir_usuario').value,
         nombre_completo: document.querySelector('#añadir_nombre_completo').value,
@@ -194,7 +208,6 @@ document.querySelector('#formularioCrearUsuario').addEventListener('submit', asy
         fecha_vencimiento: document.querySelector('#añadir_fecha_vencimiento').value,
         cvv: document.querySelector('#añadir_cvv').value
     };
-
     const respuesta = await fetch(`?controller=api&action=crearUsuario`, {
         method: 'POST',
         headers: {
@@ -204,6 +217,23 @@ document.querySelector('#formularioCrearUsuario').addEventListener('submit', asy
     });
     const resultado = await respuesta.json();
 
+    // Actualizar los logs
+    const log = {
+        accion: "crear",
+        modificado: null,
+        tabla: "usuarios"
+    };
+    const respuestaLog = await fetch(`?controller=api&action=crearLog`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(log)
+    });
+    const resultadoLog = await respuestaLog.json();
+    console.log(resultadoLog);
+
+    // Devolver los datos
     if(resultado.error){
         alert(resultado.error);
     }else{

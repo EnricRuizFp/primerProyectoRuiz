@@ -179,7 +179,7 @@
         </div>
 
         <div id="contenedorDerechaSeccion2">
-            <img src="media/images/imagen_lateral_seccion2.webp" id="imagenSeccion2"> <!-- Imagen Pizza -->
+            <img src="media/images/imagen_lateral_seccion2.webp" id="imagenSeccion2" alt="Imagen de fondo para la sección 2 del main."> <!-- Imagen Pizza Fondo -->
         </div>
     </div>
 
@@ -202,7 +202,7 @@
                     
                     <div class="contenedorPizzasSeccion3">
                         <div class="separadorImagenSeccion3">
-                            <img src="<?= $producto_aleatorio->getImagen()?>" width="100%"> <!-- Imagen Pizza -->
+                            <img src="<?= $producto_aleatorio->getImagen()?>" width="100%" alt="Imagen del producto seleccionado."> <!-- Imagen Producto -->
                         </div>
                         <div class="separadorContenidoSeccion3">
 

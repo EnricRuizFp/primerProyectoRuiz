@@ -942,7 +942,7 @@ class apiController{
         echo json_encode($logs);
     }
 
-    function guardarLogs(){
+    function crearLog(){
         header("Access-Control-Allow-Origin: *");
         header("Content-Type: application/json; charset=UTF-8");
         header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
@@ -950,17 +950,16 @@ class apiController{
 
         // Obtener LOGS del JSON
         $data = json_decode(file_get_contents("php://input"), true);
+        $accion = $data["accion"] ?? null;
+        $modificado = $data["modificado"] ?? null;
+        $tabla = $data["tabla"] ?? null;
+        $fecha = date("Y-m-d H:i:s");
 
-        // Si hay datos, los guarda
-        if($data){
 
-            include_once "models/LogDAO.php";
-            $validacion = LogDAO::guardarLogs($data);
-            echo json_encode($validacion);
+        include_once "models/LogDAO.php";
+        $validacion = LogDAO::crearLog($accion, $modificado, $tabla, $fecha);
+        echo json_encode($validacion);
 
-        }else{
-            echo json_encode(['error'=> 'No es un array.']);
-        }
 
     }
 

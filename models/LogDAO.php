@@ -9,7 +9,7 @@
         public static function getAll(){
 
             $con = DataBase::connect();
-            $stmt = $con->prepare("SELECT * FROM LOGS_DB");
+            $stmt = $con->prepare("SELECT * FROM LOGS_DB ORDER BY fecha DESC");
 
             $stmt->execute();
             $resultado = $stmt->get_result();
@@ -26,35 +26,17 @@
 
         }
 
-        public static function guardarLogs($logs){
+        public static function crearLog($accion, $modificado, $tabla, $fecha){
 
             $con = DataBase::connect();
             $stmt = $con->prepare("INSERT INTO LOGS_DB (accion, modificado, tabla, fecha) VALUES (?,?,?,?)");
+            $stmt->bind_param("siss",$accion,$modificado,$tabla,$fecha);
 
-            foreach($logs as $log){
-
-                $accion = $log["accion"] ?? null;
-                $modificado = $log["modificado"] ?? null;
-                $tabla = $log["table"] ?? null;
-                $fecha = $log["fecha"] ?? null;
-
-                if($accion && $tabla && $fecha){
-
-                    $stmt->bind_param("siss",$accion,$modificado,$tabla,$fecha);
-                    $stmt->execute();
-                
-                }else{
-
-                    return "error, los datos proporcionados no son correctos";
-
-                }
+            if($stmt->execute()){
+                return true;
+            }else{
+                return false;
             }
-
-            $stmt->close();
-            $con->close();
-
-            return true;
-
 
         }
     }

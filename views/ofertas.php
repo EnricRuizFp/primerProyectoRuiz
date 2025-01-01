@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HOME PAGE</title>
+    <title>PIZZAS</title>
 
     <!-- LINKS A CSS -->
     <link rel="stylesheet" href="css/general.css">
@@ -15,47 +15,84 @@
     <!-- FUENTES -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
+
 </head>
 <body>
-
-    <!-- NAVBAR -->
+    
     <div class="barraNavegacion fixed-top">
 
         <?php include_once "views/others/navbar.php"; ?>
 
     </div>
 
-    <!-- CONTENIDO -->
-    <div id="contenedorPagina">
-
-        <div id="contenidoPagina" class="container-fluid">
-
-            <div class="row">
-
-                <?php
-
-                    foreach($ofertas as $oferta){
-
-                        ?>
-
-                        <div class="col-6">
-
-                            <?php echo $oferta->getNombre(); ?>
-
-                        </div>
-
-                        <?php
-
-                    }
-                ?>
-
-            </div>
-
-        </div>
-
+    <div class="migasDePan">
+        <p class="p5 bold"><a href="?controller=general" class="linkMigasPan">Inicio</a> > Ofertas</p>
     </div>
 
-    <!-- FOOTER -->
+    <div class="contenedorPrincipal container-fluid">
+        <div class="row">
+            <div class="contenedorFiltros col-sm-12 col-md-12 col-lg-12 col-xl-2">
+                <!-- Para las ofertas, no hay filtros disponibles -->
+            </div>
+
+            <div class="contenedorContenido col-sm-12 col-md-12 col-lg-12 col-xl-10 container">
+
+                <div class="tituloContenedor">
+                    <h2>Ofertas</h2>
+                </div>
+                
+                <div class="contenedorProductos container-fluid">
+                    <div class="contenidoProductos row">
+                        <?php
+
+                        if(count($ofertas) == 0){
+                            ?>
+                            <div class="busquedaSinResultados">
+                                <p class="p4">No se han encontrado ofertas que coinciden con los filtros de búsqueda.</p>
+                            </div>
+                            <?php
+                        }else{
+
+                            foreach($ofertas as $oferta){
+
+                                ?>
+                                
+                                <div class="contenedorProducto col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                                    <div class="separadorImagen">
+                                        <h5 class="white"><?= floor($oferta->getDescuento()) ?> <?= $oferta->getTipo() ?></h5>
+                                    </div>
+
+                                    <div class="lineaDivisoraContenido">
+                                        <hr>
+                                    </div>
+
+                                    <div class="contenedorContenidoProducto">
+
+                                        <div class="tituloContenido">
+                                            <h7 class="naranja"><?= ucfirst($oferta->getNombre())?></h7>
+                                        </div>
+                                        <div class="textoContenido">
+                                            <p class="p5"><?= ucfirst($oferta->getDescripcion())?></p>
+                                            <p class="p4 bold">Disponibilidad:</p>
+                                            <p class="p5">Del <?= $oferta->getFechaInicio() ?></p>
+                                            <p class="p5">Al <?= $oferta->getFechaFin() ?></p>
+                                        </div>
+                                    </div>
+                                </div>
+        
+                                <?php
+                            }
+
+                        }
+
+                        ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
     <?php include_once "views/others/footer.php"; ?>
 
     <!-- Bootstrap Bundle with Popper (JS) -->
