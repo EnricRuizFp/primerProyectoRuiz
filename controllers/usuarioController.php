@@ -227,6 +227,24 @@
 
 
         }
+
+        public static function cambiarContraseña(){
+
+            include_once "models/UsuarioDAO.php";
+            session_start();
+
+            // Obtener datos del formulario
+            $usuario = $_SESSION['usuarioActual'];
+            $contraseña = $_POST['contraseña'];
+            $repetirContraseña = $_POST['repetirContraseña'];
+
+            // Insertar en la DB
+            UsuarioDAO::cambiarContraseña($usuario, $contraseña);
+
+            session_write_close();
+            usuarioController::index();
+
+        }
     }
 
 ?>

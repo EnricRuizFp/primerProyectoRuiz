@@ -11,7 +11,7 @@
             include_once "models/OfertaDAO.php";
 
             session_start();
-            $carrito =  $_SESSION['carrito'];
+            $carrito =  $_SESSION['carrito'] ?? null;
 
             //Obtener los datos de los productos
             $productosCarrito = ProductoDAO::getProductosCarrito($carrito);

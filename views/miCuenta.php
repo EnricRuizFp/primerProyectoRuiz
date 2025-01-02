@@ -52,6 +52,8 @@
                     <button id="botonMostrarMisPedidos" type="button"><h8>MIS PEDIDOS</h8></button>
                     <hr>
                     <button id="botonMostrarAtencionCliente" type="button"><h8>ATENCIÓN AL CLIENTE</h8></button>
+                    <hr>
+                    <button id="botonMostrarCambiarContraseña" type="button"><h8>CAMBIAR CONTRASEÑA</h8></button>
 
                     <div id="seccionAdmin" class="<?php if($isAdmin){?> mostrar <?php }else{?> ocultar <?php }?>">
                         <hr>
@@ -410,6 +412,42 @@
                     
                 </div>
 
+                <!-- CAMBIAR CONTRASEÑA -->
+                <div id="contenedorCambiarContraseña" class="container-fluid">
+                    <!-- Datos principales -->
+                    <div class="tituloDatos">
+                        <h6>CAMBIAR CONTRASEÑA</h6>
+                    </div>
+
+                    <div class="contenedorDatos row">
+                        
+                        <div class="contenidoContraseña container-fluid">
+                            <form id="formularioCambiarContraseña" class="row" action="?controller=usuario&action=cambiarContraseña" method="POST">
+
+                                <div class="col-3">
+                                    <label for="contraseña" class="p5 bold">Nueva contraseña</label>
+                                </div>
+                                <div class="col-7 col-md-8">
+                                    <input id="contraseña" name="contraseña" type="password" minlength="9" required>
+                                </div>
+                                <div class="col-2 col-md-1">
+                                    <button id="botonGuardarCambiarContraseña" type="button"><p class="p5 naranja bold">Guardar</p></button>
+                                </div>
+
+                                <div class="col-3">
+                                    <label for="repetirContraseña" class="p5 bold">Repetir contraseña</label>
+                                </div>
+                                <div class="col-7 col-md-8">
+                                    <input id="repetirContraseña" name="repetirContraseña" type="password" minlength="9" required>
+                                </div>
+
+                            </form>
+                        </div>
+
+                    </div>
+                    
+                </div>
+
                 <!-- ATENCIÓN AL CLIENTE -->
                 <div id="contenedorAtencionCliente" class="container-fluid">
                     <!-- Datos principales -->
@@ -486,10 +524,12 @@
         const botonMostrarPerfil = 'botonMostrarPerfil';
         const botonMostrarPedidos = 'botonMostrarMisPedidos';
         const botonMostrarAtencionCliente = 'botonMostrarAtencionCliente';
+        const botonMostrarCambiarContraseña = 'botonMostrarCambiarContraseña';
 
         const contenedorPerfil = 'contenedorPerfil';
         const contenedorMisPedidos = 'contenedorMisPedidos';
         const contenedorAtencionCliente = 'contenedorAtencionCliente';
+        const contenedorCambiarContraseña = 'contenedorCambiarContraseña';
 
         /* -- CONTENIDO PRINCIPAL -- */
 
@@ -520,23 +560,30 @@
         const botonDescartarEditarDatosBancarios = 'descartarEditarDatosBancarios';
         const botonGuardarEditarDatosBancarios = 'guardarEditarDatosBancarios';
 
+        // Contenedor cambiar contraseña
+        const botonGuardarCambiarContraseña = 'botonGuardarCambiarContraseña';
+        const formularioCambiarContraseña = 'formularioCambiarContraseña'
+
         /* ----- FUNCIONES DE LOS ELEMENTOS ----- */
 
         /* -- BARRA LATERAL -- */
         document.getElementById(botonMostrarPerfil).addEventListener('click', () => {
             toggleVisibility([document.getElementById(contenedorPerfil)], 'block');
-            toggleVisibility([document.getElementById(contenedorMisPedidos), document.getElementById(contenedorAtencionCliente)], 'none');
+            toggleVisibility([document.getElementById(contenedorMisPedidos), document.getElementById(contenedorAtencionCliente), document.getElementById(contenedorCambiarContraseña)], 'none');
         });
-
         document.getElementById(botonMostrarPedidos).addEventListener('click', () => {
             toggleVisibility([document.getElementById(contenedorMisPedidos)], 'block');
-            toggleVisibility([document.getElementById(contenedorPerfil), document.getElementById(contenedorAtencionCliente)], 'none');
+            toggleVisibility([document.getElementById(contenedorPerfil), document.getElementById(contenedorAtencionCliente), document.getElementById(contenedorCambiarContraseña)], 'none');
         });
-
         document.getElementById(botonMostrarAtencionCliente).addEventListener('click', () => {
             toggleVisibility([document.getElementById(contenedorAtencionCliente)], 'block');
-            toggleVisibility([document.getElementById(contenedorPerfil), document.getElementById(contenedorMisPedidos)], 'none');
+            toggleVisibility([document.getElementById(contenedorPerfil), document.getElementById(contenedorMisPedidos), document.getElementById(contenedorCambiarContraseña)], 'none');
         });
+        document.getElementById(botonMostrarCambiarContraseña).addEventListener('click', () => {
+            toggleVisibility([document.getElementById(contenedorCambiarContraseña)], 'block');
+            toggleVisibility([document.getElementById(contenedorPerfil), document.getElementById(contenedorMisPedidos), document.getElementById(contenedorAtencionCliente)], 'none');
+        });
+
 
         /* -- CONTENIDO PRINCIPAL -- */
 
@@ -579,16 +626,30 @@
             toggleVisibility([document.getElementById(contenedorDatosBancarios)], 'none');
             toggleVisibility([document.getElementById(contenedorEditarDatosBancarios)], 'block');
         });
-
         document.getElementById(botonGuardarEditarDatosBancarios).addEventListener('click', () => {
             document.getElementById(formularioEditarDatosBancarios).submit();
             toggleVisibility([document.getElementById(contenedorDatosBancarios)], 'block');
             toggleVisibility([document.getElementById(contenedorEditarDatosBancarios)], 'none');
         });
-
         document.getElementById(botonDescartarEditarDatosBancarios).addEventListener('click', () => {
             toggleVisibility([document.getElementById(contenedorDatosBancarios)], 'block');
             toggleVisibility([document.getElementById(contenedorEditarDatosBancarios)], 'none');
+        });
+
+        // Contenedor cambiar contraseña
+        document.getElementById(botonGuardarCambiarContraseña).addEventListener('click', () => {
+            
+            if(document.getElementById(formularioCambiarContraseña).checkValidity()){
+                if(document.getElementById('contraseña').value == document.getElementById('repetirContraseña').value){
+                    document.getElementById(formularioCambiarContraseña).submit();
+                }else{
+                    alert("Las contraseñas no coinciden.");
+                }
+                
+            }else{
+                alert("Los datos introducidos no son correctos");
+            }
+
         });
 
         });

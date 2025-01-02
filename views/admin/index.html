@@ -1243,14 +1243,20 @@
             );
             const datosPedidos = await respuestaPedidos.json();
 
+            // Convertir la moneda
+            const precioTotalConvertido = await convertirMonedas(datosPedidos.precioTotalPedidos);
+            const cantidadDineroGastadoUsuarioMasFiel = await convertirMonedas(datosPedidos.mejorUsuario.dineroGastado); // Usado en contenedor Usuarios
+
+            // Mostrar los datos
             const contenedorPedidos = document.querySelector('#datosPedidos');
             contenedorPedidos.innerHTML = `
                 <h7>Pedidos</h7>
                     <br><br>
                 <p><b>Cantidad de pedidos realizados:</b> ${datosPedidos.cantidadPedidos}</p>
-                <p><b>Precio total de los productos comprados:</b> ${datosPedidos.precioTotalPedidos} €</p>
+                <p><b>Precio total de los productos comprados:</b> ${precioTotalConvertido} ${sessionStorage.getItem('monedaConvertida')}</p>
                 <p><b>Total de dinero descontado:</b> ${datosPedidos.totalDescuentos} €</p>
             `;
+
 
             // Datos de Usuarios
             const respuestaUsuarios = await fetch(`?controller=api&action=obtenerDatosUsuarios`, 
@@ -1267,8 +1273,9 @@
                 <p><b>Usuarios sin tarjeta disponible:</b> ${datosUsuarios.usuariosSinTarjeta}</p>
                     <br>
                 <p><b>Usuario más fiel:</b> ${datosPedidos.mejorUsuario.mejorUsuario}</p>
-                <p><b>Cantidad de dinero gastado:</b> ${datosPedidos.mejorUsuario.dineroGastado} €</p>
+                <p><b>Cantidad de dinero gastado:</b> ${cantidadDineroGastadoUsuarioMasFiel} ${sessionStorage.getItem('monedaConvertida')}</p>
             `;
+
 
             // Datos de Productos
             const respuestaProductos = await fetch(`?controller=api&action=obtenerDatosProductos`, 
@@ -1276,15 +1283,21 @@
             );
             const datosProductos = await respuestaProductos.json();
 
+            // Convertir la moneda
+            const promedioPrecioPizzas = await convertirMonedas(datosProductos.promedioPrecioPizzas);
+            const promedioPrecioBebidas = await convertirMonedas(datosProductos.promedioPrecioBebidas);
+            const promedioPrecioPostres = await convertirMonedas(datosProductos.promedioPrecioPostres);
+
             const contenedorProductos = document.querySelector('#datosProductos');
             contenedorProductos.innerHTML = `
                 <h7>Productos</h7>
                     <br><br>
                 <p><b>Cantidad de productos disponibles:</b> ${datosProductos.cantidadProductos}</p>
-                <p><b>Promedio de precio de pizzas:</b> ${datosProductos.promedioPrecioPizzas} €</p>
-                <p><b>Promedio de precio de bebidas:</b> ${datosProductos.promedioPrecioBebidas} €</p>
-                <p><b>Promedio de precio de postres:</b> ${datosProductos.promedioPrecioPostres} €</p>
+                <p><b>Promedio de precio de pizzas:</b> ${promedioPrecioPizzas} ${sessionStorage.getItem('monedaConvertida')}</p>
+                <p><b>Promedio de precio de bebidas:</b> ${promedioPrecioBebidas} ${sessionStorage.getItem('monedaConvertida')}</p>
+                <p><b>Promedio de precio de postres:</b> ${promedioPrecioPostres} ${sessionStorage.getItem('monedaConvertida')}</p>
             `;
+
 
             // Datos de Ingredientes
             const respuestaIngredientes = await fetch(`?controller=api&action=obtenerDatosIngredientes`, 
@@ -1292,12 +1305,15 @@
             );
             const datosIngredientes = await respuestaIngredientes.json();
 
+            // Convertir la moneda
+            const promedioPrecioIngredientes = await convertirMonedas(datosIngredientes.promedioPrecioIngrediente);
+
             const contenedorIngredientes = document.querySelector('#datosIngredientes');
             contenedorIngredientes.innerHTML = `
                 <h7>Ingredientes</h7>
                     <br><br>
                 <p><b>Cantidad de ingredientes:</b> ${datosIngredientes.cantidadIngredientes}</p>
-                <p><b>Promedio de los ingredientes:</b> ${datosIngredientes.promedioPrecioIngrediente} €</p>
+                <p><b>Precio promedio de los ingredientes:</b> ${promedioPrecioIngredientes} ${sessionStorage.getItem('monedaConvertida')}</p>
                 <p><b>Ingrediente más caro:</b> ${datosIngredientes.ingredienteMasCaro}</p>
                 <p><b>Ingrediente más barato:</b> ${datosIngredientes.ingredienteMasBarato}</p>
             `;

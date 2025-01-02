@@ -117,7 +117,7 @@ header {
 }
 
 /* Por defecto */
-#contenedorMisPedidos, #contenedorAtencionCliente {
+#contenedorMisPedidos, #contenedorAtencionCliente, #contenedorCambiarContraseña {
     display: none;
 }
 
