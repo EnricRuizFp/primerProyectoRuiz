@@ -6,6 +6,9 @@
 
     class ProductoDAO{
 
+        /**
+         * Devuelve los productos que coinciden con los filtros
+         */
         public static function getAll(){
 
             $con = DataBase::connect();
@@ -54,6 +57,9 @@
 
         }
 
+        /**
+         * Devuelve el producto especificado
+         */
         public static function getProducto($id){
 
             $con = DataBase::connect();
@@ -71,6 +77,9 @@
             return $producto;
         }
 
+        /**
+         * Devuelve la cantidad de productos
+         */
         public static function getCantidadProductos(){
             
             $con = DataBase::connect();
@@ -87,6 +96,9 @@
             return $cantidadProductos;
         }
 
+        /**
+         * Devuelve productos aleatorios especificando cantidad y categoría
+         */
         public static function getProductosAleatorios($cantidad,$categoria){
 
             $con = DataBase::connect();
@@ -108,6 +120,9 @@
 
         }
 
+        /**
+         * Devuelve productos de la categoría especificada
+         */
         public static function getProductosPorCategoria($categoria){
 
             $con = DataBase::connect();
@@ -128,6 +143,9 @@
             return $productos;
         }
 
+        /**
+         * Devuelve los productos de la categoría respetando los filtros
+         */
         public static function getProductos($categoria){
 
             session_start();
@@ -176,6 +194,9 @@
 
         }
 
+        /**
+         * Devuelve todas las bebidas
+         */
         public static function getBebidas(){
 
             $con = DataBase::connect();
@@ -197,6 +218,33 @@
 
         }
 
+        /**
+         * Devuelve todos los postres
+         */
+        public static function getPostres(){
+
+            $con = DataBase::connect();
+
+            $stmt = $con->prepare("SELECT * FROM PRODUCTOS WHERE categoria = 'postres'");
+
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            $stmt->close();
+            $con->close();
+
+            $postres = [];
+            while($postre = $resultado->fetch_object("Producto")){
+                $postres[] = $postre;
+            }
+
+            return $postres;
+
+        }
+
+        /**
+         * Devuelve todos los productos del carrito seleccionado
+         */
         public static function getProductosCarrito($carrito){
 
             $productos = ProductoDAO::getAll();
@@ -228,7 +276,11 @@
         }
 
         /**
-         * FUNCIONES PARA LA API
+         * PANTALLA ADMIN
+         */
+
+        /**
+         * Devuelve todos los productos
          */
         public static function obtenerAllProductos(){
 
@@ -250,6 +302,9 @@
 
         }
 
+        /**
+         * Devuelve el precio del producto seleccionado
+         */
         public static function getPrecioProducto($producto_id){
 
             $con = DataBase::connect();
@@ -268,6 +323,9 @@
 
         }
 
+        /**
+         * Genera un nuevo producto
+         */
         public static function crearProducto($nombre, $descripcion, $seccion, $ingredientes, $categoria, $precio, $imagen){
 
             $con = DataBase::connect();
@@ -303,6 +361,9 @@
 
         }
 
+        /**
+         * Devuelve todos los productos que casan con el filtro espeificado
+         */
         public static function obtenerProductos($filtro){
 
             $con = DataBase::connect();
@@ -324,6 +385,9 @@
 
         }
 
+        /**
+         * Devuelve los datos del producto especificado
+         */
         public static function obtenerProducto($producto_id){
 
             $con = DataBase::connect();
@@ -342,6 +406,9 @@
 
         }
 
+        /**
+         * Edita los datos de un producto
+         */
         public static function editarProducto($id, $nombre, $descripcion, $seccion, $ingredientes, $categoria, $precio, $imagen){
 
             $con = DataBase::connect();
@@ -385,6 +452,9 @@
 
         }
 
+        /**
+         * Elimina el producto especificado
+         */
         public static function eliminarProducto($producto_id){
 
             $con = DataBase::connect();
@@ -414,7 +484,7 @@
         }
 
         /**
-         * PANTALLA ADMIN
+         * Devuelve la cantidad de productos
          */
         public static function obtenerCantidadProductos(){
 
@@ -434,6 +504,9 @@
 
         }
 
+        /**
+         * Devuelve el promedio de precio de las pizzas
+         */
         public static function obtenerPromedioPrecioPizzas(){
 
             $con = DataBase::connect();
@@ -452,6 +525,9 @@
 
         }
 
+        /**
+         * Devuelve el promedio de precio de las bebidas
+         */
         public static function obtenerPromedioPrecioBebidas(){
 
             $con = DataBase::connect();
@@ -470,6 +546,9 @@
 
         }
 
+        /**
+         * Devuelve el promedio de precio de los postres
+         */
         public static function obtenerPromedioPrecioPostres(){
 
             $con = DataBase::connect();

@@ -68,7 +68,7 @@
                     <div class="contenidoInformacion col-8 mx-auto">
                         <h5>El pedido no se ha podido completar.</h5>
                         <p>Por favor, vuelve a realizar el proceso de compra.</p>
-                        <p>Si sigue sin poder comprar, pongase en contacto con nosotros mediante el teléfono de contacto o haciendo <a href="?controller=general&action=contacto">clic aquí</a>.</p>
+                        <p>Si sigue sin poder comprar, pongase en contacto con nosotros mediante el teléfono de contacto o haciendo <a href="?controller=general&action=corporativo">clic aquí</a>.</p>
 
                         <a href="?controller=carrito">
                             <div class="botonPedirAhoraPrimario">

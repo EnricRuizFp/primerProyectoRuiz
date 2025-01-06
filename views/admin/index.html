@@ -36,6 +36,8 @@
                 <select id="selectorDivisas">
                     <option value="" disabled>Elige una moneda</option>
                 </select>
+                    <br><br><br>
+                <button id="botonCerrarPanel" class="botonesLaterales" type="button">CERRAR</button>
                 
             </div>
 
@@ -360,7 +362,7 @@
 
                                         <!-- Select de orden -->
                                         <div class="mb-3">
-                                            <label for="orden_filtro_fecha" class="form-label">Fecha de fin</label>
+                                            <label for="orden_filtro_fecha" class="form-label">Orden</label>
                                             <select id="orden_filtro_fecha" name="orden_filtro_fecha" class="form-select">
                                                 <option value="DESC">Descendiente</option>
                                                 <option value="ASC">Ascendiente</option>
@@ -403,7 +405,7 @@
 
                                         <!-- Select de orden -->
                                         <div class="mb-3">
-                                            <label for="orden_filtro_precio" class="form-label">Fecha de fin</label>
+                                            <label for="orden_filtro_precio" class="form-label">Orden</label>
                                             <select id="orden_filtro_precio" name="orden_filtro_precio" class="form-select">
                                                 <option value="DESC">Descendiente</option>
                                                 <option value="ASC">Ascendiente</option>
@@ -998,7 +1000,7 @@
                     </button>
 
                     <button type="button" class="btn btn-primary botonAñadir" onclick="filtrarPorTipo()">
-                        Filtrar por categoría
+                        Filtrar por tipo
                     </button>
 
                     <!-- Modal Crear Ingrediente -->
@@ -1120,7 +1122,7 @@
                         <div class="modal-dialog modal-dialog-centered" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Crear producto</h5>
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Filtrar ofertas</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
 
@@ -1129,9 +1131,9 @@
                                     <div class="modal-body">
 
                                         <div class="mb-3">
-                                            <label for="filtrar_ofertas" class="form-label">Categorías</label>
+                                            <label for="filtrar_ofertas" class="form-label">Tipos</label>
                                             <select name="filtrar_ofertas" id="filtrar_ofertas" class="form-select">
-                                                <option value="%">Prcentaje</option>
+                                                <option value="%">Porcentaje</option>
                                                 <option value="€">Euros</option>
                                             </select>
                                         </div>
@@ -1245,6 +1247,7 @@
 
             // Convertir la moneda
             const precioTotalConvertido = await convertirMonedas(datosPedidos.precioTotalPedidos);
+            const totalDineroDescontado = await convertirMonedas(datosPedidos.totalDescuentos);
             const cantidadDineroGastadoUsuarioMasFiel = await convertirMonedas(datosPedidos.mejorUsuario.dineroGastado); // Usado en contenedor Usuarios
 
             // Mostrar los datos
@@ -1254,7 +1257,7 @@
                     <br><br>
                 <p><b>Cantidad de pedidos realizados:</b> ${datosPedidos.cantidadPedidos}</p>
                 <p><b>Precio total de los productos comprados:</b> ${precioTotalConvertido} ${sessionStorage.getItem('monedaConvertida')}</p>
-                <p><b>Total de dinero descontado:</b> ${datosPedidos.totalDescuentos} €</p>
+                <p><b>Total de dinero descontado:</b> ${totalDineroDescontado} ${sessionStorage.getItem('monedaConvertida')}</p>
             `;
 
 
@@ -1460,6 +1463,10 @@
             }            
 
             
+        });
+
+        document.querySelector('#botonCerrarPanel').addEventListener('click', function() {
+            window.location.href = '?controller=usuario';
         });
 
 

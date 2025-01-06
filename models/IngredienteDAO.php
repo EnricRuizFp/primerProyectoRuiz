@@ -6,6 +6,9 @@
 
     class IngredienteDAO{
 
+        /**
+         * Devuelve todos los ingredientes
+         */
         public static function getAll(){
 
             $con = DataBase::connect();
@@ -26,6 +29,9 @@
 
         }
 
+        /**
+         * Crea un nuevo ingrediente
+         */
         public static function store($ingrediente){
 
             $con = DataBase::connect();
@@ -43,6 +49,9 @@
 
         }
 
+        /**
+         * Devuelve si existe un ingrediente
+         */
         public static function verify($id){
 
             $con = DataBase::connect();
@@ -68,6 +77,9 @@
 
         }
 
+        /**
+         * Gestionar un ingrediente
+         */
         public static function edit($id, $ingrediente){
 
             $con = DataBase::connect();
@@ -86,6 +98,9 @@
 
         }
 
+        /**
+         * Devuelve los ingredientes por defecto que lleva un producto
+         */
         public static function getIngredientesDefault($id){
 
             $con = DataBase::connect();
@@ -108,6 +123,10 @@
 
         }
 
+        /**
+         * Devuelve todos los ingredientes
+         * @return array
+         */
         public static function obtenerAllIngredientes(){
 
             $con = DataBase::connect();
@@ -128,6 +147,9 @@
 
         }
 
+        /**
+         * Devuelve todos los ingredientes de un producto
+         */
         public static function obtenerSelectedIngredientes($id){
             $con = DataBase::connect();
 
@@ -148,6 +170,9 @@
             return $ingredientes;
         }
 
+        /**
+         * Creación de un ingrediente
+         */
         public static function crearIngrediente($nombre, $descripcion, $precio, $categoria){
 
             $con = DataBase::connect();
@@ -162,6 +187,9 @@
 
         }
 
+        /**
+         * Devuelve las categorías de ingredientes existentes
+         */
         public static function obtenerCategoriasIngredientes(){
 
             $con = DataBase::connect();
@@ -181,6 +209,9 @@
             }
         }
 
+        /**
+         * Devuelve los ingredientes de una categoría
+         */
         public static function obtenerIngredientes($categoria){
 
             $con = DataBase::connect();
@@ -202,6 +233,9 @@
 
         }
 
+        /**
+         * Devuelve el ingrediente pasado por parámetro
+         */
         public static function obtenerIngrediente($id){
 
             $con = DataBase::connect();
@@ -220,6 +254,9 @@
 
         }
 
+        /**
+         * Edita los datos del ingrediente pasado por parámetro
+         */
         public static function editarIngrediente($id, $nombre, $descripcion, $precio, $categoria){
 
             $con = DataBase::connect();
@@ -234,6 +271,9 @@
 
         }
 
+        /**
+         * Elimina el ingrediente seleccionado
+         */
         public static function eliminarIngrediente($id){
 
             $con = DataBase::connect();
@@ -250,6 +290,10 @@
 
         /**
          * PANTALLA ADMIN
+         */
+
+        /**
+         * Obtener la cantidad de ingredientes
          */
         public static function obtenerCantidadIngredientes(){
 
@@ -269,6 +313,9 @@
         
         }
 
+        /**
+         * Obtener el promedio de precio de los ingredientes
+         */
         public static function obtenerPromedioPrecioIngredientes(){
 
             $con = DataBase::connect();
@@ -287,6 +334,9 @@
 
         }
 
+        /**
+         * Devuelve el ingrediente más caro
+         */
         public static function obtenerIngredienteMasCaro(){
 
             $con = DataBase::connect();
@@ -305,6 +355,9 @@
 
         }
 
+        /**
+         * Devuelve el ingrediente más barato
+         */
         public static function obtenerIngredienteMasBarato(){
 
             $con = DataBase::connect();

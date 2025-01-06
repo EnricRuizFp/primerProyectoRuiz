@@ -6,6 +6,10 @@
 
     class LogDAO{
 
+        /**
+         * Devuelve todos los logs
+         * @return array
+         */
         public static function getAll(){
 
             $con = DataBase::connect();
@@ -26,6 +30,14 @@
 
         }
 
+        /**
+         * Crear un nuevo LOG
+         * @param mixed $accion
+         * @param mixed $modificado
+         * @param mixed $tabla
+         * @param mixed $fecha
+         * @return bool
+         */
         public static function crearLog($accion, $modificado, $tabla, $fecha){
 
             $con = DataBase::connect();

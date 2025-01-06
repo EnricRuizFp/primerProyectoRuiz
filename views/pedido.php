@@ -159,7 +159,7 @@
                             <p class="p5 bold">Total productos:</p>
                         </div>
                         <div class="col-3">
-                            <?= $pedido->getPrecioFinal() ?>
+                            <?= $pedido->getPrecio() ?>
                         </div>
 
                     </div>
@@ -269,15 +269,19 @@
                     <div id="detalleEstado" class="col-12 col-sm-8 col-md-4">
                         <p 
                             class="p5 estado"
-                            style="<?php if($pedido->getEstado() == 'pedido'){?> color: red <?php }else if($pedido->getEstado() == 'en reparto'){?> color: orange <?php }else{?> color: green <?php } ?>" 
+                            style="<?php if($pedido->getEstado() == 'pedido' || $pedido->getEstado() == 'pendiente'){?> color: black <?php }else if($pedido->getEstado() == 'preparando'){ ?> color: orange <?php }else if($pedido->getEstado() == 'repartiendo'){ ?> color: orange <?php }else if($pedido->getEstado() == 'entregado'){?> color: green <?php }else if($pedido->getEstado() == 'denegado'){?> color: red <?php } ?>" 
                             data-hover="<?php 
-                                if($pedido->getEstado() == 'pedido') {
-                                    echo 'El pedido está pendiente de preparación.';
-                                } else if($pedido->getEstado() == 'en reparto') {
+                                if($pedido->getEstado() == 'pendiente' || $pedido->getEstado() == 'pedido') {
+                                    echo 'El pedido está pendiente de validación.';
+                                } else if($pedido->getEstado() == 'preparando'){
+                                    echo 'El pedido se está preparando';
+                                } else if($pedido->getEstado() == 'repartiendo') {
                                     echo 'El pedido está en camino.';
-                                } else {
+                                } else if($pedido->getEstado() == 'entregado'){
                                     echo 'El pedido ha sido entregado.';
-                                } ?>"
+                                } else if($pedido->getEstado() == 'denegado'){
+                                    echo 'El pedido se ha denegado.';
+                                }?>"
                         >
                             <?= $pedido->getEstado() ?>
                         </p>

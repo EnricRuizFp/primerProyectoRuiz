@@ -82,10 +82,10 @@ session_start();
 
                             <div id="contenedorChecks">
                                 <div id="contenedorCheckTerminos">
-                                    <input id="checkBoxTerminos" type="checkbox" name="checkBoxTerminos" value="terminos" required oninvalid="this.setCustomValidity('Debe aceptar los términos y condiciones para crear una cuenta.')" oninput="this.setCustomValidity('')"> Acepto los <a href="?controller=general&action=terminos">términos y condiciones de uso</a>.
+                                    <input id="checkBoxTerminos" type="checkbox" name="checkBoxTerminos" value="terminos" required oninvalid="this.setCustomValidity('Debe aceptar los términos y condiciones para crear una cuenta.')" oninput="this.setCustomValidity('')"> Acepto los <a href="?controller=general&action=avisoLegal">términos y condiciones de uso</a>.
                                 </div>
                                 <div id="contenedorCheckPrivacidad">
-                                    <input id="checkBoxPrivacidad" type="checkbox" name="checkBoxPrivacidad" value="privacidad" required oninvalid="this.setCustomValidity('Debe aceptar la política de privacidad para crear una cuenta.')" oninput="this.setCustomValidity('')"> Acepto la <a href="?controller=general&action=privacyPolicy">Política de privacidad</a>.
+                                    <input id="checkBoxPrivacidad" type="checkbox" name="checkBoxPrivacidad" value="privacidad" required oninvalid="this.setCustomValidity('Debe aceptar la política de privacidad para crear una cuenta.')" oninput="this.setCustomValidity('')"> Acepto la <a href="?controller=general&action=avisoLegal#politicaDePrivacidad">Política de privacidad</a>.
                                 </div>
                             </div>
 

@@ -6,6 +6,9 @@
 
     class DireccionDAO{
 
+        /**
+         * Devuelve todas las direcciones
+         */
         public static function getAll(){
 
             $con = DataBase::connect();
@@ -26,6 +29,9 @@
 
         }
 
+        /**
+         * Devuelve todas las direcciones de un usuario
+         */
         public static function getDirecciones($usuario){
 
             $con = DataBase::connect();
@@ -46,6 +52,9 @@
             return $direcciones;
         }
 
+        /**
+         * Añade una dirección
+         */
         public static function añadirDireccion($usuario, $codigoPostal, $ciudad, $calle) {
 
             $con = DataBase::connect();
@@ -59,6 +68,9 @@
 
         }
 
+        /**
+         * Elimina la dirección pasada por parámetro
+         */
         public static function eliminarDireccion($id){
 
             $con = DataBase::connect();
@@ -72,6 +84,9 @@
 
         }
 
+        /**
+         * Devuelve la cantidad de direcciones para un usuario
+         */
         public static function getCantidadDirecciones($id){
 
             $con = DataBase::connect();
@@ -89,6 +104,9 @@
             return $cantidadDirecciones;
         }
 
+        /**
+         * Obtiene los datos de una dirección
+         */
         public static function getDireccion($id){
 
             $con = DataBase::connect();

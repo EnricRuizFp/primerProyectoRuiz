@@ -1,5 +1,8 @@
 <?php
 
+    /* ----- PARTE DEL CÓDIGO TOTALMENTE EN DESUSO ----- */
+    /* -- No se ha retirado por posibles funciones futuras -- */
+
     class ProductoPedido{
 
         protected $ID;

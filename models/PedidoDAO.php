@@ -6,6 +6,9 @@
 
     class PedidoDAO{
 
+        /**
+         * Devuelve todos los pedidos
+         */
         public static function getAll(){
 
             $con = DataBase::connect();
@@ -26,6 +29,9 @@
 
         }
 
+        /**
+         * Devuelve todos los pedidos de un usuario
+         */
         public static function getPedidos($usuario){
 
             $con = DataBase::connect();
@@ -47,6 +53,9 @@
 
         }
 
+        /**
+         * Genera un pedido a partir de los datos seleccionados
+         */
         public static function generarPedido($usuarioActual,$oferta_id,$precioProductos,$descuento,$precioFinal,$estadoPedido,$fechaPedido, $productosCarrito, $direccion){
 
             $con = DataBase::connect();
@@ -86,6 +95,9 @@
 
         }
 
+        /**
+         * Devuelve el nombre de la oferta a partir del ID
+         */
         public static function getOferta($oferta_id){
 
             $con = DataBase::connect();
@@ -102,6 +114,9 @@
 
         }
 
+        /**
+         * Devuelve los datos del pedido a partir de la ID
+         */
         public static function getPedido($id){
 
             $con = DataBase::connect();
@@ -117,6 +132,9 @@
 
         }
 
+        /**
+         * Devuelve los detalles de un pedido
+         */
         public static function getDetalles($id){
 
             $con = DataBase::connect();
@@ -139,6 +157,9 @@
 
         }
 
+        /**
+         * Devuelve los pedidos ordenados por fecha de un usuario
+         */
         public static function getPedidosOrdenados($usuario){
 
             $con = DataBase::connect();
@@ -160,7 +181,11 @@
 
         }
 
-        /* -- FUNCIONES PARA LA API -- */
+        /* -- FUNCIONES PARA EL ADMIN -- */
+
+        /**
+         * Devuelve todos los pedidos
+         */
         public static function getAllPedidos(){
 
             $con = DataBase::connect();
@@ -181,6 +206,9 @@
 
         }
 
+        /**
+         * Devuelve los productos de un pedido
+         */
         public static function getProductosPedido($id){
 
             $con = DataBase::connect();
@@ -203,6 +231,9 @@
 
         }
 
+        /**
+         * Crea un nuevo pedido
+         */
         public static function crearPedido($cliente_id, $oferta_id, $direccion, $fecha, $productos){
 
             include_once "models/OfertaDAO.php";
@@ -232,7 +263,7 @@
                 if($tipoOferta == "%"){
                     $precioFinal = $precioTotal - ($precioTotal * OfertaDAO::getCantidadOferta($oferta_id) / 100);
                 }else if($tipoOferta == "€"){
-                    $precioFinal = $precioTotal - ($precioTotal - OfertaDAO::getCantidadOferta($oferta_id));
+                    $precioFinal = $precioTotal - OfertaDAO::getCantidadOferta($oferta_id);
                 }else{
                     $precioFinal = $precioTotal;
                 }
@@ -286,6 +317,9 @@
 
         }
 
+        /**
+         * Devuelve todos los pedidos de un usuario
+         */
         public static function obtenerPedidosPorUsuario($usuario_id){
             
             $con = DataBase::connect();
@@ -307,6 +341,9 @@
 
         }
 
+        /**
+         * Devuelve todos los pedidos comprendidos entre dos fechas y ordenados
+         */
         public static function obtenerPedidosPorFechas($fecha_ini, $fecha_fin, $orden){
 
             $con = DataBase::connect();
@@ -333,6 +370,9 @@
 
         }
 
+        /**
+         * Devuelve todos los pedidos comprendidos entre dos precios y ordenados
+         */
         public static function obtenerPedidosPorPrecio($precio_ini, $precio_fin, $orden){
 
             $con = DataBase::connect();
@@ -360,6 +400,9 @@
 
         }
 
+        /**
+         * Devuelve los detalles de un pedido por el ID
+         */
         public static function obtenerPedido($id){
 
             $con = DataBase::connect();
@@ -378,6 +421,9 @@
 
         }
 
+        /**
+         * Edita el pedido seleccionado
+         */
         public static function editarPedido($pedido_id, $cliente_id, $oferta_id, $direccion, $fecha, $estado, $productos){
 
             include_once "models/OfertaDAO.php";
@@ -467,6 +513,9 @@
 
         }
 
+        /**
+         * Elimina el pedido y todos sus datos a partir del ID
+         */
         public static function eliminarPedido($pedido_id){
 
             $con = DataBase::connect();
@@ -497,7 +546,7 @@
         }
 
         /**
-         * PANTALLA ADMIN
+         * Devuelve la cantidad de pedidos
          */
         public static function obtenerCantidadPedidos(){
 
@@ -516,6 +565,9 @@
             return $cantidadPedidos;
         }
 
+        /**
+         * Devuelve la suma de precio total de todos los pedidos
+         */
         public static function obtenerPrecioTotalPedidos(){
 
             $con = DataBase::connect();
@@ -534,6 +586,9 @@
 
         }
 
+        /**
+         * Devuelve la cantidad total descontada
+         */
         public static function obtenerCantidadDescuentos(){
 
             $con = DataBase::connect();
@@ -552,6 +607,9 @@
 
         }
 
+        /**
+         * Devuelve el usuario con más pedidos
+         */
         public static function obtenerMejorUsuario(){
 
             $con = DataBase::connect();

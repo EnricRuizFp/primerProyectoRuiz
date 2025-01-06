@@ -51,6 +51,9 @@
             $this->ciudad = $ciudad;
         }
 
+        /**
+         * Devuelve todas las direcciones de un usuario
+         */
         public function getDirecciones($id){
 
             $direcciones = DireccionDAO::getDirecciones($id);

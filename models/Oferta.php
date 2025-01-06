@@ -42,6 +42,9 @@
             return $this->fecha_fin;
         }
 
+        /**
+         * SETTERS
+         */
         public function setId($id){
             $this->ID = $id;
         }

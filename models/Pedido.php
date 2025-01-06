@@ -79,7 +79,9 @@
             $this->direccion = $direccion;
         }
 
-
+        /**
+         * Devuelve los datos de la oferta seleccionada dentro de un pedido.
+         */
         public function getOferta($oferta_id){
             
             $oferta = PedidoDAO::getOferta($oferta_id);

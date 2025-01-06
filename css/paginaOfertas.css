@@ -111,3 +111,8 @@ a{
     text-decoration-color: #df2d00 !important;
     text-decoration-thickness: 2px !important;
 }
+
+
+#contenedorSinSesion a{
+    color: #FF4713 !important;
+}

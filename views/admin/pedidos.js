@@ -534,7 +534,7 @@ document.querySelector('#formularioEditarPedido').addEventListener('submit', asy
     // Actualizar los logs
     const log = {
         accion: "editar",
-        modificado: datos.id,
+        modificado: datos.pedido_id,
         tabla: "pedidos"
     };
     const respuestaLog = await fetch(`?controller=api&action=crearLog`, {

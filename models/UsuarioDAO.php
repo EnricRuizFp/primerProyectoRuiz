@@ -6,6 +6,9 @@
 
     class UsuarioDAO{
 
+        /**
+         * Devuelve todos los usuarios
+         */
         public static function getAll(){
 
             $con = DataBase::connect();
@@ -24,7 +27,10 @@
 
             return $usuarios;
         }
-
+        
+        /**
+         * Crear nuevo usuario
+         */
         public static function crearUsuario($usuarioIntroducido, $nombreCompletoIntroducido, $correoIntroducido, $contraseñaIntroducida, $telefonoIntroducido){
 
             // Pasar las fechas a dato tipo fecha
@@ -52,6 +58,9 @@
             $stmt->close();
         }
 
+        /**
+         * Devuelve el ID del usuario actual
+         */
         public static function getIdActual($usuario){
 
             // Obtener el ID del usuario por el nombre
@@ -69,6 +78,9 @@
 
         }
 
+        /**
+         * Devuelve los datos del usuario especificado
+         */
         public static function getUsuario($id){
 
             $con = DataBase::connect();
@@ -83,6 +95,9 @@
             return $usuario;
         }
 
+        /**
+         * Edita los datos principales del usuario
+         */
         public static function editarDatos($usuario, $nombreUsuario, $nombreCompleto, $correo, $telefono){
 
             $con = DataBase::connect();
@@ -96,6 +111,9 @@
 
         }
 
+        /**
+         * Edita los datos bancarios del usuario
+         */
         public static function editarDatosBancarios($usuario, $tarjetaBancaria, $fechaCaducidad, $cvv){
 
             $con = DataBase::connect();
@@ -109,6 +127,9 @@
 
         }
 
+        /**
+         * Valida que los datos bancarios sean correctos
+         */
         public static function validacionDatosBancarios($id){
 
             $con = DataBase::connect();
@@ -127,6 +148,9 @@
 
         }
 
+        /**
+         * Elimina el usuario especificado
+         */
         public static function eliminarUsuario($id){
         
             $con = DataBase::connect();
@@ -140,7 +164,33 @@
 
         }
 
-        /* FUNCIONES PARA LA API */
+        /**
+         * Cambiar contraseña para un usuario
+         */
+        public static function cambiarContraseña($id, $contraseña){
+
+            $encryptedPassword = password_hash($contraseña, PASSWORD_DEFAULT);
+
+            $con = DataBase::connect();
+            $stmt = $con->prepare("UPDATE USUARIOS SET contraseña = ? WHERE ID = ?");
+            $stmt->bind_param("si",$encryptedPassword, $id);
+
+            $stmt->execute();
+
+            // Verificar consulta
+            if($stmt->affected_rows > 0){
+                return true;
+            }else{
+                return false;
+            }
+
+        }
+
+        /* PANTALLA ADMIN */
+
+        /**
+         * Devuelve todos los usuarios
+         */
         public static function getUsuarios(){
 
             $con = DataBase::connect();
@@ -160,6 +210,9 @@
             return $usuarios;
         }
 
+        /**
+         * Obtiene los datos del usuario seleccionado
+         */
         public static function obtenerUsuario($id){
 
             $con = DataBase::connect();
@@ -178,6 +231,9 @@
 
         }
 
+        /**
+         * Edita los datos de un usuario
+         */
         public static function editarUsuario($id, $usuario, $nombre_completo, $email, $telefono, $tarjeta_bancaria, $fecha_vencimiento, $cvv){
 
             $con = DataBase::connect();
@@ -193,6 +249,9 @@
 
         }
 
+        /**
+         * Crea un nuevo usuario des del apartado de admin
+         */
         public static function crearUsuarioAdmin($usuario, $nombre_completo, $email, $telefono, $contraseña, $tarjeta_bancaria, $fecha_vencimiento, $cvv){
 
             $encrtyptedPassword = password_hash($contraseña, PASSWORD_DEFAULT);
@@ -213,25 +272,9 @@
 
         }
 
-        public static function cambiarContraseña($id, $contraseña){
-
-            $encryptedPassword = password_hash($contraseña, PASSWORD_DEFAULT);
-
-            $con = DataBase::connect();
-            $stmt = $con->prepare("UPDATE USUARIOS SET contraseña = ? WHERE ID = ?");
-            $stmt->bind_param("si",$encryptedPassword, $id);
-
-            $stmt->execute();
-
-            // Verificar consulta
-            if($stmt->affected_rows > 0){
-                return true;
-            }else{
-                return false;
-            }
-
-        }
-
+        /**
+         * Valida el usuario (true si existe)
+         */
         public static function validacionUsuario($id){
 
             $con = DataBase::connect();
@@ -248,7 +291,7 @@
         }
 
         /**
-         * PANTALLA ADMIN
+         * Devuelve la cantidad de usuarios
          */
         public static function obtenerCantidadUsuarios(){
 
@@ -267,6 +310,10 @@
             return $cantidadUsuarios;
 
         }
+
+        /**
+         * Devuelve la cantidad de usuarios sin datos bancarios validos
+         */
         public static function obtenerUsuariosSinTarjeta(){
 
             $con = DataBase::connect();
@@ -283,6 +330,10 @@
         
             return $usuariosSinTarjeta;
         }
+
+        /**
+         * Devuelve la cantidad de usuarios que tienen el perfil completado
+         */
         public static function obtenerUsuariosPerfilCompleto(){
 
             $con = DataBase::connect();

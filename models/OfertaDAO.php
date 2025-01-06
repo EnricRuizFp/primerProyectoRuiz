@@ -6,6 +6,9 @@
 
     class OfertaDAO{
 
+        /**
+         * Devuelve todas las ofertas
+         */
         public static function getAll(){
 
             $con = DataBase::connect();
@@ -25,6 +28,9 @@
 
         }
 
+        /**
+         * Devuelve las ofertas disponibles actualmente
+         */
         public static function getOfertasActuales(){
 
             $con = DataBase::connect();
@@ -45,6 +51,9 @@
 
         }
 
+        /**
+         * Devuelve el tipo de la oferta
+         */
         public static function getTipoOferta($oferta){
 
             $con = DataBase::connect();
@@ -73,6 +82,9 @@
 
         }
 
+        /**
+         * Devuelve la cantidad del descuento
+         */
         public static function getCantidadOferta($oferta){
 
             $con = DataBase::connect();
@@ -94,6 +106,9 @@
 
         }
 
+        /**
+         * Devuelve el ID de la oferta dando el nombre
+         */
         public static function getOfertaId($oferta){
 
             $con = DataBase::connect();
@@ -118,6 +133,10 @@
         /**
          * FUNCIONES PARA LA API
          */
+
+        /**
+         * Devuelve todas las ofertas
+         */
         public static function obtenerAllOfertas(){
 
             $con = DataBase::connect();
@@ -137,6 +156,9 @@
             return $ofertas;
         }
 
+        /**
+         * Crea una nueva oferta
+         */
         public static function crearOferta($nombre, $descripcion, $descuento, $tipo, $fecha_inicio, $fecha_fin){
 
             $con = DataBase::connect();
@@ -151,6 +173,9 @@
 
         }
 
+        /**
+         * Obtiene los datos de la oferta seleccionada
+         */
         public static function obtenerOferta($id){
 
             $con = DataBase::connect();
@@ -169,6 +194,9 @@
 
         }
 
+        /**
+         * Edita los datos de una oferta
+         */
         public static function editarOferta($id, $nombre, $descripcion, $descuento, $tipo, $fecha_inicio, $fecha_fin){
 
             $con = DataBase::connect();
@@ -183,6 +211,9 @@
 
         }
 
+        /**
+         * Devuelve los tipos de ofertas disponibles
+         */
         public static function obtenerTiposOfertas(){
 
             $con = DataBase::connect();
@@ -203,6 +234,9 @@
 
         }
 
+        /**
+         * Devuelve las ofertas disponibles a partir del tipo
+         */
         public static function obtenerOfertas($tipo){
 
             $con = DataBase::connect();
@@ -224,6 +258,9 @@
 
         }
 
+        /**
+         * Elimina la oferta seleccionada
+         */
         public static function eliminarOferta($id){
 
             $con = DataBase::connect();

@@ -19,7 +19,9 @@
 <body>
 
     <div class="barraNavegacion fixed-top">
+
         <?php include_once "views/others/navbar.php"; ?>
+
     </div>
 
     <div id="contenedorPrincpal" class="container-fluid">

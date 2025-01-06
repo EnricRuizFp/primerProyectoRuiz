@@ -142,7 +142,7 @@
                         <p class="p5">Tenemos diferentes vías de contacto y un operador estará dispuesto a ayudarte con cualquier duda.</p>
                     </div>
 
-                    <a href="?controller=general&action=ayuda">
+                    <a href="?controller=general&action=corporativo">
                         <div class="botonPedirAyudaPrimario">
                             <p class="bold">PEDIR AYUDA</p>
                             <!-- Logo flecha derecha -->
