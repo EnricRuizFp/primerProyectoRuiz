@@ -10,7 +10,7 @@ La base de datos exportada está en la carpeta:
 - DB/LaBuenizzima/
 
 Usuario y contraseña de administrador para SQL:
-- root / Asdqwe!23
+- root / Asdqwe!23 // puerto 3007
 
 Usuario y contraseña de administrador para la web
 - admin / Asdqwe!23
